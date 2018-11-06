@@ -1,3 +1,5 @@
 BLUEJ.PKG
 .DS_Store
 package.bluej
+*.ctxt
+*.class
