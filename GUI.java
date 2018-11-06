@@ -16,6 +16,7 @@ public class GUI extends JFrame
     static int moebelNummer = -1;
     private int controllerPageNumber = 0;
     private int buttonBreite = 25;
+    private SpeicherProtokoll speicherDelegate = new SpeicherDelegate();
     private JButton jbRechts = new JButton();
     private JButton jbLinks = new JButton();
     private JButton jbHoch = new JButton();
