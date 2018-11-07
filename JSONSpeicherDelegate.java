@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import JAVASON.*;
 
 class JSONSpeicherDelegate extends SpeicherProtokoll {
     void speicher(ArrayList<Moebel> alleMoebel) {
@@ -8,14 +7,16 @@ class JSONSpeicherDelegate extends SpeicherProtokoll {
     }
     
     private String toJSON(ArrayList<Moebel> alleMoebel) {
-        String JSONString = "{";
+        String JSONString = "[\n";
         for (int i = 0; i < alleMoebel.size(); i++) {
-            JSONString += "\"" + alleMoebel.get(i).art + "\": {}";
+            JSONString += "\t{\n\t\t\"art\": \"" + alleMoebel.get(i).art + "\"\n\t}";
             if (!(i == alleMoebel.size() - 1)) {
-                JSONString += ", ";
+                JSONString += ",\n";
+            } else {
+                JSONString += "\n";
             }
         }
-        JSONString += "}";
+        JSONString += "]";
         return JSONString;
     }
 }
