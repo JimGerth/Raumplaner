@@ -5,8 +5,8 @@ import javax.swing.*;
 /******************\
 * WORK IN PROGRESS *
 \******************/
-public class AllgemeineGUI<T> extends JFrame {
-    /*
+public class AllgemeineGUI<T extends Moebel> extends JFrame {
+    
     private JButton jbErstellen = new JButton();
     private GUIOption[] optionen = T.optionen;
     
@@ -36,7 +36,7 @@ public class AllgemeineGUI<T> extends JFrame {
         // Ende Komponenten
         setResizable(false);
         setVisible(true);
-        setTitle("Hocker erstellen");
+        setTitle(T.art + " erstellen");
     }
 
     private void komponentenEinfuegen(Container cp) {
@@ -74,5 +74,4 @@ public class AllgemeineGUI<T> extends JFrame {
         hocker.zeige();
         this.dispose();
     }
-    */
 }

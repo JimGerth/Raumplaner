@@ -56,7 +56,7 @@ public class MoebelGUI extends JFrame implements ActionListener
     
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == jbHocker) {
-            new HockerGUI();
+            new AllgemeineGUI<Hocker>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbStuhl) {
