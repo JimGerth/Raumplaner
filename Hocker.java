@@ -13,6 +13,7 @@ public class Hocker extends Moebel {
     public Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
         super(xPosition, yPosition, farbe, orientierung);
         this.durchmesser = durchmesser;
+        this.art = "Hocker";
     }
     
     protected Shape gibAktuelleFigur()

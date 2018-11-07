@@ -12,6 +12,7 @@ public class Tisch extends Moebel {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+        this.art = "Tisch";
     }
 
     protected Shape gibAktuelleFigur()

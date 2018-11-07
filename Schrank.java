@@ -16,6 +16,7 @@ public class Schrank extends Moebel {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+        this.art = "Schrank";
     }
     
     protected Shape gibAktuelleFigur() {

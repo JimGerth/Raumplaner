@@ -14,6 +14,7 @@ public class Schrankwand extends Moebel {
         this.anzahlDerEinheiten = anzahlDerEinheiten;
         this.breite = breite;
         this.tiefe = tiefe;
+        this.art = "Schrankwand";
     }
     
     public Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten) {

@@ -14,6 +14,7 @@ public class Badewanne extends Moebel {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+        this.art = "Badewanne";
     }
 
     protected Shape gibAktuelleFigur() {

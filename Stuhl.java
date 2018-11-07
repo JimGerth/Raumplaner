@@ -12,6 +12,7 @@ public class Stuhl extends Moebel {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+        this.art = "Stuhl";
     }
 
     protected Shape gibAktuelleFigur() {

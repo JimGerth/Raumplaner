@@ -5,7 +5,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 abstract public class Moebel {
-
+    
+    public String art;
     protected int xPosition;
     protected int yPosition;
     protected int orientierung;

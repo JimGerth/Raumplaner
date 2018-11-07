@@ -24,6 +24,7 @@ public class Klavier extends Moebel {
         this.tiefe  = tiefe;
         this.anzahlTasten = anzahlTasten;
         this.hoeheTasten = hoeheTasten;
+        this.art = "Klavier";
     }
 
     protected Shape gibAktuelleFigur() {

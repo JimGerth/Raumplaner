@@ -16,7 +16,7 @@ public class GUI extends JFrame
     static int moebelNummer = -1;
     private int controllerPageNumber = 0;
     private int buttonBreite = 25;
-    private SpeicherProtokoll speicherDelegate = new SpeicherDelegate();
+    private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     private JButton jbRechts = new JButton();
     private JButton jbLinks = new JButton();
     private JButton jbHoch = new JButton();
@@ -383,7 +383,8 @@ public class GUI extends JFrame
     }
     
     public void jbWeiter() {
-        if (moebelNummer + 1 <= alleMoebel.size() - 1) {
+        speicherDelegate.speicher(alleMoebel);
+        /*if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer ++;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
@@ -391,7 +392,7 @@ public class GUI extends JFrame
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer = 0;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
-        }
+        }*/
     }
     
     public void jbZurueck() {
