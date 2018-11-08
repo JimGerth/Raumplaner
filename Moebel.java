@@ -13,6 +13,7 @@ abstract public class Moebel {
     protected String farbe;
     public String letzteFarbe = "schwarz";
     protected boolean istSichtbar = false;
+    static GUIOption[] optionen;
 
     public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;

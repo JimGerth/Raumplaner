@@ -5,10 +5,14 @@ import java.awt.geom.Ellipse2D;
 
 public class Hocker extends Moebel {
 
-    private int durchmesser;
+    int durchmesser;
     static GUIOption[] optionen = {
         new GUIOption("Durchmesser:")
     };
+    
+    // jedes moebel soll ein optionen array haben, fuer die optionen, die bei der inizialisierung wichtig sind.
+    // außerdem muss jedes moebel einen convienience initializer haben, der genau diese optionen als parameter
+    // hat und allen anderen fields einen default wert zuschreibt.
     
     public Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
         super(xPosition, yPosition, farbe, orientierung);
