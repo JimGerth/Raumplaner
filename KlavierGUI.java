@@ -4,22 +4,16 @@ import javax.swing.*;
 
 /************************************************************************************\
 * Fenster zum erstellen von spezialisierten Klavieren.                               *
-* Um weitere Optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format optionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(optionen[0].textField.getText()) für eine Zahl }.    *
+* Um weitere Klavier.optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
+* in das Klavier.optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
+* die gewünschte Option im Format Klavier.optionen[0].textField.getText() dem Initializer    *
+* übergeben. { Integer.parseInt(Klavier.optionen[0].textField.getText()) für eine Zahl }.    *
 \************************************************************************************/
-public class KlavierGUI extends JFrame {
+class KlavierGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
-    private GUIOption[] optionen = {
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:"),
-        new GUIOption("Anzahl der Tasten:"),
-        new GUIOption("Höhe der Tasten:")
-    };
     
-    public KlavierGUI()
+    KlavierGUI()
     {
         super("Raumplaner");
 
@@ -30,7 +24,7 @@ public class KlavierGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (optionen.length * 35) + 70;
+        int frameHeight = (Klavier.optionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -49,15 +43,15 @@ public class KlavierGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < optionen.length; i++) {
-            optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(optionen[i].label);
+                for (int i = 0; i < Klavier.optionen.length; i++) {
+            Klavier.optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Klavier.optionen[i].label);
             
-            optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(optionen[i].textField);
+            Klavier.optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Klavier.optionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (optionen.length * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Klavier.optionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -70,15 +64,10 @@ public class KlavierGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel klavier = new Klavier(0,
-                                     0,
-                                     "schwarz",
-                                     0,
-                                     Integer.parseInt(optionen[0].textField.getText()),
-                                     Integer.parseInt(optionen[1].textField.getText()),
-                                     Integer.parseInt(optionen[2].textField.getText()),
-                                     Integer.parseInt(optionen[3].textField.getText())
-        );
+        Moebel klavier = new Klavier(Integer.parseInt(Klavier.optionen[0].textField.getText()),
+                                     Integer.parseInt(Klavier.optionen[1].textField.getText()),
+                                     Integer.parseInt(Klavier.optionen[2].textField.getText()),
+                                     Integer.parseInt(Klavier.optionen[3].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

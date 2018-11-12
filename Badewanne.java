@@ -5,15 +5,24 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Arc2D;
 
-public class Badewanne extends Moebel {
+class Badewanne extends Moebel {
     
     private int breite;
     private int tiefe;
+    static String art = "Badewanne";
+    static GUIOption[] optionen = {
+        new GUIOption("Breite:"),
+        new GUIOption("Tiefe:")
+    };
 
-    public Badewanne(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
+    Badewanne(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+    }
+    
+    Badewanne(int breite, int tiefe) {
+        this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
     protected Shape gibAktuelleFigur() {

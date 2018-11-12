@@ -6,7 +6,7 @@ import java.awt.geom.Ellipse2D;
 
 abstract public class Moebel {
     
-    public static String art;
+    static String art;
     protected int xPosition;
     protected int yPosition;
     protected int orientierung;
@@ -14,9 +14,9 @@ abstract public class Moebel {
     public boolean istAusgewaehlt;
     public String letzteFarbe = "schwarz";
     protected boolean istSichtbar = false;
-    public static GUIOption[] optionen;
+    static GUIOption[] optionen;
 
-    public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
+    Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.farbe = farbe;
@@ -25,50 +25,50 @@ abstract public class Moebel {
     
     abstract protected Shape gibAktuelleFigur();
     
-    public void zeige() {
+    void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;
             zeichne();
         }
     }
     
-    public void verberge() {
+    void verberge() {
         loesche(); // "tue nichts" wird in loesche() abgefangen.
         istSichtbar = false;
     }
 
-    public void dreheAuf(int neuerWinkel) {
+    void dreheAuf(int neuerWinkel) {
         loesche();
         orientierung = neuerWinkel;
         zeichne();
     }
     
-    public void dreheUm(int winkel) {
+    void dreheUm(int winkel) {
         loesche();
         orientierung += winkel;
         zeichne();
     }
 
-    public void bewegeHorizontal(int entfernung) {
+    void bewegeHorizontal(int entfernung) {
         loesche();
         xPosition += entfernung;
         zeichne();
     }
 
-    public void bewegeVertikal(int entfernung) {
+    void bewegeVertikal(int entfernung) {
         loesche();
         yPosition += entfernung;
         zeichne();
     }
     
-    public void aendereFarbe(String neueFarbe) {
+    void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
         letzteFarbe = neueFarbe;
         zeichne();
     }
     
-    public void aendereFarbe(String neueFarbe, boolean istAuswahl) {
+    void aendereFarbe(String neueFarbe, boolean istAuswahl) {
         if (istAuswahl) {
             loesche();
             farbe = neueFarbe;

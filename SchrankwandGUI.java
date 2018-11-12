@@ -4,21 +4,16 @@ import javax.swing.*;
 
 /************************************************************************************\
 * Fenster zum erstellen von spezialisierten Schrankwänden.                           *
-* Um weitere Optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format optionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(optionen[0].textField.getText()) für eine Zahl }.    *
+* Um weitere Schrankwand.optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
+* in das Schrankwand.optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
+* die gewünschte Option im Format Schrankwand.optionen[0].textField.getText() dem Initializer    *
+* übergeben. { Integer.parseInt(Schrankwand.optionen[0].textField.getText()) für eine Zahl }.    *
 \************************************************************************************/
-public class SchrankwandGUI extends JFrame {
+class SchrankwandGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
-    private GUIOption[] optionen = {
-        new GUIOption("Anzahl der Einheiten:"),
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:")
-    };
     
-    public SchrankwandGUI()
+    SchrankwandGUI()
     {
         super("Raumplaner");
 
@@ -29,7 +24,7 @@ public class SchrankwandGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (optionen.length * 35) + 70;
+        int frameHeight = (Schrankwand.optionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -48,15 +43,15 @@ public class SchrankwandGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < optionen.length; i++) {
-            optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(optionen[i].label);
+                for (int i = 0; i < Schrankwand.optionen.length; i++) {
+            Schrankwand.optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Schrankwand.optionen[i].label);
             
-            optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(optionen[i].textField);
+            Schrankwand.optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Schrankwand.optionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (optionen.length * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Schrankwand.optionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -70,13 +65,9 @@ public class SchrankwandGUI extends JFrame {
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         // Handle errors if Values entered aren't legal
-        Moebel schrankwand = new Schrankwand(0,
-                                             0,
-                                             "schwarz",
-                                             0,
-                                             Integer.parseInt(optionen[0].textField.getText()),
-                                             Integer.parseInt(optionen[1].textField.getText()),
-                                             Integer.parseInt(optionen[2].textField.getText()));
+        Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.optionen[0].textField.getText()),
+                                             Integer.parseInt(Schrankwand.optionen[1].textField.getText()),
+                                             Integer.parseInt(Schrankwand.optionen[2].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

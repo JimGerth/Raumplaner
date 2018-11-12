@@ -3,15 +3,24 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
 
-public class Tisch extends Moebel {
+class Tisch extends Moebel {
     
     private int breite;
     private int tiefe;
+    static String art = "Tisch";
+    static GUIOption[] optionen = {
+        new GUIOption("Breite:"),
+        new GUIOption("Tiefe:")
+    };
 
-    public Tisch(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe)  {
+    Tisch(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe)  {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
+    }
+    
+    Tisch(int breite, int tiefe) {
+        this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
     protected Shape gibAktuelleFigur()

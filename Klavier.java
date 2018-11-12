@@ -3,27 +3,34 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 
-public class Klavier extends Moebel {
+class Klavier extends Moebel {
     
     private int breite;
     private int tiefe;
     private int anzahlTasten;
     private int hoeheTasten;
+    static String art = "Klavier";
+    static GUIOption[] optionen = {
+        new GUIOption("Breite:"),
+        new GUIOption("Tiefe:"),
+        new GUIOption("Anzahl der Tasten:"),
+        new GUIOption("Höhe der Tasten:")
+    };
     
-    public Klavier(int xPosition, int yPosition, String farbe, int orientierung) {
-        super(xPosition, yPosition, farbe, orientierung);
-        this.breite = 60;
-        this.tiefe  = 40;
-        this.anzahlTasten = 12;
-        this.hoeheTasten = 15;
-    }
-
-    public Klavier(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe, int anzahlTasten, int hoeheTasten) {
+    Klavier(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe, int anzahlTasten, int hoeheTasten) {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
         this.anzahlTasten = anzahlTasten;
         this.hoeheTasten = hoeheTasten;
+    }
+    
+    Klavier(int xPosition, int yPosition, String farbe, int orientierung) {
+        this(xPosition, yPosition, farbe, orientierung, 60, 40, 12, 15);
+    }
+    
+    Klavier(int breite, int tiefe, int anzahlDerTasten, int hoeheDerTasten) {
+        this(0, 0, "schwarz", 0, breite, tiefe, anzahlDerTasten, hoeheDerTasten);
     }
 
     protected Shape gibAktuelleFigur() {

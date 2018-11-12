@@ -4,20 +4,16 @@ import javax.swing.*;
 
 /************************************************************************************\
 * Fenster zum erstellen von spezialisierten Schränken.                               *
-* Um weitere Optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format optionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(optionen[0].textField.getText()) für eine Zahl }.    *
+* Um weitere Schrank.optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
+* in das Schrank.optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
+* die gewünschte Option im Format Schrank.optionen[0].textField.getText() dem Initializer    *
+* übergeben. { Integer.parseInt(Schrank.optionen[0].textField.getText()) für eine Zahl }.    *
 \************************************************************************************/
-public class SchrankGUI extends JFrame {
+class SchrankGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
-    private GUIOption[] optionen = {
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:")
-    };
     
-    public SchrankGUI()
+    SchrankGUI()
     {
         super("Raumplaner");
 
@@ -28,7 +24,7 @@ public class SchrankGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (optionen.length * 35) + 70;
+        int frameHeight = (Schrank.optionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -47,15 +43,15 @@ public class SchrankGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-        for (int i = 0; i < optionen.length; i++) {
-            optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(optionen[i].label);
+        for (int i = 0; i < Schrank.optionen.length; i++) {
+            Schrank.optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Schrank.optionen[i].label);
             
-            optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(optionen[i].textField);
+            Schrank.optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Schrank.optionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (optionen.length * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Schrank.optionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -68,12 +64,8 @@ public class SchrankGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel schrank = new Schrank(0,
-                                     0,
-                                     "schwarz",
-                                     0,
-                                     Integer.parseInt(optionen[0].textField.getText()),
-                                     Integer.parseInt(optionen[1].textField.getText()));
+        Moebel schrank = new Schrank(Integer.parseInt(Schrank.optionen[0].textField.getText()),
+                                     Integer.parseInt(Schrank.optionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

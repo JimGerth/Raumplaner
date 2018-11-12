@@ -60,27 +60,27 @@ public class MoebelGUI extends JFrame implements ActionListener
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbStuhl) {
-            new StuhlGUI();
+            new AllgemeineGUI<Stuhl>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbTisch) {
-            new TischGUI();
+            new AllgemeineGUI<Tisch>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbSchrank) {
-            new SchrankGUI();
+            new AllgemeineGUI<Schrank>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbSchrankwand) {
-            new SchrankwandGUI();
+            new AllgemeineGUI<Schrankwand>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbBadewanne) {
-            new BadewanneGUI();
+            new AllgemeineGUI<Badewanne>();
             setVisible(false);
             dispose();
         } else if (ae.getSource() == jbKlavier) {
-            new KlavierGUI();
+            new AllgemeineGUI<Klavier>();
             setVisible(false);
             dispose();
         }

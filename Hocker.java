@@ -3,16 +3,21 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
 
-public class Hocker extends Moebel {
+class Hocker extends Moebel {
 
     private int durchmesser;
+    static String art = "Hocker";
     static GUIOption[] optionen = {
         new GUIOption("Durchmesser:")
     };
     
-    public Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
+    Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
         super(xPosition, yPosition, farbe, orientierung);
         this.durchmesser = durchmesser;
+    }
+    
+    Hocker(int durchmesser) {
+        this(0, 0, "schwarz", 0, durchmesser);
     }
     
     protected Shape gibAktuelleFigur()

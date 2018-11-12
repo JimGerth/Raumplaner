@@ -3,24 +3,31 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 
-public class Schrankwand extends Moebel {
+class Schrankwand extends Moebel {
     
     private int anzahlDerEinheiten;
     private int breite;
     private int tiefe;
+    static String art = "Schrankwand";
+    static GUIOption[] optionen = {
+        new GUIOption("Anzahl der Einheiten:"),
+        new GUIOption("Breite:"),
+        new GUIOption("Tiefe:")
+    };
     
-    public Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
+    Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
         super(xPosition, yPosition, farbe, orientierung);
         this.anzahlDerEinheiten = anzahlDerEinheiten;
         this.breite = breite;
         this.tiefe = tiefe;
     }
     
-    public Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten) {
-        super(xPosition, yPosition, farbe, orientierung);
-        this.anzahlDerEinheiten = anzahlDerEinheiten;
-        this.breite = 60;
-        this.tiefe = 40;
+    Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten) {
+        this(xPosition, yPosition, farbe, orientierung, anzahlDerEinheiten, 60, 40);
+    }
+    
+    Schrankwand(int anzahlDerEinheiten, int breite, int tiefe) {
+        this(0, 0, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
     protected Shape gibAktuelleFigur() {
