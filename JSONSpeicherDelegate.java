@@ -12,6 +12,8 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         for (int i = 0; i < alleMoebel.size(); i++) {
             if (alleMoebel.get(i) instanceof Hocker) {
                 JSONString += serializeHocker( (Hocker) alleMoebel.get(i));
+            } else {
+                JSONString += serializeUnknown(alleMoebel.get(i));
             }
             if (i < alleMoebel.size() - 1) {
                 JSONString += ",\n";
@@ -23,19 +25,26 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
     
     private String serializeMoebel(Moebel moebel) {
         return ""
-            + "\"art\": \"" + moebel.art + "\",\n"
-            + "\"xPosition\": \"" + moebel.xPosition + "\",\n"
-            + "\"yPosition\": \"" + moebel.yPosition + "\",\n"
-            + "\"farbe\": \"" + moebel.farbe + "\",\n";
+            + "\t\t\"art\": \"" + moebel.art + "\",\n"
+            + "\t\t\"xPosition\": \"" + moebel.xPosition + "\",\n"
+            + "\t\t\"yPosition\": \"" + moebel.yPosition + "\",\n"
+            + "\t\t\"farbe\": \"" + moebel.farbe + "\",\n";
     }
     
     private String serializeHocker(Hocker hocker) {
         return ""
-            + "{\n"
+            + "\t{\n"
             + serializeMoebel(hocker)
-            + "\"Durchmesser\": \"" + hocker.durchmesser + "\"\n"
-            + "}";
+            + "\t\t\"Durchmesser\": \"" + hocker.durchmesser + "\"\n"
+            + "\t}";
             // optionen array nutzen um zu serializen und serialize funktion generic machen? 
+    }
+    
+    private String serializeUnknown(Moebel moebel) {
+        return ""
+            + "\t{\n"
+            + "\t\tunknown Moebel!\n"
+            + "\t}";
     }
     
     /*
