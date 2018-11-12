@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-class JSONSpeicherDelegate extends SpeicherProtokoll {
-    void speicher(ArrayList<Moebel> alleMoebel) {
+class JSONSpeicherDelegate implements SpeicherProtokoll {
+    public void speicher(ArrayList<Moebel> alleMoebel) {
         String outputString = toJSON(alleMoebel);
         System.out.println(outputString);
     }
