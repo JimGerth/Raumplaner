@@ -20,7 +20,7 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (T.optionen.length * 35) + 70;
+        int frameHeight = T.optionen.length * 35 + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
