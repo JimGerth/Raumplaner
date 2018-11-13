@@ -55,34 +55,28 @@ public class MoebelGUI extends JFrame implements ActionListener
     }
     
     public void actionPerformed(ActionEvent ae) {
+        // new AllgemeineGUI<ae.getSource().getClass()>();
         if (ae.getSource() == jbHocker) {
-            new AllgemeineGUI<Hocker>();
-            setVisible(false);
-            dispose();
+            new HockerGUI();
+            this.dispose();
         } else if (ae.getSource() == jbStuhl) {
             new AllgemeineGUI<Stuhl>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         } else if (ae.getSource() == jbTisch) {
             new AllgemeineGUI<Tisch>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         } else if (ae.getSource() == jbSchrank) {
             new AllgemeineGUI<Schrank>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         } else if (ae.getSource() == jbSchrankwand) {
             new AllgemeineGUI<Schrankwand>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         } else if (ae.getSource() == jbBadewanne) {
             new AllgemeineGUI<Badewanne>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         } else if (ae.getSource() == jbKlavier) {
             new AllgemeineGUI<Klavier>();
-            setVisible(false);
-            dispose();
+            this.dispose();
         }
     }
 }

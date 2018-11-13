@@ -6,7 +6,6 @@ import java.awt.geom.Ellipse2D;
 
 abstract public class Moebel {
     
-    static String art;
     protected int xPosition;
     protected int yPosition;
     protected int orientierung;
@@ -14,6 +13,7 @@ abstract public class Moebel {
     public boolean istAusgewaehlt;
     public String letzteFarbe = "schwarz";
     protected boolean istSichtbar = false;
+    static String art;
     static GUIOption[] optionen;
 
     Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
