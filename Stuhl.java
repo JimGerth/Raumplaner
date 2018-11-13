@@ -42,8 +42,8 @@ public class Stuhl extends Moebel {
             + "\t\t\"yPosition\": " + yPosition + ",\n"
             + "\t\t\"farbe\": \"" + farbe + "\",\n"
             + "\t\t\"orientierung\": " + orientierung + ",\n"
-            + "\t\t\"breite\": " + breite + "\n"
-            + "\t\t\"tiefe\": " + tiefe + "\n"
+            + "\t\t\"breite\": " + breite + ",\n"
+            + "\t\t\"tiefe\": " + tiefe + ",\n"
             + "\t}";
     }
 }

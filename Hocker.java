@@ -40,7 +40,7 @@ public class Hocker extends Moebel {
             + "\t\t\"yPosition\": " + yPosition + ",\n"
             + "\t\t\"farbe\": \"" + farbe + "\",\n"
             + "\t\t\"orientierung\": " + orientierung + ",\n"
-            + "\t\t\"durchmesser\": " + durchmesser + "\n"
+            + "\t\t\"durchmesser\": " + durchmesser + ",\n"
             + "\t}";
     }
 }

@@ -49,8 +49,8 @@ public class Schrankwand extends Moebel {
             + "\t\t\"farbe\": \"" + farbe + "\",\n"
             + "\t\t\"orientierung\": " + orientierung + ",\n"
             + "\t\t\"anzahlDerEinheiten\": " + anzahlDerEinheiten + ",\n"
-            + "\t\t\"breite\": " + breite + "\n"
-            + "\t\t\"tiefe\": " + tiefe + "\n"
+            + "\t\t\"breite\": " + breite + ",\n"
+            + "\t\t\"tiefe\": " + tiefe + ",\n"
             + "\t}";
     }
 }
