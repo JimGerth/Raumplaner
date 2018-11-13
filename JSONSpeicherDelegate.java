@@ -1,5 +1,7 @@
 import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
+import JAVASON.*;
 
 class JSONSpeicherDelegate implements SpeicherProtokoll {
     
@@ -11,6 +13,19 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             bw.close();
         } catch (IOException e) {
             System.out.println("error while trying to write file");
+        }
+    }
+    
+    public void lade() {
+        String JSONString = "";
+        try {
+            JSONString = new String(Files.readAllBytes(Paths.get("/Users/jim/Desktop/JSON.txt")));
+        } catch (IOException e) {
+            System.out.println("error while trying to read file");
+        } // handle JAVASONs errors -> no valid JSON...
+        JSONArray alleMoebel = new JSONArray(JSONString);
+        for (int i = 0; i < alleMoebel.length(); i++) {
+            System.out.println(alleMoebel.get(i));
         }
     }
     

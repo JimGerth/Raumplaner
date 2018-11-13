@@ -396,7 +396,8 @@ public class GUI extends JFrame
     }
     
     public void jbZurueck() {
-        if (moebelNummer - 1 >= 0) {
+        speicherDelegate.lade();
+        /*if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer --;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
@@ -404,6 +405,6 @@ public class GUI extends JFrame
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer = alleMoebel.size() - 1;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
-        }
+        }*/
     }
 }
