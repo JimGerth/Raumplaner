@@ -27,4 +27,16 @@ public class Tisch extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(tisch);
     }
+    
+    String toJSON() {
+        return ""
+            + "\t{\n"
+            + "\t\t\"art\": \"" + art + "\",\n"
+            + "\t\t\"xPosition\": \"" + xPosition + "\",\n"
+            + "\t\t\"yPosition\": \"" + yPosition + "\",\n"
+            + "\t\t\"farbe\": \"" + farbe + "\",\n"
+            + "\t\t\"breite\": \"" + breite + "\"\n"
+            + "\t\t\"tiefe\": \"" + tiefe + "\"\n"
+            + "\t}";
+    }
 }

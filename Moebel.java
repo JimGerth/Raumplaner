@@ -6,14 +6,14 @@ import java.awt.geom.Ellipse2D;
 
 abstract public class Moebel {
     
-    public String art;
-    protected int xPosition;
-    protected int yPosition;
-    protected int orientierung;
-    protected String farbe;
-    public String letzteFarbe = "schwarz";
-    protected boolean istSichtbar = false;
+    String art;
+    int xPosition;
+    int yPosition;
+    int orientierung;
+    String farbe;
+    String letzteFarbe = "schwarz";
     static GUIOption[] optionen;
+    protected boolean istSichtbar = false;
 
     public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;
@@ -23,6 +23,7 @@ abstract public class Moebel {
     }
     
     abstract protected Shape gibAktuelleFigur();
+    abstract String toJSON();
     
     public void zeige() {
         if (!istSichtbar) {

@@ -1,20 +1,23 @@
+import java.io.*;
 import java.util.ArrayList;
 
 class JSONSpeicherDelegate implements SpeicherProtokoll {
+    
     public void speicher(ArrayList<Moebel> alleMoebel) {
-        String outputString = toJSON(alleMoebel);
-        System.out.println(outputString);
+        try {
+            FileWriter fw = new FileWriter("/Users/jim/Desktop/JSON.txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(toJSON(alleMoebel));
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("error while trying to write file");
+        }
     }
     
     private String toJSON(ArrayList<Moebel> alleMoebel) {
-        // switch die moebel art mit instanceof und dann passenden Serializer callen
         String JSONString = "[\n";
         for (int i = 0; i < alleMoebel.size(); i++) {
-            if (alleMoebel.get(i) instanceof Hocker) {
-                JSONString += serializeHocker( (Hocker) alleMoebel.get(i));
-            } else {
-                JSONString += serializeUnknown(alleMoebel.get(i));
-            }
+            JSONString += alleMoebel.get(i).toJSON();
             if (i < alleMoebel.size() - 1) {
                 JSONString += ",\n";
             }
@@ -22,31 +25,7 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         JSONString += "\n]";
         return JSONString;
     }
-    
-    private String serializeMoebel(Moebel moebel) {
-        return ""
-            + "\t\t\"art\": \"" + moebel.art + "\",\n"
-            + "\t\t\"xPosition\": \"" + moebel.xPosition + "\",\n"
-            + "\t\t\"yPosition\": \"" + moebel.yPosition + "\",\n"
-            + "\t\t\"farbe\": \"" + moebel.farbe + "\",\n";
-    }
-    
-    private String serializeHocker(Hocker hocker) {
-        return ""
-            + "\t{\n"
-            + serializeMoebel(hocker)
-            + "\t\t\"Durchmesser\": \"" + hocker.durchmesser + "\"\n"
-            + "\t}";
-            // optionen array nutzen um zu serializen und serialize funktion generic machen? 
-    }
-    
-    private String serializeUnknown(Moebel moebel) {
-        return ""
-            + "\t{\n"
-            + "\t\tunknown Moebel!\n"
-            + "\t}";
-    }
-    
+
     /*
     private String serialize<T extends Moebel>(T moebel) {
         String output;

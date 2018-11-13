@@ -11,10 +11,8 @@ public class MoebelGUI extends JFrame implements ActionListener
     private JButton jbTisch = new JButton();
     private JButton jbSchrank = new JButton();
     private JButton jbSchrankwand = new JButton();
-    private JButton jbBadewanne = new JButton();
-    private JButton jbKlavier = new JButton();
-    private JButton[] alleMoebelKnoepfe = {jbHocker, jbStuhl, jbTisch, jbSchrank, jbSchrankwand, jbBadewanne, jbKlavier};
-    private String[] alleMoebelNamen = {"Hocker" , "Stuhl", "Tisch", "Schrank", "Schrankwand", "Badewanne", "Klavier"};
+    private JButton[] alleMoebelKnoepfe = {jbHocker, jbStuhl, jbTisch, jbSchrank, jbSchrankwand};
+    private String[] alleMoebelNamen = {"Hocker" , "Stuhl", "Tisch", "Schrank", "Schrankwand"};
     
     public MoebelGUI()
     {
@@ -73,14 +71,6 @@ public class MoebelGUI extends JFrame implements ActionListener
             dispose();
         } else if (ae.getSource() == jbSchrankwand) {
             new SchrankwandGUI();
-            setVisible(false);
-            dispose();
-        } else if (ae.getSource() == jbBadewanne) {
-            new BadewanneGUI();
-            setVisible(false);
-            dispose();
-        } else if (ae.getSource() == jbKlavier) {
-            new KlavierGUI();
             setVisible(false);
             dispose();
         }
