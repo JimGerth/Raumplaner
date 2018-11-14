@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+
+
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
  * leinwandartigen Zeichenfl�che erm�glicht.
