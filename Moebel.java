@@ -82,7 +82,7 @@ abstract public class Moebel {
         if (istSichtbar) {
             Shape figur = gibAktuelleFigur();
             Leinwand leinwand = Leinwand.gibLeinwand();
-            leinwand.zeichne (
+            leinwand.zeichne(
               this,           // leinwand kennt das Objekt
               farbe,          // definiert seine Zeichenfarbe
               figur);         // definiert seinen grafischen Aspekt
