@@ -251,13 +251,15 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
+                // delete moebel
                 if (alleMoebel.isEmpty()) {break;};
                 alleMoebel.get(moebelNummer).verberge();
                 if (moebelNummer == 0) {
                     alleMoebel.remove(moebelNummer);
                     moebelNummer = alleMoebel.size() - 1;
                     if (alleMoebel.size() > 0) {
-                        alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
+                        alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+                        alleMoebel.get(moebelNummer).zeichne();
                     }
                 } else {
                     jbZurueck();
@@ -383,25 +385,33 @@ public class GUI extends JFrame
     
     public void jbWeiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
-            alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
             moebelNummer ++;
-            alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
         } else {
-            alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
             moebelNummer = 0;
-            alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
         }
     }
     
     public void jbZurueck() {
         if (moebelNummer - 1 >= 0) {
-            alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
             moebelNummer --;
-            alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
         } else {
-            alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
             moebelNummer = alleMoebel.size() - 1;
-            alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
         }
     }
 }

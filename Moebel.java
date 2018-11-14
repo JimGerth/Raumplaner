@@ -6,11 +6,11 @@ import java.awt.geom.Ellipse2D;
 
 abstract public class Moebel {
 
+    public boolean istAusgewaehlt;
     protected int xPosition;
     protected int yPosition;
     protected int orientierung;
     protected String farbe;
-    public String letzteFarbe = "schwarz";
     protected boolean istSichtbar = false;
 
     public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
@@ -18,6 +18,7 @@ abstract public class Moebel {
         this.yPosition = yPosition;
         this.farbe = farbe;
         this.orientierung = orientierung;
+        this.istAusgewaehlt = true;
     }
     
     abstract protected Shape gibAktuelleFigur();
@@ -61,22 +62,19 @@ abstract public class Moebel {
     public void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
-        letzteFarbe = neueFarbe;
         zeichne();
-    }
-    
-    public void aendereFarbe(String neueFarbe, boolean istAuswahl) {
-        if (istAuswahl) {
-            loesche();
-            farbe = neueFarbe;
-            zeichne();
-        } else {
-            aendereFarbe(neueFarbe);
-        }
     }
 
     protected void zeichne() {
-        if (istSichtbar) {
+        if (istSichtbar && istAusgewaehlt) {
+            Shape figur = gibAktuelleFigur();
+            Leinwand leinwand = Leinwand.gibLeinwand();
+            leinwand.zeichne (
+              this,           // leinwand kennt das Objekt
+              "rot",          // definiert seine Zeichenfarbe
+              figur);         // definiert seinen grafischen Aspekt
+            leinwand.warte(10);
+        } else if (istSichtbar) {
             Shape figur = gibAktuelleFigur();
             Leinwand leinwand = Leinwand.gibLeinwand();
             leinwand.zeichne (

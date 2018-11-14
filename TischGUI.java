@@ -75,7 +75,8 @@ public class TischGUI extends JFrame {
                                  Integer.parseInt(optionen[0].textField.getText()),
                                  Integer.parseInt(optionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
+            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
+            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
         }
         GUI.alleMoebel.add(tisch);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
