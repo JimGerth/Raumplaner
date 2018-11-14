@@ -3,6 +3,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 abstract public class Moebel {
     
@@ -12,7 +13,8 @@ abstract public class Moebel {
     int orientierung;
     String farbe;
     String letzteFarbe = "schwarz";
-    static GUIOption[] optionen;
+    static ArrayList<GUIOption> optionen = new ArrayList<GUIOption>();
+    static ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
     protected boolean istSichtbar = false;
 
     public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
@@ -20,10 +22,21 @@ abstract public class Moebel {
         this.yPosition = yPosition;
         this.farbe = farbe;
         this.orientierung = orientierung;
+        updateWichtigeOptionen();
     }
     
     abstract protected Shape gibAktuelleFigur();
     abstract String toJSON();
+    
+    private void updateWichtigeOptionen() {
+        ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
+        for (int i = 0; i < optionen.size(); i++) {
+            if (optionen.get(i).wichtig) {
+                wichtigeOptionen.add(optionen.get(i));
+            }
+        }
+        this.wichtigeOptionen = wichtigeOptionen;
+    }
     
     public void zeige() {
         if (!istSichtbar) {
