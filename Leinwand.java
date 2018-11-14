@@ -13,6 +13,8 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
@@ -68,7 +70,10 @@ public class Leinwand
   private Color hintergrundfarbe;
   private Image leinwandImage;
   private List figuren;
-  private Map figurZuShape; // Abbildung von Figuren zu Shapes
+  private Map figurZuShape;
+  private JMenuBar menuBar; 
+  private JMenu[] menus = {new JMenu("testMenue")}; 
+  private JMenuItem[] menuItems = {}; // Abbildung von Figuren zu Shapes
 
   /**
    * Erzeuge eine Leinwand.
@@ -81,6 +86,11 @@ public class Leinwand
   {
     fenster = new JFrame();
     zeichenflaeche = new Zeichenflaeche();
+    menuBar = new JMenuBar();
+    for (int i = 0; i < menus.length; i++) {
+        menuBar.add(menus[i]);
+    }
+    fenster.setJMenuBar(menuBar);
     fenster.setContentPane(zeichenflaeche);
     fenster.setTitle(titel);
     zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
