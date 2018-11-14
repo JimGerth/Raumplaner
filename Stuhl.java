@@ -7,6 +7,14 @@ public class Stuhl extends Moebel {
     
     private int breite;
     private int tiefe;
+    static GUIOption[] optionen = {
+        new GUIOption("X-Position:"),
+        new GUIOption("Y-Position:"),
+        new GUIOption("Orientierung:"),
+        new GUIOption("Farbe:"),
+        new GUIOption("Breite:", true),
+        new GUIOption("Tiefe:", true)
+    };
 
     public Stuhl(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
         super(xPosition, yPosition, farbe, orientierung);

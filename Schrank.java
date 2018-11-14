@@ -7,6 +7,14 @@ public class Schrank extends Moebel {
     
     private int breite;
     private int tiefe;
+    static GUIOption[] optionen = {
+        new GUIOption("X-Position:"),
+        new GUIOption("Y-Position:"),
+        new GUIOption("Orientierung:"),
+        new GUIOption("Farbe:"),
+        new GUIOption("Breite:", true),
+        new GUIOption("Tiefe:", true)
+    };
     
     public int getBreite() {
         return breite;

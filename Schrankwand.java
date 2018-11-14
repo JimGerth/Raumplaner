@@ -8,6 +8,15 @@ public class Schrankwand extends Moebel {
     private int anzahlDerEinheiten;
     private int breite;
     private int tiefe;
+    static GUIOption[] optionen = {
+        new GUIOption("X-Position:"),
+        new GUIOption("Y-Position:"),
+        new GUIOption("Orientierung:"),
+        new GUIOption("Farbe:"),
+        new GUIOption("Anzahl der Einheiten:", true),
+        new GUIOption("Breite:", true),
+        new GUIOption("Tiefe:", true)
+    };
     
     public Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
         super(xPosition, yPosition, farbe, orientierung);
