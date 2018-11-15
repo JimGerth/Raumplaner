@@ -2,18 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/************************************************************************************\
-* Fenster zum erstellen von spezialisierten Schränken.                               *
-* Um weitere Schrank.wichtigeOptionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das Schrank.wichtigeOptionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format Schrank.wichtigeOptionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()) für eine Zahl }.    *
-\************************************************************************************/
-public class SchrankGUI extends JFrame {
+
+class SchrankGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
     
-    public SchrankGUI()
+    SchrankGUI()
     {
         super("Raumplaner");
 
@@ -64,12 +58,8 @@ public class SchrankGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel schrank = new Schrank(0,
-                                     0,
-                                     "schwarz",
-                                     0,
-                                     Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()),
-                                     Integer.parseInt(Schrank.wichtigeOptionen[1].textField.getText()));
+        Moebel schrank = new Schrank(Integer.parseInt(Schrank.optionen[0].textField.getText()),
+                                     Integer.parseInt(Schrank.optionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

@@ -2,18 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/************************************************************************************\
-* Fenster zum erstellen von spezialisierten Tischen.                                 *
-* Um weitere Tisch.wichtigeOptionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das Tisch.wichtigeOptionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format Tisch.wichtigeOptionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()) für eine Zahl }.    *
-\************************************************************************************/
-public class TischGUI extends JFrame {
+
+class TischGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
     
-    public TischGUI()
+    TischGUI()
     {
         super("Raumplaner");
 
@@ -43,7 +37,7 @@ public class TischGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < Tisch.wichtigeOptionen.length; i++) {
+        for (int i = 0; i < Tisch.wichtigeOptionen.length; i++) {
             Tisch.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
             cp.add(Tisch.wichtigeOptionen[i].label);
             
@@ -64,12 +58,8 @@ public class TischGUI extends JFrame {
     }
 
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel tisch = new Tisch(0,
-                                 0,
-                                 "schwarz",
-                                 0,
-                                 Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
-                                 Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
+        Moebel tisch = new Tisch(Integer.parseInt(Tisch.optionen[0].textField.getText()),
+                                 Integer.parseInt(Tisch.optionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

@@ -3,7 +3,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 
-public class Schrank extends Moebel {
+class Schrank extends Moebel {
     
     private int breite;
     private int tiefe;
@@ -20,15 +20,19 @@ public class Schrank extends Moebel {
         new GUIOption("Tiefe:")
     };
     
-    public int getBreite() {
+    int getBreite() {
         return breite;
     }
 
-    public Schrank(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
+    Schrank(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
         super(xPosition, yPosition, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
         this.art = "Schrank";
+    }
+    
+    Schrank(int breite, int tiefe) {
+        this(0, 0, "schwarz", 0, breite, tiefe);
     }
     
     protected Shape gibAktuelleFigur() {

@@ -7,19 +7,22 @@ import java.util.ArrayList;
 
 abstract public class Moebel {
     
+
     String art;
     int xPosition;
     int yPosition;
-    int orientierung;
     String farbe;
-    String letzteFarbe = "schwarz";
-    // static ArrayList<GUIOption> optionen = new ArrayList<GUIOption>();
-    // static ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
+    int orientierung;
+    boolean istAusgewaehlt;
+
+    static String art;
     static GUIOption[] optionen;
     static GUIOption[] wichtigeOptionen;
+
     protected boolean istSichtbar = false;
 
-    public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
+
+    Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.farbe = farbe;
@@ -30,6 +33,7 @@ abstract public class Moebel {
     abstract protected Shape gibAktuelleFigur();
     abstract String toJSON();
     abstract int gibInt(String attributName);
+
     /*
     private void updateWichtigeOptionen() {
         ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
@@ -41,50 +45,51 @@ abstract public class Moebel {
         this.wichtigeOptionen = wichtigeOptionen;
     }
     */
-    public void zeige() {
+
+    void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;
             zeichne();
         }
     }
     
-    public void verberge() {
+    void verberge() {
         loesche(); // "tue nichts" wird in loesche() abgefangen.
         istSichtbar = false;
     }
 
-    public void dreheAuf(int neuerWinkel) {
+    void dreheAuf(int neuerWinkel) {
         loesche();
         orientierung = neuerWinkel;
         zeichne();
     }
     
-    public void dreheUm(int winkel) {
+    void dreheUm(int winkel) {
         loesche();
         orientierung += winkel;
         zeichne();
     }
 
-    public void bewegeHorizontal(int entfernung) {
+    void bewegeHorizontal(int entfernung) {
         loesche();
         xPosition += entfernung;
         zeichne();
     }
 
-    public void bewegeVertikal(int entfernung) {
+    void bewegeVertikal(int entfernung) {
         loesche();
         yPosition += entfernung;
         zeichne();
     }
     
-    public void aendereFarbe(String neueFarbe) {
+    void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
         letzteFarbe = neueFarbe;
         zeichne();
     }
     
-    public void aendereFarbe(String neueFarbe, boolean istAuswahl) {
+    void aendereFarbe(String neueFarbe, boolean istAuswahl) {
         if (istAuswahl) {
             loesche();
             farbe = neueFarbe;
@@ -98,10 +103,17 @@ abstract public class Moebel {
         if (istSichtbar) {
             Shape figur = gibAktuelleFigur();
             Leinwand leinwand = Leinwand.gibLeinwand();
-            leinwand.zeichne(
-              this,           // leinwand kennt das Objekt
-              farbe,          // definiert seine Zeichenfarbe
-              figur);         // definiert seinen grafischen Aspekt
+            if (!istAusgewaehlt) {
+                leinwand.zeichne (
+                this,           // leinwand kennt das Objekt
+                farbe,          // definiert seine Zeichenfarbe
+                figur);         // definiert seinen grafischen Aspekt
+            } else {
+                leinwand.zeichne (
+                this,           // leinwand kennt das Objekt
+                "rot",          // definiert seine Zeichenfarbe
+                figur);         // definiert seinen grafischen Aspekt
+            }
             leinwand.warte(10);
         }
     }

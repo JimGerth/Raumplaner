@@ -2,18 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/************************************************************************************\
-* Fenster zum erstellen von spezialisierten Stühlen.                                 *
-* Um weitere Stuhl.wichtigeOptionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das Stuhl.wichtigeOptionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format Stuhl.wichtigeOptionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(Stuhl.wichtigeOptionen[0].textField.getText()) für eine Zahl }.    *
-\************************************************************************************/
-public class StuhlGUI extends JFrame {
+
+class StuhlGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
     
-    public StuhlGUI()
+    StuhlGUI()
     {
         super("Raumplaner");
 
@@ -43,7 +37,7 @@ public class StuhlGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < Stuhl.wichtigeOptionen.length; i++) {
+        for (int i = 0; i < Stuhl.wichtigeOptionen.length; i++) {
             Stuhl.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
             cp.add(Stuhl.wichtigeOptionen[i].label);
             
@@ -64,12 +58,8 @@ public class StuhlGUI extends JFrame {
     }
 
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel stuhl = new Stuhl(0,
-                                 0,
-                                 "schwarz",
-                                 0,
-                                 Integer.parseInt(Stuhl.wichtigeOptionen[0].textField.getText()),
-                                 Integer.parseInt(Stuhl.wichtigeOptionen[1].textField.getText()));
+        Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.optionen[0].textField.getText()),
+                                 Integer.parseInt(Stuhl.optionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

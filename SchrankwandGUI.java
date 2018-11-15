@@ -2,18 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/************************************************************************************\
-* Fenster zum erstellen von spezialisierten Schrankwänden.                           *
-* Um weitere Schrankwand.wichtigeOptionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das Schrankwand.wichtigeOptionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format Schrankwand.wichtigeOptionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()) für eine Zahl }.    *
-\************************************************************************************/
-public class SchrankwandGUI extends JFrame {
+
+class SchrankwandGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
     
-    public SchrankwandGUI()
+    SchrankwandGUI()
     {
         super("Raumplaner");
 
@@ -65,13 +59,9 @@ public class SchrankwandGUI extends JFrame {
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         // Handle errors if Values entered aren't legal
-        Moebel schrankwand = new Schrankwand(0,
-                                             0,
-                                             "schwarz",
-                                             0,
-                                             Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
-                                             Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
-                                             Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
+        Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.optionen[0].textField.getText()),
+                                             Integer.parseInt(Schrankwand.optionen[1].textField.getText()),
+                                             Integer.parseInt(Schrankwand.optionen[2].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }
