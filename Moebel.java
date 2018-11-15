@@ -25,20 +25,20 @@ abstract public class Moebel {
         this.yPosition = yPosition;
         this.farbe = farbe;
         this.orientierung = orientierung;
-        // updateWichtigeOptionen();
     }
     
     abstract protected Shape gibAktuelleFigur();
     abstract String toJSON();
     abstract int gibInt(String attributName);
+    abstract String gibString(String attributName);
     
     static GUIOption[] gibOptionen() {
         return optionen;
-    }
+    } //not needed anymore once i figure out how to initialize da damn optionen array
     
     static GUIOption[] gibWichtigeOptionen() {
         return wichtigeOptionen;
-    }
+    } // same as up top boyyy
     
     void zeige() {
         if (!istSichtbar) {

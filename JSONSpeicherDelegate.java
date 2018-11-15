@@ -55,43 +55,43 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
                     break;
                 case "Stuhl":
                     alleMoebel.add(new Stuhl(
-                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[2].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[3].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[5].beschreibung)
                     ));
                     break;
                 case "Tisch":
                     alleMoebel.add(new Tisch(
-                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[2].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[3].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[5].beschreibung)
                     ));
                     break;
                 case "Schrank":
                     alleMoebel.add(new Schrank(
-                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[2].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[3].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[5].beschreibung)
                     ));
                     break;
                 case "Schrankwand":
                     alleMoebel.add(new Schrankwand(
-                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Anzahl der Einheiten:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[2].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[3].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[5].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[6].beschreibung)
                     ));
                     break;
             }
@@ -99,16 +99,14 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         return alleMoebel;
     }
 
-    /*
-    private String serialize<T extends Moebel>(T moebel) {
+    /*private <T extends Moebel> String serialize(T moebel) {
         String output;
         output += "{\n";
-        for (int i = 0; i < T.optionen.length; i++) {
-            output += "\"" + T.optionen[i].beschreibung + "\": \"" + moebel.??? + "\"\n";
+        for (option : moebel.optionen) {
+            output += "\"" + option.beschreibung + "\": \"" + moebel.gibInt(option.beschreibung) + "\"\n";
+            output += "\"" + option.beschreibung + "\": \"" + moebel.gibString(option.beschreibung) + "\"\n";
         }
         output += "}";
         return output;
-    }
-    Eventuell braucht man noch ein weiteres array mit ALLEN attributen!?
-     */
+    }*/
 }
