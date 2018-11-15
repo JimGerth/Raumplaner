@@ -3,6 +3,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 abstract public class Moebel {
     
@@ -14,7 +15,7 @@ abstract public class Moebel {
     public String letzteFarbe = "schwarz";
     protected boolean istSichtbar = false;
     static String art;
-    static GUIOption[] optionen;
+    static ArrayList<GUIOption> optionen = new ArrayList<GUIOption>();
 
     Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;
@@ -24,6 +25,10 @@ abstract public class Moebel {
     }
     
     abstract protected Shape gibAktuelleFigur();
+    
+    public static ArrayList<GUIOption> getOptionen() {
+        return optionen;
+    }
     
     void zeige() {
         if (!istSichtbar) {
