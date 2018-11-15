@@ -14,8 +14,8 @@ abstract public class Moebel {
     boolean istAusgewaehlt;
 
     static String art;
-    static GUIOption[] optionen;
-    static GUIOption[] wichtigeOptionen;
+    static GUIOption[] optionen = {};
+    static GUIOption[] wichtigeOptionen = {};
 
     protected boolean istSichtbar = false;
 
@@ -31,7 +31,15 @@ abstract public class Moebel {
     abstract protected Shape gibAktuelleFigur();
     abstract String toJSON();
     abstract int gibInt(String attributName);
-
+    
+    static GUIOption[] gibOptionen() {
+        return optionen;
+    }
+    
+    static GUIOption[] gibWichtigeOptionen() {
+        return wichtigeOptionen;
+    }
+    
     void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;
@@ -96,7 +104,7 @@ abstract public class Moebel {
             } else {
                 leinwand.zeichne (
                 this,           // leinwand kennt das Objekt
-                "rot",          // definiert seine Zeichenfarbe
+                "rot",          // Rot als Auswahl-Farbe
                 figur);         // definiert seinen grafischen Aspekt
             }
             leinwand.warte(10);
