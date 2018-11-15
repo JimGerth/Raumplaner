@@ -27,16 +27,10 @@ class GUIOption {
     JLabel label = new JLabel();
     JTextField textField = new JTextField();
     String beschreibung;
-    boolean wichtig;
     
-    GUIOption(String beschreibung, boolean wichtig) {
-        this.wichtig = wichtig;
+    GUIOption(String beschreibung) {
         this.beschreibung = beschreibung;
         label.setText(this.beschreibung);
         label.setHorizontalAlignment(JLabel.RIGHT);
-    }
-    
-    GUIOption(String beschreibung) {
-        this(beschreibung, false);
     }
 }

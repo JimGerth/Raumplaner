@@ -43,14 +43,14 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
     private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) {
         ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
         for (int i = 0; i < alleJSONMoebel.length(); i++) {
-            switch (alleJSONMoebel.getJSONObject(i).getString("art")) {
+            switch (alleJSONMoebel.getJSONObject(i).getString("Art:")) {
                 case "Hocker":
                     alleMoebel.add(new Hocker(
-                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
-                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
-                        alleJSONMoebel.getJSONObject(i).getInt("durchmesser")
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[2].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[3].beschreibung),
+                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].beschreibung)
                     ));
                     break;
                 case "Stuhl":

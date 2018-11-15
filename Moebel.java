@@ -13,8 +13,10 @@ abstract public class Moebel {
     int orientierung;
     String farbe;
     String letzteFarbe = "schwarz";
-    static ArrayList<GUIOption> optionen = new ArrayList<GUIOption>();
-    static ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
+    // static ArrayList<GUIOption> optionen = new ArrayList<GUIOption>();
+    // static ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
+    static GUIOption[] optionen;
+    static GUIOption[] wichtigeOptionen;
     protected boolean istSichtbar = false;
 
     public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
@@ -22,12 +24,13 @@ abstract public class Moebel {
         this.yPosition = yPosition;
         this.farbe = farbe;
         this.orientierung = orientierung;
-        updateWichtigeOptionen();
+        // updateWichtigeOptionen();
     }
     
     abstract protected Shape gibAktuelleFigur();
     abstract String toJSON();
-    
+    abstract int gibInt(String attributName);
+    /*
     private void updateWichtigeOptionen() {
         ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
         for (int i = 0; i < optionen.size(); i++) {
@@ -37,7 +40,7 @@ abstract public class Moebel {
         }
         this.wichtigeOptionen = wichtigeOptionen;
     }
-    
+    */
     public void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;

@@ -6,8 +6,8 @@ import javax.swing.*;
 * Fenster zum erstellen von spezialisierten Schränken.                               *
 * Um weitere Schrank.wichtigeOptionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
 * in das Schrank.wichtigeOptionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format Schrank.wichtigeOptionen.get(0).textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(Schrank.wichtigeOptionen.get(0).textField.getText()) für eine Zahl }.    *
+* die gewünschte Option im Format Schrank.wichtigeOptionen[0].textField.getText() dem Initializer    *
+* übergeben. { Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()) für eine Zahl }.    *
 \************************************************************************************/
 public class SchrankGUI extends JFrame {
     
@@ -24,7 +24,7 @@ public class SchrankGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (Schrank.wichtigeOptionen.size() * 35) + 70;
+        int frameHeight = (Schrank.wichtigeOptionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -43,15 +43,15 @@ public class SchrankGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-        for (int i = 0; i < Schrank.wichtigeOptionen.size(); i++) {
-            Schrank.wichtigeOptionen.get(i).label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(Schrank.wichtigeOptionen.get(i).label);
+        for (int i = 0; i < Schrank.wichtigeOptionen.length; i++) {
+            Schrank.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Schrank.wichtigeOptionen[i].label);
             
-            Schrank.wichtigeOptionen.get(i).textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(Schrank.wichtigeOptionen.get(i).textField);
+            Schrank.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Schrank.wichtigeOptionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (Schrank.wichtigeOptionen.size() * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Schrank.wichtigeOptionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -68,8 +68,8 @@ public class SchrankGUI extends JFrame {
                                      0,
                                      "schwarz",
                                      0,
-                                     Integer.parseInt(Schrank.wichtigeOptionen.get(0).textField.getText()),
-                                     Integer.parseInt(Schrank.wichtigeOptionen.get(1).textField.getText()));
+                                     Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()),
+                                     Integer.parseInt(Schrank.wichtigeOptionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

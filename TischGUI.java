@@ -24,7 +24,7 @@ public class TischGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (Tisch.wichtigeOptionen.size() * 35) + 70;
+        int frameHeight = (Tisch.wichtigeOptionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -43,15 +43,15 @@ public class TischGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < Tisch.wichtigeOptionen.size(); i++) {
-            Tisch.wichtigeOptionen.get(i).label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(Tisch.wichtigeOptionen.get(i).label);
+                for (int i = 0; i < Tisch.wichtigeOptionen.length; i++) {
+            Tisch.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Tisch.wichtigeOptionen[i].label);
             
-            Tisch.wichtigeOptionen.get(i).textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(Tisch.wichtigeOptionen.get(i).textField);
+            Tisch.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Tisch.wichtigeOptionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (Tisch.wichtigeOptionen.size() * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Tisch.wichtigeOptionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -68,8 +68,8 @@ public class TischGUI extends JFrame {
                                  0,
                                  "schwarz",
                                  0,
-                                 Integer.parseInt(Tisch.wichtigeOptionen.get(0).textField.getText()),
-                                 Integer.parseInt(Tisch.wichtigeOptionen.get(1).textField.getText()));
+                                 Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
+                                 Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

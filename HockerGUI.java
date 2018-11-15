@@ -24,7 +24,7 @@ public class HockerGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (Hocker.wichtigeOptionen.size() * 35) + 70;
+        int frameHeight = (Hocker.wichtigeOptionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -43,15 +43,15 @@ public class HockerGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < Hocker.wichtigeOptionen.size(); i++) {
-            Hocker.wichtigeOptionen.get(i).label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(Hocker.wichtigeOptionen.get(i).label);
+                for (int i = 0; i < Hocker.wichtigeOptionen.length; i++) {
+            Hocker.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Hocker.wichtigeOptionen[i].label);
             
-            Hocker.wichtigeOptionen.get(i).textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(Hocker.wichtigeOptionen.get(i).textField);
+            Hocker.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Hocker.wichtigeOptionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (Hocker.wichtigeOptionen.size() * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (Hocker.wichtigeOptionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -68,7 +68,7 @@ public class HockerGUI extends JFrame {
                                    0,
                                    "schwarz",
                                    0,
-                                   Integer.parseInt(Hocker.wichtigeOptionen.get(0).textField.getText()));
+                                   Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
         }

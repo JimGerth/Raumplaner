@@ -9,9 +9,12 @@ public class Hocker extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position:"),
         new GUIOption("Y-Position:"),
-        new GUIOption("Orientierung:"),
         new GUIOption("Farbe:"),
-        new GUIOption("Durchmesser:", true)
+        new GUIOption("Orientierung:"),
+        new GUIOption("Durchmesser:")
+    };
+    static GUIOption[] wichtigeOptionen = {
+        new GUIOption("Durchmesser:")
     };
     
     // jedes moebel soll ein optionen array haben, fuer die optionen, die bei der inizialisierung wichtig sind.
@@ -47,16 +50,35 @@ public class Hocker extends Moebel {
             + "\t\t\"Durchmesser:\": " + durchmesser + ",\n"
             + "\t}";
     }
-    /*
+ 
     int gibInt(String attributName) {
-        switch (attributName) {
-            case optionen[0].beschreibung:
-                return xPosition;
+        for (int i = 0; i < optionen.length; i++) {
+            if (attributName == optionen[i].beschreibung) {
+                switch (i) {
+                    case 0:
+                        return xPosition;
+                    case 1:
+                        return yPosition;
+                    case 3:
+                        return orientierung;
+                    case 4:
+                        return durchmesser;
+                }
+            }
         }
+        return 0; //bzw throw error, that attribut doesnt exist
     }
     
     String gibString(String attributName) {
-    
+        for (int i = 0; i < optionen.length; i++) {
+            if (attributName == optionen[i].beschreibung) {
+                switch (i) {
+                    case 2:
+                        return farbe;
+                }
+            }
+        }
+        return ""; //bzw trow error
     }
     
     /* failed attempt at generics.... maybe try later...
