@@ -46,52 +46,52 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             switch (alleJSONMoebel.getJSONObject(i).getString("art")) {
                 case "Hocker":
                     alleMoebel.add(new Hocker(
-                        alleJSONMoebel.getJSONObject(i).getInt("xPosition"),
-                        alleJSONMoebel.getJSONObject(i).getInt("yPosition"),
-                        alleJSONMoebel.getJSONObject(i).getString("farbe"),
-                        alleJSONMoebel.getJSONObject(i).getInt("orientierung"),
+                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
                         alleJSONMoebel.getJSONObject(i).getInt("durchmesser")
                     ));
                     break;
                 case "Stuhl":
                     alleMoebel.add(new Stuhl(
-                        alleJSONMoebel.getJSONObject(i).getInt("xPosition"),
-                        alleJSONMoebel.getJSONObject(i).getInt("yPosition"),
-                        alleJSONMoebel.getJSONObject(i).getString("farbe"),
-                        alleJSONMoebel.getJSONObject(i).getInt("orientierung"),
-                        alleJSONMoebel.getJSONObject(i).getInt("breite"),
-                        alleJSONMoebel.getJSONObject(i).getInt("tiefe")
+                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
                     ));
                     break;
                 case "Tisch":
                     alleMoebel.add(new Tisch(
-                        alleJSONMoebel.getJSONObject(i).getInt("xPosition"),
-                        alleJSONMoebel.getJSONObject(i).getInt("yPosition"),
-                        alleJSONMoebel.getJSONObject(i).getString("farbe"),
-                        alleJSONMoebel.getJSONObject(i).getInt("orientierung"),
-                        alleJSONMoebel.getJSONObject(i).getInt("breite"),
-                        alleJSONMoebel.getJSONObject(i).getInt("tiefe")
+                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
                     ));
                     break;
                 case "Schrank":
                     alleMoebel.add(new Schrank(
-                        alleJSONMoebel.getJSONObject(i).getInt("xPosition"),
-                        alleJSONMoebel.getJSONObject(i).getInt("yPosition"),
-                        alleJSONMoebel.getJSONObject(i).getString("farbe"),
-                        alleJSONMoebel.getJSONObject(i).getInt("orientierung"),
-                        alleJSONMoebel.getJSONObject(i).getInt("breite"),
-                        alleJSONMoebel.getJSONObject(i).getInt("tiefe")
+                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
                     ));
                     break;
                 case "Schrankwand":
                     alleMoebel.add(new Schrankwand(
-                        alleJSONMoebel.getJSONObject(i).getInt("xPosition"),
-                        alleJSONMoebel.getJSONObject(i).getInt("yPosition"),
-                        alleJSONMoebel.getJSONObject(i).getString("farbe"),
-                        alleJSONMoebel.getJSONObject(i).getInt("orientierung"),
-                        alleJSONMoebel.getJSONObject(i).getInt("anzahlDerEinheiten"),
-                        alleJSONMoebel.getJSONObject(i).getInt("breite"),
-                        alleJSONMoebel.getJSONObject(i).getInt("tiefe")
+                        alleJSONMoebel.getJSONObject(i).getInt("X-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Y-Position:"),
+                        alleJSONMoebel.getJSONObject(i).getString("Farbe:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Orientierung:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Anzahl der Einheiten:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Breite:"),
+                        alleJSONMoebel.getJSONObject(i).getInt("Tiefe:")
                     ));
                     break;
             }

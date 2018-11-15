@@ -51,13 +51,13 @@ public class Schrank extends Moebel {
     String toJSON() {
         return ""
             + "\t{\n"
-            + "\t\t\"art\": \"" + art + "\",\n"
-            + "\t\t\"xPosition\": " + xPosition + ",\n"
-            + "\t\t\"yPosition\": " + yPosition + ",\n"
-            + "\t\t\"farbe\": \"" + farbe + "\",\n"
-            + "\t\t\"orientierung\": " + orientierung + ",\n"
-            + "\t\t\"breite\": " + breite + ",\n"
-            + "\t\t\"tiefe\": " + tiefe + ",\n"
+            + "\t\t\"Art:\": \"" + art + "\",\n"
+            + "\t\t\"X-Position:\": " + xPosition + ",\n"
+            + "\t\t\"Y-Position:\": " + yPosition + ",\n"
+            + "\t\t\"Farbe:\": \"" + farbe + "\",\n"
+            + "\t\t\"Orientierung:\": " + orientierung + ",\n"
+            + "\t\t\"Breite:\": " + breite + ",\n"
+            + "\t\t\"Tiefe:\": " + tiefe + ",\n"
             + "\t}";
     }
 }
