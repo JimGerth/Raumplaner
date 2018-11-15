@@ -63,7 +63,8 @@ class SchrankwandGUI extends JFrame {
                                              Integer.parseInt(Schrankwand.optionen[1].textField.getText()),
                                              Integer.parseInt(Schrankwand.optionen[2].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
+            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
+            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
         }
         GUI.alleMoebel.add(schrankwand);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;

@@ -20,7 +20,7 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = T.getOptionen().size() * 35 + 70;
+        int frameHeight = T.optionen.length * 35 + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -39,15 +39,15 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-        for (int i = 0; i < T.getOptionen().size(); i++) {
-            T.getOptionen().get(i).label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(T.getOptionen().get(i).label);
+        for (int i = 0; i < T.optionen.length; i++) {
+            T.optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(T.optionen[i].label);
             
-            T.getOptionen().get(i).textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(T.getOptionen().get(i).textField);
+            T.optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(T.optionen[i].textField);
         }
         
-        jbErstellen.setBounds(170, (T.getOptionen().size() * 35) + 10, 100, 25);
+        jbErstellen.setBounds(170, (T.optionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -62,38 +62,39 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
     private void jbErstellenActionPerformed(ActionEvent evt) {
         switch (T.art) {
             case "Hocker":
-                Moebel hocker = new Hocker(Integer.parseInt(Hocker.getOptionen().get(0).textField.getText()));
+                Moebel hocker = new Hocker(Integer.parseInt(Hocker.optionen[0].textField.getText()));
                 GUI.alleMoebel.add(hocker);
                 hocker.zeige();
                 break;
             case "Stuhl":
-                Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.getOptionen().get(0).textField.getText()),
-                                         Integer.parseInt(Stuhl.getOptionen().get(1).textField.getText()));
+                Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.optionen[0].textField.getText()),
+                                         Integer.parseInt(Stuhl.optionen[1].textField.getText()));
                 GUI.alleMoebel.add(stuhl);
                 stuhl.zeige();
                 break;
             case "Tisch":
-                Moebel tisch = new Tisch(Integer.parseInt(Tisch.getOptionen().get(0).textField.getText()),
-                                         Integer.parseInt(Tisch.getOptionen().get(1).textField.getText()));
+                Moebel tisch = new Tisch(Integer.parseInt(Tisch.optionen[0].textField.getText()),
+                                         Integer.parseInt(Tisch.optionen[0].textField.getText()));
                 GUI.alleMoebel.add(tisch);
                 tisch.zeige();
                 break;
             case "Schrank":
-                Moebel schrank = new Schrank(Integer.parseInt(Schrank.getOptionen().get(0).textField.getText()),
-                                             Integer.parseInt(Schrank.getOptionen().get(1).textField.getText()));
+                Moebel schrank = new Schrank(Integer.parseInt(Schrank.optionen[0].textField.getText()),
+                                             Integer.parseInt(Schrank.optionen[1].textField.getText()));
                 GUI.alleMoebel.add(schrank);
                 schrank.zeige();
                 break;
             case "Schrankwand":
-                Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.getOptionen().get(0).textField.getText()),
-                                                     Integer.parseInt(Schrankwand.getOptionen().get(1).textField.getText()),
-                                                     Integer.parseInt(Schrankwand.getOptionen().get(2).textField.getText()));
+                Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.optionen[0].textField.getText()),
+                                                     Integer.parseInt(Schrankwand.optionen[1].textField.getText()),
+                                                     Integer.parseInt(Schrankwand.optionen[2].textField.getText()));
                 GUI.alleMoebel.add(schrankwand);
                 schrankwand.zeige();
                 break;
         }
         if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);
+            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
+            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
         }
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
         this.dispose();
