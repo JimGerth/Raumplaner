@@ -15,7 +15,7 @@ abstract public class Moebel {
     int orientierung;
     boolean istAusgewaehlt;
 
-    static String art;
+    // static String art;
     static GUIOption[] optionen;
     static GUIOption[] wichtigeOptionen;
 

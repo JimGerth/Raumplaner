@@ -91,20 +91,6 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
                 GUI.alleMoebel.add(schrankwand);
                 schrankwand.zeige();
                 break;
-            case "Badewanne":
-                Moebel badewanne = new Badewanne(Integer.parseInt(Badewanne.getOptionen().get(0).textField.getText()),
-                                                 Integer.parseInt(Badewanne.getOptionen().get(1).textField.getText()));
-                GUI.alleMoebel.add(badewanne);
-                badewanne.zeige();
-                break;
-            case "Klavier":
-                Moebel klavier = new Klavier(Integer.parseInt(Klavier.getOptionen().get(0).textField.getText()),
-                                             Integer.parseInt(Klavier.getOptionen().get(1).textField.getText()),
-                                             Integer.parseInt(Klavier.getOptionen().get(2).textField.getText()),
-                                             Integer.parseInt(Klavier.getOptionen().get(3).textField.getText()));
-                GUI.alleMoebel.add(klavier);
-                klavier.zeige();
-                break;
         }
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).aendereFarbe(GUI.alleMoebel.get(GUI.moebelNummer).letzteFarbe);

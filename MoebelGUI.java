@@ -67,20 +67,8 @@ public class MoebelGUI extends JFrame implements ActionListener
             new AllgemeineGUI<Schrank>();
             this.dispose();
         } else if (ae.getSource() == jbSchrankwand) {
-<<<<<<< HEAD
             new SchrankwandGUI();
-            setVisible(false);
-            dispose();
-=======
-            new AllgemeineGUI<Schrankwand>();
             this.dispose();
-        } else if (ae.getSource() == jbBadewanne) {
-            new AllgemeineGUI<Badewanne>();
-            this.dispose();
-        } else if (ae.getSource() == jbKlavier) {
-            new AllgemeineGUI<Klavier>();
-            this.dispose();
->>>>>>> genericGUIFeature
         }
     }
 }
