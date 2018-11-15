@@ -7,15 +7,13 @@ import java.util.ArrayList;
 
 abstract public class Moebel {
     
-
-    String art;
     int xPosition;
     int yPosition;
     String farbe;
     int orientierung;
     boolean istAusgewaehlt;
 
-    // static String art;
+    static String art;
     static GUIOption[] optionen;
     static GUIOption[] wichtigeOptionen;
 
@@ -34,17 +32,13 @@ abstract public class Moebel {
     abstract String toJSON();
     abstract int gibInt(String attributName);
 
-    /*
-    private void updateWichtigeOptionen() {
-        ArrayList<GUIOption> wichtigeOptionen = new ArrayList<GUIOption>();
-        for (int i = 0; i < optionen.size(); i++) {
-            if (optionen.get(i).wichtig) {
-                wichtigeOptionen.add(optionen.get(i));
-            }
-        }
-        this.wichtigeOptionen = wichtigeOptionen;
+    GUIOption[] getOptionen() {
+        return optionen;
     }
-    */
+    
+    GUIOption[] getWichtigeOptionen() {
+        return wichtigeOptionen;
+    }
 
     void zeige() {
         if (!istSichtbar) {
@@ -85,7 +79,6 @@ abstract public class Moebel {
     void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
-        letzteFarbe = neueFarbe;
         zeichne();
     }
     
