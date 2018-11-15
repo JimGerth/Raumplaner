@@ -32,14 +32,6 @@ abstract public class Moebel {
     abstract String toJSON();
     abstract int gibInt(String attributName);
 
-    GUIOption[] getOptionen() {
-        return optionen;
-    }
-    
-    GUIOption[] getWichtigeOptionen() {
-        return wichtigeOptionen;
-    }
-
     void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;
