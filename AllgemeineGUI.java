@@ -5,6 +5,7 @@ import javax.swing.*;
 /******************\
 * WORK IN PROGRESS *
 \******************/
+/* sill a problem with art being static or not...
 class AllgemeineGUI<T extends Moebel> extends JFrame {
     
     private JButton jbErstellen = new JButton();
@@ -100,3 +101,4 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
         this.dispose();
     }
 }
+*/

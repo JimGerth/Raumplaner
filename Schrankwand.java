@@ -15,7 +15,8 @@ class Schrankwand extends Moebel {
         new GUIOption("Orientierung:"),
         new GUIOption("Anzahl der Einheiten:"),
         new GUIOption("Breite:"),
-        new GUIOption("Tiefe:")
+        new GUIOption("Tiefe:"),
+        new GUIOption("Art:")
     };
     static GUIOption[] wichtigeOptionen = {
         new GUIOption("Anzahl der Einheiten:"),
@@ -39,6 +40,20 @@ class Schrankwand extends Moebel {
         this(0, 0, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
+    GUIOption[] getOptionen() {
+        GUIOption[] optionen = {
+            new GUIOption("X-Position:"),
+            new GUIOption("Y-Position:"),
+            new GUIOption("Farbe:"),
+            new GUIOption("Orientierung:"),
+            new GUIOption("Anzahl der Einheiten:"),
+            new GUIOption("Breite:"),
+            new GUIOption("Tiefe:"),
+            new GUIOption("Art:")
+        };
+        return optionen;
+    }
+    
     protected Shape gibAktuelleFigur() {
         GeneralPath schrankwand = new GeneralPath();
         
@@ -54,7 +69,7 @@ class Schrankwand extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(schrankwand);
     }
-    
+    /*
     String toJSON() {
         return ""
             + "\t{\n"
@@ -68,36 +83,30 @@ class Schrankwand extends Moebel {
             + "\t\t\"Tiefe:\": " + tiefe + ",\n"
             + "\t}";
     }
-    
-    int gibInt(String attributName) {
+    */
+    String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
             if (attributName == optionen[i].beschreibung) {
                 switch (i) {
                     case 0:
-                        return xPosition;
+                        return Integer.toString(xPosition);
                     case 1:
-                        return yPosition;
-                    case 3:
-                        return orientierung;
-                    case 4:
-                        return breite;
-                    case 5:
-                        return tiefe;
-                }
-            }
-        }
-        return 0; //bzw throw error, that attribut doesnt exist
-    }
-    
-    String gibString(String attributName) {
-        for (int i = 0; i < optionen.length; i++) {
-            if (attributName == optionen[i].beschreibung) {
-                switch (i) {
+                        return Integer.toString(yPosition);
                     case 2:
                         return farbe;
+                    case 3:
+                        return Integer.toString(orientierung);
+                    case 4:
+                        return Integer.toString(anzahlDerEinheiten);
+                    case 5:
+                        return Integer.toString(breite);
+                    case 6:
+                        return Integer.toString(tiefe);
+                    case 7:
+                        return art;
                 }
             }
         }
-        return ""; //bzw trow error
+        return ""; //bzw throw error, that attribut doesnt exist
     }
 }

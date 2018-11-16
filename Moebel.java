@@ -13,7 +13,7 @@ abstract public class Moebel {
     int orientierung;
     boolean istAusgewaehlt;
 
-    static String art;
+    String art;
     static GUIOption[] optionen = {};
     static GUIOption[] wichtigeOptionen = {};
 
@@ -28,13 +28,16 @@ abstract public class Moebel {
     }
     
     abstract protected Shape gibAktuelleFigur();
-    abstract String toJSON();
-    abstract int gibInt(String attributName);
-    abstract String gibString(String attributName);
+    // abstract String toJSON();
+    // abstract int gibInt(String attributName);
+    // abstract String gibString(String attributName);
+    abstract String gibWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
+    
+    abstract GUIOption[] getOptionen(); // TEMPORARY WORKAROUND for uninitialized array problem with moebels
     
     static GUIOption[] gibOptionen() {
         return optionen;
-    } //not needed anymore once i figure out how to initialize da damn optionen array
+    } // also not needed anymore once i figure out how to initialize da damn optionen array
     
     static GUIOption[] gibWichtigeOptionen() {
         return wichtigeOptionen;

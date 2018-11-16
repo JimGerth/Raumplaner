@@ -58,8 +58,8 @@ class StuhlGUI extends JFrame {
     }
 
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.optionen[0].textField.getText()),
-                                 Integer.parseInt(Stuhl.optionen[1].textField.getText()));
+        Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.wichtigeOptionen[0].textField.getText()),
+                                 Integer.parseInt(Stuhl.wichtigeOptionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
             GUI.alleMoebel.get(GUI.moebelNummer).zeichne();

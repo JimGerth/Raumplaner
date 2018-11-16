@@ -11,7 +11,8 @@ class Hocker extends Moebel {
         new GUIOption("Y-Position:"),
         new GUIOption("Farbe:"),
         new GUIOption("Orientierung:"),
-        new GUIOption("Durchmesser:")
+        new GUIOption("Durchmesser:"),
+        new GUIOption("Art:")
     };
     static GUIOption[] wichtigeOptionen = {
         new GUIOption("Durchmesser:")
@@ -31,6 +32,18 @@ class Hocker extends Moebel {
         this(0, 0, "schwarz", 0, durchmesser);
     }
     
+    GUIOption[] getOptionen() {
+        GUIOption[] optionen = {
+            new GUIOption("X-Position:"),
+            new GUIOption("Y-Position:"),
+            new GUIOption("Farbe:"),
+            new GUIOption("Orientierung:"),
+            new GUIOption("Durchmesser:"),
+            new GUIOption("Art:")
+        };
+        return optionen;
+    }
+    
     protected Shape gibAktuelleFigur()
     {
         // definieren
@@ -42,7 +55,7 @@ class Hocker extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(Hocker);
     }
-    
+    /*
     String toJSON() {
         return ""
             + "\t{\n"
@@ -54,35 +67,27 @@ class Hocker extends Moebel {
             + "\t\t\"Durchmesser:\": " + durchmesser + ",\n"
             + "\t}";
     }
- 
-    int gibInt(String attributName) {
+    */
+    String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
             if (attributName == optionen[i].beschreibung) {
                 switch (i) {
                     case 0:
-                        return xPosition;
+                        return Integer.toString(xPosition);
                     case 1:
-                        return yPosition;
-                    case 3:
-                        return orientierung;
-                    case 4:
-                        return durchmesser;
-                }
-            }
-        }
-        return 0; //bzw throw error, that attribut doesnt exist
-    }
-    
-    String gibString(String attributName) {
-        for (int i = 0; i < optionen.length; i++) {
-            if (attributName == optionen[i].beschreibung) {
-                switch (i) {
+                        return Integer.toString(yPosition);
                     case 2:
                         return farbe;
+                    case 3:
+                        return Integer.toString(orientierung);
+                    case 4:
+                        return Integer.toString(durchmesser);
+                    case 5:
+                        return art;
                 }
             }
         }
-        return ""; //bzw trow error
+        return ""; //bzw throw error, that attribut doesnt exist
     }
     
     /* failed attempt at generics.... maybe try later...

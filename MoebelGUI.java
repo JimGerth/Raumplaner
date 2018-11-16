@@ -55,16 +55,16 @@ public class MoebelGUI extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent ae) {
         // new AllgemeineGUI<ae.getSource().getClass()>();
         if (ae.getSource() == jbHocker) {
-            new HockerGUI();
+            new HockerGUI(); // change to AllgemeineGUI<Hocker>() once "null optionen" is fixed
             this.dispose();
         } else if (ae.getSource() == jbStuhl) {
-            new AllgemeineGUI<Stuhl>();
+            new StuhlGUI();
             this.dispose();
         } else if (ae.getSource() == jbTisch) {
-            new AllgemeineGUI<Tisch>();
+            new TischGUI();
             this.dispose();
         } else if (ae.getSource() == jbSchrank) {
-            new AllgemeineGUI<Schrank>();
+            new SchrankGUI();
             this.dispose();
         } else if (ae.getSource() == jbSchrankwand) {
             new SchrankwandGUI();

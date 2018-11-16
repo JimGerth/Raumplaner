@@ -59,9 +59,9 @@ class SchrankwandGUI extends JFrame {
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         // Handle errors if Values entered aren't legal
-        Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.optionen[0].textField.getText()),
-                                             Integer.parseInt(Schrankwand.optionen[1].textField.getText()),
-                                             Integer.parseInt(Schrankwand.optionen[2].textField.getText()));
+        Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
+                                             Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
+                                             Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
             GUI.alleMoebel.get(GUI.moebelNummer).zeichne();

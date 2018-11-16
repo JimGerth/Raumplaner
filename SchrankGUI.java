@@ -58,8 +58,8 @@ class SchrankGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel schrank = new Schrank(Integer.parseInt(Schrank.optionen[0].textField.getText()),
-                                     Integer.parseInt(Schrank.optionen[1].textField.getText()));
+        Moebel schrank = new Schrank(Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()),
+                                     Integer.parseInt(Schrank.wichtigeOptionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
             GUI.alleMoebel.get(GUI.moebelNummer).zeichne();

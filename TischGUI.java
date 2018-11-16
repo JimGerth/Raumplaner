@@ -58,8 +58,8 @@ class TischGUI extends JFrame {
     }
 
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel tisch = new Tisch(Integer.parseInt(Tisch.optionen[0].textField.getText()),
-                                 Integer.parseInt(Tisch.optionen[1].textField.getText()));
+        Moebel tisch = new Tisch(Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
+                                 Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
             GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
