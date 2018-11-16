@@ -9,19 +9,19 @@ class Schrankwand extends Moebel {
     private int breite;
     private int tiefe;
     static GUIOption[] optionen = {
-        new GUIOption("X-Position:"),
-        new GUIOption("Y-Position:"),
-        new GUIOption("Farbe:"),
-        new GUIOption("Orientierung:"),
-        new GUIOption("Anzahl der Einheiten:"),
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:"),
-        new GUIOption("Art:")
+        new GUIOption("X-Position"),
+        new GUIOption("Y-Position"),
+        new GUIOption("Farbe"),
+        new GUIOption("Orientierung"),
+        new GUIOption("Anzahl der Einheiten"),
+        new GUIOption("Breite"),
+        new GUIOption("Tiefe"),
+        new GUIOption("Art")
     };
     static GUIOption[] wichtigeOptionen = {
-        new GUIOption("Anzahl der Einheiten:"),
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:")
+        new GUIOption("Anzahl der Einheiten"),
+        new GUIOption("Breite"),
+        new GUIOption("Tiefe")
     };
     
     Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
@@ -42,14 +42,14 @@ class Schrankwand extends Moebel {
     
     GUIOption[] getOptionen() {
         GUIOption[] optionen = {
-            new GUIOption("X-Position:"),
-            new GUIOption("Y-Position:"),
-            new GUIOption("Farbe:"),
-            new GUIOption("Orientierung:"),
-            new GUIOption("Anzahl der Einheiten:"),
-            new GUIOption("Breite:"),
-            new GUIOption("Tiefe:"),
-            new GUIOption("Art:")
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Anzahl der Einheiten"),
+            new GUIOption("Breite"),
+            new GUIOption("Tiefe"),
+            new GUIOption("Art")
         };
         return optionen;
     }

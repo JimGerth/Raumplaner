@@ -8,17 +8,17 @@ class Schrank extends Moebel {
     private int breite;
     private int tiefe;
     static GUIOption[] optionen = {
-        new GUIOption("X-Position:"),
-        new GUIOption("Y-Position:"),
-        new GUIOption("Farbe:"),
-        new GUIOption("Orientierung:"),
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:"),
-        new GUIOption("Art:")
+        new GUIOption("X-Position"),
+        new GUIOption("Y-Position"),
+        new GUIOption("Farbe"),
+        new GUIOption("Orientierung"),
+        new GUIOption("Breite"),
+        new GUIOption("Tiefe"),
+        new GUIOption("Art")
     };
     static GUIOption[] wichtigeOptionen = {
-        new GUIOption("Breite:"),
-        new GUIOption("Tiefe:")
+        new GUIOption("Breite"),
+        new GUIOption("Tiefe")
     };
     
     int getBreite() {
@@ -38,13 +38,13 @@ class Schrank extends Moebel {
     
     GUIOption[] getOptionen() {
         GUIOption[] optionen = {
-            new GUIOption("X-Position:"),
-            new GUIOption("Y-Position:"),
-            new GUIOption("Farbe:"),
-            new GUIOption("Orientierung:"),
-            new GUIOption("Breite:"),
-            new GUIOption("Tiefe:"),
-            new GUIOption("Art:")
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Breite"),
+            new GUIOption("Tiefe"),
+            new GUIOption("Art")
         };
         return optionen;
     }

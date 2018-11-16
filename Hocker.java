@@ -7,15 +7,15 @@ class Hocker extends Moebel {
 
     int durchmesser;
     static GUIOption[] optionen = {
-        new GUIOption("X-Position:"),
-        new GUIOption("Y-Position:"),
-        new GUIOption("Farbe:"),
-        new GUIOption("Orientierung:"),
-        new GUIOption("Durchmesser:"),
-        new GUIOption("Art:")
+        new GUIOption("X-Position"),
+        new GUIOption("Y-Position"),
+        new GUIOption("Farbe"),
+        new GUIOption("Orientierung"),
+        new GUIOption("Durchmesser"),
+        new GUIOption("Art")
     };
     static GUIOption[] wichtigeOptionen = {
-        new GUIOption("Durchmesser:")
+        new GUIOption("Durchmesser")
     };
     
     // jedes moebel soll ein optionen array haben, fuer die optionen, die bei der inizialisierung wichtig sind.
@@ -34,12 +34,12 @@ class Hocker extends Moebel {
     
     GUIOption[] getOptionen() {
         GUIOption[] optionen = {
-            new GUIOption("X-Position:"),
-            new GUIOption("Y-Position:"),
-            new GUIOption("Farbe:"),
-            new GUIOption("Orientierung:"),
-            new GUIOption("Durchmesser:"),
-            new GUIOption("Art:")
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Durchmesser"),
+            new GUIOption("Art")
         };
         return optionen;
     }
