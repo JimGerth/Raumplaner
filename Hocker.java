@@ -32,18 +32,6 @@ class Hocker extends Moebel {
         this(0, 0, "schwarz", 0, durchmesser);
     }
     
-    GUIOption[] getOptionen() {
-        GUIOption[] optionen = {
-            new GUIOption("X-Position"),
-            new GUIOption("Y-Position"),
-            new GUIOption("Farbe"),
-            new GUIOption("Orientierung"),
-            new GUIOption("Durchmesser"),
-            new GUIOption("Art")
-        };
-        return optionen;
-    }
-    
     protected Shape gibAktuelleFigur()
     {
         // definieren
@@ -55,22 +43,10 @@ class Hocker extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(Hocker);
     }
-    /*
-    String toJSON() {
-        return ""
-            + "\t{\n"
-            + "\t\t\"Art:\": \"" + art + "\",\n"
-            + "\t\t\"X-Position:\": " + xPosition + ",\n"
-            + "\t\t\"Y-Position:\": " + yPosition + ",\n"
-            + "\t\t\"Farbe:\": \"" + farbe + "\",\n"
-            + "\t\t\"Orientierung:\": " + orientierung + ",\n"
-            + "\t\t\"Durchmesser:\": " + durchmesser + ",\n"
-            + "\t}";
-    }
-    */
+
     String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
-            if (attributName == optionen[i].beschreibung) {
+            if (attributName == optionen[i].name) {
                 switch (i) {
                     case 0:
                         return Integer.toString(xPosition);
@@ -90,12 +66,15 @@ class Hocker extends Moebel {
         return ""; //bzw throw error, that attribut doesnt exist
     }
     
-    /* failed attempt at generics.... maybe try later...
-       <T> T gibWert(String attributName) {
-        switch (attributName) {
-            case optionen[0].beschreibung:
-                return xPosition;
-            case 
-        }
-    }*/
+    GUIOption[] getOptionen() { // nicht mehr noetig wenn null problem geloest ist...
+        GUIOption[] optionen = {
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Durchmesser"),
+            new GUIOption("Art")
+        };
+        return optionen;
+    }
 }

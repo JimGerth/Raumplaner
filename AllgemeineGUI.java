@@ -2,9 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/******************\
-* WORK IN PROGRESS *
-\******************/
+
 /* sill a problem with art being static or not...
 class AllgemeineGUI<T extends Moebel> extends JFrame {
     

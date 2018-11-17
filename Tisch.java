@@ -31,19 +31,6 @@ class Tisch extends Moebel {
     Tisch(int breite, int tiefe) {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
-    
-    GUIOption[] getOptionen() {
-        GUIOption[] optionen = {
-            new GUIOption("X-Position"),
-            new GUIOption("Y-Position"),
-            new GUIOption("Farbe"),
-            new GUIOption("Orientierung"),
-            new GUIOption("Breite"),
-            new GUIOption("Tiefe"),
-            new GUIOption("Art")
-        };
-        return optionen;
-    }
 
     protected Shape gibAktuelleFigur()
     {
@@ -57,23 +44,10 @@ class Tisch extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(tisch);
     }
-    /*
-    String toJSON() {
-        return ""
-            + "\t{\n"
-            + "\t\t\"Art:\": \"" + art + "\",\n"
-            + "\t\t\"X-Position:\": " + xPosition + ",\n"
-            + "\t\t\"Y-Position:\": " + yPosition + ",\n"
-            + "\t\t\"Farbe:\": \"" + farbe + "\",\n"
-            + "\t\t\"Orientierung:\": " + orientierung + ",\n"
-            + "\t\t\"Breite:\": " + breite + ",\n"
-            + "\t\t\"Tiefe:\": " + tiefe + ",\n"
-            + "\t}";
-    }
-    */
+
     String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
-            if (attributName == optionen[i].beschreibung) {
+            if (attributName == optionen[i].name) {
                 switch (i) {
                     case 0:
                         return Integer.toString(xPosition);
@@ -93,5 +67,18 @@ class Tisch extends Moebel {
             }
         }
         return ""; //bzw throw error, that attribut doesnt exist
+    }
+    
+    GUIOption[] getOptionen() {
+        GUIOption[] optionen = {
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Breite"),
+            new GUIOption("Tiefe"),
+            new GUIOption("Art")
+        };
+        return optionen;
     }
 }

@@ -24,7 +24,8 @@ public class GUI extends JFrame
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
     private int controllerPageNumber = 0;
-    private int buttonBreite = 25;
+    private int buttonBreite = 40;
+    private int buttonAbstand = 5;
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     private JButton jbRechts = new JButton();
     private JButton jbLinks = new JButton();
@@ -57,8 +58,8 @@ public class GUI extends JFrame
         });
 
         // Fenstergröße
-        int frameWidth = 115;
-        int frameHeight = 135;
+        int frameWidth = buttonAbstand + 3 * (buttonBreite + buttonAbstand);
+        int frameHeight = buttonAbstand + 3 * (buttonBreite + buttonAbstand) + 20;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -89,9 +90,18 @@ public class GUI extends JFrame
     }
 
     private void komponentenEinfuegen(Container cp) {
-        jbRechts.setBounds(80, 45, buttonBreite, buttonBreite);
+        int buttonNummer = 0;
+        for (int y = 0; y < 3; y++) { // TODO: komponenten semi automatisch einfuegen
+            for (int x = 0; x < 3; x++) {
+                 controllerPageButtons[buttonNummer].setBounds(buttonAbstand + x * (buttonBreite + buttonAbstand),
+                                                               buttonAbstand + y * (buttonBreite + buttonAbstand),
+                                                               buttonBreite,
+                                                               buttonBreite);
+                 cp.add(controllerPageButtons[buttonNummer]);
+                 buttonNummer++;
+             }
+        }
         jbRechts.setText(">");
-        cp.add(jbRechts);
         jbRechts.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -100,9 +110,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbLinks.setBounds(10, 45, buttonBreite, buttonBreite);
         jbLinks.setText("<");
-        cp.add(jbLinks);
         jbLinks.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -111,9 +119,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbHoch.setBounds(45, 10, buttonBreite, buttonBreite);
         jbHoch.setText("+");
-        cp.add(jbHoch);
         jbHoch.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -122,9 +128,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbRunter.setBounds(45, 80, buttonBreite, buttonBreite);
         jbRunter.setText("x");
-        cp.add(jbRunter);
         jbRunter.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -133,9 +137,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbRechtsHoch.setBounds(80, 10, buttonBreite, buttonBreite);
         jbRechtsHoch.setText(" ");
-        cp.add(jbRechtsHoch);
         jbRechtsHoch.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -144,9 +146,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbLinksHoch.setBounds(10, 10, buttonBreite, buttonBreite);
         jbLinksHoch.setText(" ");
-        cp.add(jbLinksHoch);
         jbLinksHoch.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -155,9 +155,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbRechtsRunter.setBounds(80, 80, buttonBreite, buttonBreite);
-        jbRechtsRunter.setText(" ");
-        cp.add(jbRechtsRunter);
+        jbRechtsRunter.setText("*");
         jbRechtsRunter.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -166,9 +164,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbLinksRunter.setBounds(10, 80, buttonBreite, buttonBreite);
-        jbLinksRunter.setText(" ");
-        cp.add(jbLinksRunter);
+        jbLinksRunter.setText("^");
         jbLinksRunter.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -177,9 +173,7 @@ public class GUI extends JFrame
             }
         );
         
-        jbShift.setBounds(45, 45, buttonBreite, buttonBreite);
         jbShift.setText("⋆");
-        cp.add(jbShift);
         jbShift.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
@@ -193,24 +187,24 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 jbWeiter();
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeHorizontal(10);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeHorizontal(2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(90);
                 jbShiftActionPerformed();
                 break;
             case 4:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheUm(5);
                 break;
         }
@@ -220,24 +214,24 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 jbZurueck();
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeHorizontal(-10);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeHorizontal(-2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(270);
                 jbShiftActionPerformed();
                 break;
             case 4:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheUm(-5);
                 break;
         }
@@ -251,19 +245,20 @@ public class GUI extends JFrame
                 jbShiftActionPerformed();
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-10);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(0);
                 jbShiftActionPerformed();
                 break;
             case 5:
+                if (moebel == null) {break;};
                 moebel.aendereFarbe("blau");
                 break;
         } 
@@ -273,9 +268,9 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                // delete moebel
-                if (alleMoebel.isEmpty()) {break;};
-                alleMoebel.get(moebelNummer).verberge();
+                // delete moebel -> REFACTOR!
+                if (moebel == null) {break;};
+                moebel.verberge();
                 if (moebelNummer == 0) {
                     alleMoebel.remove(moebelNummer);
                     moebelNummer = alleMoebel.size() - 1;
@@ -289,15 +284,15 @@ public class GUI extends JFrame
                 }
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(10);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(180);
                 jbShiftActionPerformed();
                 break;
@@ -308,21 +303,22 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-7);
                 moebel.bewegeHorizontal(7);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-2);
                 moebel.bewegeHorizontal(2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(45);
                 jbShiftActionPerformed();
                 break;
             case 5:
+                if (moebel == null) {break;};
                 moebel.aendereFarbe("gruen");
                 break;
         }
@@ -332,21 +328,22 @@ public class GUI extends JFrame
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-7);
                 moebel.bewegeHorizontal(-7);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(-2);
                 moebel.bewegeHorizontal(-2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(315);
                 jbShiftActionPerformed();
                 break;
             case 5:
+                if (moebel == null) {break;};
                 moebel.aendereFarbe("rot");
                 break;
         }
@@ -359,17 +356,17 @@ public class GUI extends JFrame
                 speicherDelegate.speicher(alleMoebel);
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(7);
                 moebel.bewegeHorizontal(7);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(2);
                 moebel.bewegeHorizontal(2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(135);
                 jbShiftActionPerformed();
                 break;
@@ -383,17 +380,17 @@ public class GUI extends JFrame
                 speicherDelegate.lade();
                 break;
             case 1:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(7);
                 moebel.bewegeHorizontal(-7);
                 break;
             case 2:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.bewegeVertikal(2);
                 moebel.bewegeHorizontal(-2);
                 break;
             case 3:
-                if (alleMoebel.isEmpty()) {break;};
+                if (moebel == null) {break;};
                 moebel.dreheAuf(225);
                 jbShiftActionPerformed();
                 break;

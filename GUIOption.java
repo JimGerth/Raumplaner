@@ -26,11 +26,11 @@ class GUIOption {
     
     JLabel label = new JLabel();
     JTextField textField = new JTextField();
-    String beschreibung; // umnennen in name...
+    String name;
     
-    GUIOption(String beschreibung) {
-        this.beschreibung = beschreibung;
-        label.setText(beschreibung + ":");
+    GUIOption(String name) {
+        this.name = name;
+        label.setText(name + ":");
         label.setHorizontalAlignment(JLabel.RIGHT);
     }
 }

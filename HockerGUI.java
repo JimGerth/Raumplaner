@@ -37,7 +37,7 @@ class HockerGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < Hocker.wichtigeOptionen.length; i++) {
+        for (int i = 0; i < Hocker.wichtigeOptionen.length; i++) {
             Hocker.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
             cp.add(Hocker.wichtigeOptionen[i].label);
             
