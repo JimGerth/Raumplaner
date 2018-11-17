@@ -30,7 +30,7 @@ public class GUI extends JFrame
     private JButton jbZuruek = new JButton();
     private JButton[] controllerPageButtons = {jbLinksHoch, jbHoch, jbRechtsHoch, jbLinks, jbShift, jbRechts, jbLinksRunter, jbRunter, jbRechtsRunter};
     private String[][] controllerPageSymbols = {
-        {" ", "+", " ", "<", "⋆", ">", " ", "x", " "},
+        {" ", "+", " ", "<", "⋆", ">", "^", "x", "*"},
         {"⇖", "⇑", "⇗", "⇐", "⋆", "⇒", "⇙", "⇓", "⇘"},
         {"↖", "↑", "↗", "←", "⋆", "→", "↙", "↓", "↘"},
         {"\\", "|", "/", "—", "⋆", "—", "/", "|", "\\"},
@@ -65,6 +65,14 @@ public class GUI extends JFrame
         setResizable(false);
         setVisible(true);
         setTitle("");
+    }
+    
+    public void ladeMoebel(ArrayList<Moebel> neueMoebel) {
+        alleMoebel = new ArrayList();
+        for (int i = 0; i < neueMoebel.size(); i++) {
+            alleMoebel.add(neueMoebel.get(i));
+        }
+        moebelNummer = neueMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
     }
 
     private void komponentenEinfuegen(Container cp) {
@@ -332,6 +340,9 @@ public class GUI extends JFrame
     public void jbRechtsRunterActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
+            case 0:
+                speicherDelegate.speicher(alleMoebel);
+                break;
             case 1:
                 if (alleMoebel.isEmpty()) {break;};
                 moebel.bewegeVertikal(7);
@@ -353,6 +364,9 @@ public class GUI extends JFrame
     public void jbLinksRunterActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
+            case 0:
+                speicherDelegate.lade();
+                break;
             case 1:
                 if (alleMoebel.isEmpty()) {break;};
                 moebel.bewegeVertikal(7);
@@ -383,8 +397,7 @@ public class GUI extends JFrame
     }
     
     public void jbWeiter() {
-        speicherDelegate.speicher(alleMoebel);
-        /*if (moebelNummer + 1 <= alleMoebel.size() - 1) {
+        if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer ++;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
@@ -392,12 +405,11 @@ public class GUI extends JFrame
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer = 0;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
-        }*/
+        }
     }
     
     public void jbZurueck() {
-        speicherDelegate.lade();
-        /*if (moebelNummer - 1 >= 0) {
+        if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer --;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
@@ -405,6 +417,6 @@ public class GUI extends JFrame
             alleMoebel.get(moebelNummer).aendereFarbe(alleMoebel.get(moebelNummer).letzteFarbe);
             moebelNummer = alleMoebel.size() - 1;
             alleMoebel.get(moebelNummer).aendereFarbe("schwarz", true);
-        }*/
+        }
     }
 }
