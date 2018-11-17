@@ -30,14 +30,14 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
     }
     
     private <T extends Moebel> String serialize(T moebel) {
-        String output = "{\n";
+        String output = "\t{\n";
         for (int i = 0; i < moebel.getOptionen().length; i++) {
-            output += "\"" + moebel.getOptionen()[i].name + "\": \"" + moebel.gibWert(moebel.getOptionen()[i].name) + "\"";
+            output += "\t\t\"" + moebel.getOptionen()[i].name + "\": \"" + moebel.gibWert(moebel.getOptionen()[i].name) + "\"";
             if (i < moebel.getOptionen().length - 1) {
                 output += ",\n";
             }
         }
-        output += "\n}";
+        output += "\n\t}";
         return output;
     }
     
