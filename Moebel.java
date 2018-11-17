@@ -11,7 +11,7 @@ abstract public class Moebel {
     int yPosition;
     String farbe;
     int orientierung;
-    boolean istAusgewaehlt;
+    boolean istAusgewaehlt = false;
 
     String art;
     static GUIOption[] optionen = {};
@@ -25,7 +25,6 @@ abstract public class Moebel {
         this.yPosition = yPosition;
         this.farbe = farbe;
         this.orientierung = orientierung;
-        this.istAusgewaehlt = true;
     }
     
     abstract protected Shape gibAktuelleFigur();

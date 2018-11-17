@@ -57,13 +57,14 @@ class HockerGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText()));
+        Moebel hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText())); // erzeugt Hocker mit eingegebenen werten
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
-            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
+            GUI.alleMoebel.get(GUI.moebelNummer).zeichne(); // wenn es bereits ein anderes Moebel gibt wird dies hiermit nicht mehr ausgewaehlt
         }
         GUI.alleMoebel.add(hocker);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
+        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true; // waehlt das neue Moebel aus
         hocker.zeige();
         this.dispose();
     }

@@ -66,6 +66,7 @@ class TischGUI extends JFrame {
         }
         GUI.alleMoebel.add(tisch);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
+        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
         tisch.zeige();
         this.dispose();
     }

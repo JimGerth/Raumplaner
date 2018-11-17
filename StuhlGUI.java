@@ -66,6 +66,7 @@ class StuhlGUI extends JFrame {
         }
         GUI.alleMoebel.add(stuhl);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
+        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
         stuhl.zeige();
         this.dispose();
     }

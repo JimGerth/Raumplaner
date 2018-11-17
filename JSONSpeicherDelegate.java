@@ -49,9 +49,8 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             System.out.println("error while trying to read file");
         } // handle JAVASONs errors -> no valid JSON...
         JSONArray alleMoebel = new JSONArray(JSONString);
-        Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
         GUI.gibGUI().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
-        // still need to change alleMoebel in GUI!
+        Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel)); // need to add moebel to leinwand from gui
     }
     
     private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) {

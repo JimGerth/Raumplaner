@@ -82,6 +82,7 @@ public class GUI extends JFrame
             alleMoebel.add(neueMoebel.get(i));
         }
         moebelNummer = neueMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
+        alleMoebel.get(moebelNummer).istAusgewaehlt = true;
     }
 
     private void komponentenEinfuegen(Container cp) {

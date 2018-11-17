@@ -68,6 +68,7 @@ class SchrankwandGUI extends JFrame {
         }
         GUI.alleMoebel.add(schrankwand);
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
+        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
         schrankwand.zeige();
         this.dispose();
     }
