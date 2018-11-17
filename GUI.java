@@ -9,12 +9,11 @@ import java.util.ArrayList;
 * weit-verschieben Seite, die genau-Verschieben Seite, die schnell-Rotieren Seite    *
 * und die genau-Rotieren Seite.                                                      *
 \************************************************************************************/
-public class GUI extends JFrame
-{
+class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand (at that position)
     
     private static GUI GUISingleton;
     
-    public static GUI gibGUI() {
+    static GUI gibGUI() {
         if (GUISingleton == null) {
             GUISingleton = new GUI();
         }
@@ -77,7 +76,7 @@ public class GUI extends JFrame
         setTitle("");
     }
     
-    public void ladeMoebel(ArrayList<Moebel> neueMoebel) {
+    void ladeMoebel(ArrayList<Moebel> neueMoebel) {
         alleMoebel = new ArrayList();
         for (int i = 0; i < neueMoebel.size(); i++) {
             alleMoebel.add(neueMoebel.get(i));
@@ -183,7 +182,7 @@ public class GUI extends JFrame
         );
     }
     
-    public void jbRechtsActionPerformed(ActionEvent evt) {
+    private void jbRechtsActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -210,7 +209,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbLinksActionPerformed(ActionEvent evt) {
+    private void jbLinksActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -237,7 +236,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbHochActionPerformed(ActionEvent evt) {
+    private void jbHochActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -264,7 +263,7 @@ public class GUI extends JFrame
         } 
     }
     
-    public void jbRunterActionPerformed(ActionEvent evt) {
+    private void jbRunterActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -299,7 +298,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbRechtsHochActionPerformed(ActionEvent evt) {
+    private void jbRechtsHochActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 1:
@@ -324,7 +323,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbLinksHochActionPerformed(ActionEvent evt) {
+    private void jbLinksHochActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 1:
@@ -349,7 +348,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbRechtsRunterActionPerformed(ActionEvent evt) {
+    private void jbRechtsRunterActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -373,7 +372,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbLinksRunterActionPerformed(ActionEvent evt) {
+    private void jbLinksRunterActionPerformed(ActionEvent evt) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
@@ -397,7 +396,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbShiftActionPerformed() {
+    private void jbShiftActionPerformed() {
         if (controllerPageNumber + 1 <= controllerPageSymbols.length - 1) {
             controllerPageNumber ++;
         } else {
@@ -408,7 +407,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbWeiter() {
+    private void jbWeiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -424,7 +423,7 @@ public class GUI extends JFrame
         }
     }
     
-    public void jbZurueck() {
+    private void jbZurueck() {
         if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
