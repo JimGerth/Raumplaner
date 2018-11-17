@@ -80,9 +80,12 @@ public class GUI extends JFrame
         alleMoebel = new ArrayList();
         for (int i = 0; i < neueMoebel.size(); i++) {
             alleMoebel.add(neueMoebel.get(i));
+            if (i == neueMoebel.size() - 1) {
+                neueMoebel.get(i).istAusgewaehlt = true;
+            }
+            neueMoebel.get(i).zeige();
         }
-        moebelNummer = neueMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
-        alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+        moebelNummer = alleMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
     }
 
     private void komponentenEinfuegen(Container cp) {

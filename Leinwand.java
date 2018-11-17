@@ -126,17 +126,9 @@ public class Leinwand {
         figurZuShape.put(figur, new ShapeMitFarbe(shape, farbe));
         erneutZeichnen();
     }
-  
-    /**
-     * Loesche alle Figuren und zeichne alle Moebel in der neuen Liste. (Eventuell noch generalisieren -> (List alleFiguren))
-     * @param figuren Liste der Figuren (in diesem Fall alleMoebel)
-     */
-    public void ladeMoebel(ArrayList<Moebel> alleMoebel) {
+    
+    public void loescheMoebel() { // loescht alle figuren aus dem figuren array und zeichnet das leere array dann erneut -> loescht alle figuren
         figuren = new ArrayList();
-        for (int i = 0; i < alleMoebel.size(); i++) {
-            figuren.add(alleMoebel.get(i));
-            figurZuShape.put(alleMoebel.get(i), new ShapeMitFarbe(alleMoebel.get(i).gibAktuelleFigur(), alleMoebel.get(i).farbe));
-        }
         erneutZeichnen();
     }
     
