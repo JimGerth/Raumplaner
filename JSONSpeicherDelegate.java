@@ -26,7 +26,6 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             }
         }
         JSONString += "\n]";
-        System.out.println(JSONString);
         return JSONString;
     }
     
@@ -51,6 +50,7 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         } // handle JAVASONs errors -> no valid JSON...
         JSONArray alleMoebel = new JSONArray(JSONString);
         Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
+        GUI.gibGUI().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
         // still need to change alleMoebel in GUI!
     }
     

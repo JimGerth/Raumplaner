@@ -12,6 +12,15 @@ import java.util.ArrayList;
 public class GUI extends JFrame
 {
     
+    private static GUI GUISingleton;
+    
+    public static GUI gibGUI() {
+        if (GUISingleton == null) {
+            GUISingleton = new GUI();
+        }
+        return GUISingleton;
+    }
+    
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
     private int controllerPageNumber = 0;
@@ -38,7 +47,7 @@ public class GUI extends JFrame
         {"r", "b", "g", " ", "⋆", " ", "l", "g", "s"}
     };
     
-    public GUI()
+    private GUI()
     {
         super("Raumplaner");
 
