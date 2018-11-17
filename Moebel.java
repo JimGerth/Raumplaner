@@ -3,17 +3,24 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 abstract public class Moebel {
+    
+    int xPosition;
+    int yPosition;
+    String farbe;
+    int orientierung;
+    boolean istAusgewaehlt;
 
-    public boolean istAusgewaehlt;
-    protected int xPosition;
-    protected int yPosition;
-    protected int orientierung;
-    protected String farbe;
+    String art;
+    static GUIOption[] optionen = {};
+    static GUIOption[] wichtigeOptionen = {};
+
     protected boolean istSichtbar = false;
 
-    public Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
+
+    Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.farbe = farbe;
@@ -22,65 +29,78 @@ abstract public class Moebel {
     }
     
     abstract protected Shape gibAktuelleFigur();
+    // abstract String toJSON();
+    // abstract int gibInt(String attributName);
+    // abstract String gibString(String attributName);
+    abstract String gibWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
     
-    public void zeige() {
+    abstract GUIOption[] getOptionen(); // TEMPORARY WORKAROUND for uninitialized array problem with moebels
+    
+    static GUIOption[] gibOptionen() {
+        return optionen;
+    } // also not needed anymore once i figure out how to initialize da damn optionen array
+    
+    static GUIOption[] gibWichtigeOptionen() {
+        return wichtigeOptionen;
+    } // same as up top boyyy
+    
+    void zeige() {
         if (!istSichtbar) {
             istSichtbar = true;
             zeichne();
         }
     }
     
-    public void verberge() {
+    void verberge() {
         loesche(); // "tue nichts" wird in loesche() abgefangen.
         istSichtbar = false;
     }
 
-    public void dreheAuf(int neuerWinkel) {
+    void dreheAuf(int neuerWinkel) {
         loesche();
         orientierung = neuerWinkel;
         zeichne();
     }
     
-    public void dreheUm(int winkel) {
+    void dreheUm(int winkel) {
         loesche();
         orientierung += winkel;
         zeichne();
     }
 
-    public void bewegeHorizontal(int entfernung) {
+    void bewegeHorizontal(int entfernung) {
         loesche();
         xPosition += entfernung;
         zeichne();
     }
 
-    public void bewegeVertikal(int entfernung) {
+    void bewegeVertikal(int entfernung) {
         loesche();
         yPosition += entfernung;
         zeichne();
     }
     
-    public void aendereFarbe(String neueFarbe) {
+    void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
         zeichne();
     }
 
     protected void zeichne() {
-        if (istSichtbar && istAusgewaehlt) {
+        if (istSichtbar) {
             Shape figur = gibAktuelleFigur();
             Leinwand leinwand = Leinwand.gibLeinwand();
-            leinwand.zeichne (
-              this,           // leinwand kennt das Objekt
-              "rot",          // definiert seine Zeichenfarbe
-              figur);         // definiert seinen grafischen Aspekt
-            leinwand.warte(10);
-        } else if (istSichtbar) {
-            Shape figur = gibAktuelleFigur();
-            Leinwand leinwand = Leinwand.gibLeinwand();
-            leinwand.zeichne (
-              this,           // leinwand kennt das Objekt
-              farbe,          // definiert seine Zeichenfarbe
-              figur);         // definiert seinen grafischen Aspekt
+            if (!istAusgewaehlt) {
+                leinwand.zeichne (
+                this,           // leinwand kennt das Objekt
+                farbe,          // definiert seine Zeichenfarbe
+                figur);         // definiert seinen grafischen Aspekt
+            } else {
+                leinwand.zeichne (
+                this,           // leinwand kennt das Objekt
+                "rot",          // Rot als Auswahl-Farbe
+                figur);         // definiert seinen grafischen Aspekt
+            }
             leinwand.warte(10);
         }
     }

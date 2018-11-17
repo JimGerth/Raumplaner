@@ -2,21 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/************************************************************************************\
-* Fenster zum erstellen von spezialisierten Hockern.                                 *
-* Um weitere Optionen einzufügen einfach ein weiteres GUIOption mit Beschreibung     *
-* in das optionen Array einfügen und in der Methode jbErstellenActionPerformed()     *
-* die gewünschte Option im Format optionen[0].textField.getText() dem Initializer    *
-* übergeben. { Integer.parseInt(optionen[0].textField.getText()) für eine Zahl }.    *
-\************************************************************************************/
-public class HockerGUI extends JFrame {
+
+class HockerGUI extends JFrame {
     
     private JButton jbErstellen = new JButton();
-    private GUIOption[] optionen = {
-        new GUIOption("Durchmesser:")
-    };
     
-    public HockerGUI()
+    HockerGUI()
     {
         super("Raumplaner");
 
@@ -27,7 +18,7 @@ public class HockerGUI extends JFrame {
 
         // Fenstergröße
         int frameWidth = 280;
-        int frameHeight = (optionen.length * 35) + 70;
+        int frameHeight = (Hocker.wichtigeOptionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - getSize().width) / 2;
@@ -46,15 +37,14 @@ public class HockerGUI extends JFrame {
     }
 
     private void komponentenEinfuegen(Container cp) {
-                for (int i = 0; i < optionen.length; i++) {
-            optionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
-            cp.add(optionen[i].label);
+                for (int i = 0; i < Hocker.wichtigeOptionen.length; i++) {
+            Hocker.wichtigeOptionen[i].label.setBounds(10, (i * 35) + 10, 150, 25);
+            cp.add(Hocker.wichtigeOptionen[i].label);
             
-            optionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
-            cp.add(optionen[i].textField);
-        }
-        
-        jbErstellen.setBounds(170, (optionen.length * 35) + 10, 100, 25);
+            Hocker.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            cp.add(Hocker.wichtigeOptionen[i].textField);
+        }        
+        jbErstellen.setBounds(170, (Hocker.wichtigeOptionen.length * 35) + 10, 100, 25);
         jbErstellen.setText("Erstellen");
         cp.add(jbErstellen);
         jbErstellen.addActionListener(
@@ -67,11 +57,7 @@ public class HockerGUI extends JFrame {
     }
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
-        Moebel hocker = new Hocker(0,
-                                   0,
-                                   "schwarz",
-                                   0,
-                                   Integer.parseInt(optionen[0].textField.getText()));
+        Moebel hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText()));
         if (GUI.alleMoebel.size() > 0) {
             GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
             GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
