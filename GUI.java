@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /************************************************************************************\
 * Fenster zum kontrollieren des Programms.                                           *
@@ -352,7 +353,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                speicherDelegate.speicher(alleMoebel);
+                jbSpeicher();
                 break;
             case 1:
                 if (moebel == null) {break;};
@@ -376,7 +377,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                speicherDelegate.lade();
+                jbLade();
                 break;
             case 1:
                 if (moebel == null) {break;};
@@ -437,5 +438,29 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
         }
+    }
+    
+    private void jbSpeicher() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to save file to");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        System.out.println("saving to: " + fc.getSelectedFile().getAbsolutePath());
+        speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    private void jbLade() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to load file from");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        System.out.println("loading from: " + fc.getSelectedFile().getAbsolutePath());
+        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
 }
