@@ -5,9 +5,9 @@ import JAVASON.*;
 
 class JSONSpeicherDelegate implements SpeicherProtokoll {
     
-    public void speicher(ArrayList<Moebel> alleMoebel) {
+    public void speicher(ArrayList<Moebel> alleMoebel, String location) {
         try {
-            FileWriter fw = new FileWriter("/Users/jim/Desktop/JSON.txt");
+            FileWriter fw = new FileWriter(location);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(toJSON(alleMoebel));
             bw.close();
@@ -41,10 +41,10 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         return output;
     }
     
-    public void lade() {
+    public void lade(String location) {
         String JSONString = "";
         try {
-            JSONString = new String(Files.readAllBytes(Paths.get("/Users/jim/Desktop/JSON.txt")));
+            JSONString = new String(Files.readAllBytes(Paths.get(location)));
         } catch (IOException e) {
             System.out.println("error while trying to read file");
         } // handle JAVASONs errors -> no valid JSON...
