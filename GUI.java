@@ -448,7 +448,6 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
-        System.out.println("saving to: " + fc.getSelectedFile().getAbsolutePath());
         speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
     }
     
@@ -460,7 +459,6 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
-        System.out.println("loading from: " + fc.getSelectedFile().getAbsolutePath());
         speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
 }
