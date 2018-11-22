@@ -56,8 +56,20 @@ public class Leinwand {
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
     private JMenuBar menuBar; 
-    private JMenu[] menus = {new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
+    private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
     private JMenuItem[][] menuItems = {
+        {
+            new JMenuItem(new AbstractAction("Einstellungen") {
+                public void actionPerformed(ActionEvent ae) {
+                    // oeffne einstellungen
+                }
+            }),
+            new JMenuItem(new AbstractAction("Beenden") {
+                public void actionPerformed(ActionEvent ae) {
+                    Leinwand.gibLeinwand().fenster.dispose();
+                }
+            })
+        },
         {
             new JMenuItem(new AbstractAction("Speichern") {
                 public void actionPerformed(ActionEvent ae) {
@@ -69,7 +81,7 @@ public class Leinwand {
                     GUI.gibGUI().jbSpeicher();
                 }
             }),
-            new JMenuItem(new AbstractAction("Oeffnen...") {
+            new JMenuItem(new AbstractAction("Öffnen...") {
                 public void actionPerformed(ActionEvent ae) {
                     GUI.gibGUI().jbLade();
                 }
