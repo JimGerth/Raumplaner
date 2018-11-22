@@ -1,20 +1,8 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-
+import javax.swing.*;
 
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
@@ -67,6 +55,37 @@ public class Leinwand {
     private Image leinwandImage;
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
+    private JMenuBar menuBar; 
+    private JMenu[] menus = {new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
+    private JMenuItem[][] menuItems = {
+        {
+            new JMenuItem(new AbstractAction("Speichern") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbSpeicher();
+                }
+            }),
+            new JMenuItem(new AbstractAction("Speichern unter...") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbSpeicher();
+                }
+            }),
+            new JMenuItem(new AbstractAction("Oeffnen...") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbLade();
+                }
+            })
+        },
+        {
+            new JMenuItem("Farbe...")
+        },
+        {
+            new JMenuItem(new AbstractAction("neues Moebel...") {
+                public void actionPerformed(ActionEvent ae) {
+                    new MoebelGUI();
+                }
+            })
+        }
+    }; // Abbildung von Figuren zu Shapes // maybe make menu or menu bar class to take load off leinwand (refactor)
 
     /**
      * Erzeuge eine Leinwand.
@@ -78,6 +97,19 @@ public class Leinwand {
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
         zeichenflaeche = new Zeichenflaeche();
+        
+        fenster = new JFrame();
+        zeichenflaeche = new Zeichenflaeche();
+    
+        menuBar = new JMenuBar();
+        for (int i = 0; i < menus.length; i++) { // loop through menu items and add each one to menu bar
+            for (int j = 0; j < menuItems[i].length; j++) { // loop through menu items respectively and add each one to correlating menu
+                menus[i].add(menuItems[i][j]);
+            }
+            menuBar.add(menus[i]);
+        }
+        fenster.setJMenuBar(menuBar);
+    
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
