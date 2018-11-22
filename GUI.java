@@ -408,7 +408,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         }
     }
     
-    private void jbWeiter() {
+    void jbWeiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -424,7 +424,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         }
     }
     
-    private void jbZurueck() {
+    void jbZurueck() {
         if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -440,7 +440,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         }
     }
     
-    private void jbSpeicher() {
+    void jbSpeicher() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose directory to save file to");
@@ -451,7 +451,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
     }
     
-    private void jbLade() {
+    void jbLade() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose directory to load file from");
