@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.AbstractAction;
 
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
@@ -72,8 +74,16 @@ public class Leinwand
   private List figuren;
   private Map figurZuShape;
   private JMenuBar menuBar; 
-  private JMenu[] menus = {new JMenu("testMenue")}; 
-  private JMenuItem[] menuItems = {}; // Abbildung von Figuren zu Shapes
+  private JMenu[] menus = {new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
+  private JMenuItem[][] menuItems = {
+      {new JMenuItem(new AbstractAction("Speichern") {
+          public void actionPErformed(ActionEvent ae) {
+              
+            }
+        }), new JMenuItem("Speichern unter..."), new JMenuItem("Oeffnen")},
+      {new JMenuItem("Farbe...")},
+      {new JMenuItem("neues Moebel...")}
+  }; // Abbildung von Figuren zu Shapes // maybe make menu or menu bar class to take load off leinwand (refactor)
 
   /**
    * Erzeuge eine Leinwand.
@@ -86,11 +96,16 @@ public class Leinwand
   {
     fenster = new JFrame();
     zeichenflaeche = new Zeichenflaeche();
+    
     menuBar = new JMenuBar();
-    for (int i = 0; i < menus.length; i++) {
+    for (int i = 0; i < menus.length; i++) { // loop through menu items and add each one to menu bar
+        for (int j = 0; j < menuItems[i].length; j++) { // loop through menu items respectively and add each one to correlating menu
+            menus[i].add(menuItems[i][j]);
+        }
         menuBar.add(menus[i]);
     }
     fenster.setJMenuBar(menuBar);
+    
     fenster.setContentPane(zeichenflaeche);
     fenster.setTitle(titel);
     zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));

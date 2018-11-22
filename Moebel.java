@@ -61,7 +61,6 @@ abstract public class Moebel {
     public void aendereFarbe(String neueFarbe) {
         loesche();
         farbe = neueFarbe;
-        letzteFarbe = neueFarbe;
         zeichne();
     }
     
