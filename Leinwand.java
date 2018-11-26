@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
@@ -55,6 +56,7 @@ public class Leinwand {
     private Image leinwandImage;
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
+    private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     private JMenuBar menuBar; 
     private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
     private JMenuItem[][] menuItems = {
@@ -235,6 +237,28 @@ public class Leinwand {
         Dimension size = zeichenflaeche.getSize();
         graphic.fill(new Rectangle(0, 0, size.width, size.height));
         graphic.setColor(original);
+    }
+    
+    void jbSpeicher() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to save file to");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    void jbLade() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to load file from");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
 
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
