@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-class StuhlGUI extends JFrame {
+class StuhlGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
@@ -24,7 +24,6 @@ class StuhlGUI extends JFrame {
         int x = (d.width - getSize().width) / 2;
         int y = (d.height - getSize().height) / 2 ;
         setLocation(x, y);
-
         // Fläche für Bedienungs-Elemente (Buttons usw.):
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -42,6 +41,7 @@ class StuhlGUI extends JFrame {
             cp.add(Stuhl.wichtigeOptionen[i].label);
             
             Stuhl.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            Stuhl.wichtigeOptionen[i].textField.addKeyListener(this);
             cp.add(Stuhl.wichtigeOptionen[i].textField);
         }
         
@@ -56,8 +56,28 @@ class StuhlGUI extends JFrame {
             }
         );
     }
-
+    
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Key pressed");
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("bitch wtf");
+            erstellen();
+        }
+    }
+    
+    public void keyReleased(KeyEvent e) {
+        // not needed (yet maybe?)
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        // not needed (yet maybe?)        
+    }
+    
     private void jbErstellenActionPerformed(ActionEvent evt) {
+        erstellen();
+    }
+
+    private void erstellen() {
         Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.wichtigeOptionen[0].textField.getText()),
                                  Integer.parseInt(Stuhl.wichtigeOptionen[1].textField.getText()));
         if (Leinwand.alleMoebel.size() > 0) {
