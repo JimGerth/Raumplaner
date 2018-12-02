@@ -50,7 +50,7 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         } // handle JAVASONs errors -> no valid JSON...
         JSONArray alleMoebel = new JSONArray(JSONString);
         Leinwand.gibLeinwand().loescheMoebel();
-        GUI.gibGUI().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
+        Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
     }
     
     private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) { // TODO: maybe new failable moebel initializor from JSONObject..?

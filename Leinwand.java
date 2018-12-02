@@ -59,6 +59,7 @@ public class Leinwand implements KeyListener {
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
+    private String letzterSpeicherPfad;
     private JMenuBar menuBar; 
     private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen"), new JMenu("Ansicht")}; 
     private JMenuItem[][] menuItems = {
@@ -77,17 +78,17 @@ public class Leinwand implements KeyListener {
         {
             new JMenuItem(new AbstractAction("Speichern") {
                 public void actionPerformed(ActionEvent ae) {
-                    GUI.gibGUI().jbSpeicher();
+                    speicher();
                 }
             }),
             new JMenuItem(new AbstractAction("Speichern unter...") {
                 public void actionPerformed(ActionEvent ae) {
-                    GUI.gibGUI().jbSpeicher();
+                    speicher();
                 }
             }),
             new JMenuItem(new AbstractAction("Öffnen...") {
                 public void actionPerformed(ActionEvent ae) {
-                    GUI.gibGUI().jbLade();
+                    lade();
                 }
             })
         },
@@ -146,20 +147,37 @@ public class Leinwand implements KeyListener {
                 if (ke.isShiftDown()) moebelErstellen();
                 break;
             case KeyEvent.VK_UP:
-                if (ke.isShiftDown()) moebelBewegen("hoch", 1);
-                else moebelBewegen("hoch", 25);
+                if (ke.isShiftDown()) moebelBewegen(Richtung.HOCH, 1);
+                else moebelBewegen(Richtung.HOCH, 25);
                 break;
             case KeyEvent.VK_DOWN:
-                if (ke.isShiftDown()) moebelBewegen("runter", 1);
-                else moebelBewegen("runter", 25);
-                break;
-            case KeyEvent.VK_LEFT:
-                if (ke.isShiftDown()) moebelBewegen("links", 1);
-                else moebelBewegen("links", 25);
+                if (ke.isShiftDown()) moebelBewegen(Richtung.RUNTER, 1);
+                else moebelBewegen(Richtung.RUNTER, 25);
                 break;
             case KeyEvent.VK_RIGHT:
-                if (ke.isShiftDown()) moebelBewegen("rechts", 1);
-                else moebelBewegen("rechts", 25);
+                if (ke.isShiftDown()) moebelBewegen(Richtung.RECHTS, 1);
+                else if (ke.isAltDown()) weiter();
+                else moebelBewegen(Richtung.RECHTS, 25);
+                break;
+            case KeyEvent.VK_LEFT:
+                if (ke.isShiftDown()) moebelBewegen(Richtung.LINKS, 1);
+                else if (ke.isAltDown()) zurueck();
+                else moebelBewegen(Richtung.LINKS, 25);
+                break;
+            case KeyEvent.VK_R:
+                if (ke.isShiftDown()) moebelDrehen(Richtung.RECHTS, 1);
+                else moebelDrehen(Richtung.RECHTS, 30);
+                break;
+            case KeyEvent.VK_L:
+                if (ke.isShiftDown()) moebelDrehen(Richtung.LINKS, 1);
+                else moebelDrehen(Richtung.LINKS, 30);
+                break;
+            case KeyEvent.VK_S:
+                if (ke.isControlDown() && ke.isShiftDown()) speicherUnter();
+                else if (ke.isControlDown()) speicher();
+                break;
+            case KeyEvent.VK_O:
+                if (ke.isControlDown()) lade();
                 break;
         }
     }
@@ -277,10 +295,23 @@ public class Leinwand implements KeyListener {
         graphic.setColor(original);
     }
     
-    void jbSpeicher() {
+    ////
+    //// previous GUI featrues
+    ////
+    
+    void speicherUnter() {
+        letzterSpeicherPfad = null;
+        speicher();
+    }
+    
+    void speicher() {
+        if (letzterSpeicherPfad != null) {
+            speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);
+            return;
+        } // else open file chooser:
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("~"));
-        fc.setDialogTitle("choose directory to save file to");
+        fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
         if (fc.showOpenDialog(menuItems[1][0]) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
@@ -288,47 +319,104 @@ public class Leinwand implements KeyListener {
         speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
     }
     
-    void jbLade() {
+    void lade() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("~"));
-        fc.setDialogTitle("choose directory to load file from");
+        fc.setDialogTitle("choose file to open");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
         if (fc.showOpenDialog(menuItems[1][2]) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
+        letzterSpeicherPfad = fc.getSelectedFile().getAbsolutePath();
         speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    void ladeMoebel(ArrayList<Moebel> neueMoebel) {
+        alleMoebel = new ArrayList();
+        for (int i = 0; i < neueMoebel.size(); i++) {
+            alleMoebel.add(neueMoebel.get(i));
+            if (i == neueMoebel.size() - 1) {
+                neueMoebel.get(i).istAusgewaehlt = true;
+            }
+            neueMoebel.get(i).zeige();
+        }
+        moebelNummer = alleMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
+    }
+    
+    void weiter() {
+        if (moebelNummer + 1 <= alleMoebel.size() - 1) {
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
+            moebelNummer ++;
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
+        } else {
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
+            moebelNummer = 0;
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
+        }
+    }
+    
+    void zurueck() {
+        if (moebelNummer - 1 >= 0) {
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
+            moebelNummer --;
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
+        } else {
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
+            moebelNummer = alleMoebel.size() - 1;
+            alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+            alleMoebel.get(moebelNummer).zeichne();
+        }
     }
     
     void moebelErstellen() {
         new MoebelGUI();
     }
     
-    void moebelBewegen(String richtung, int entfernung) {
+    void moebelBewegen(Richtung richtung, int entfernung) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         if (moebel == null ) return;
-        switch (richtung.toLowerCase()) {
-            case "hoch":
+        switch (richtung) {
+            case HOCH:
                 moebel.bewegeVertikal(-entfernung);
                 break;
-            case "runter":
+            case RUNTER:
                 moebel.bewegeVertikal(entfernung);
                 break;
-            case "rechts":
+            case RECHTS:
                 moebel.bewegeHorizontal(entfernung);
                 break;
-            case "links":
+            case LINKS:
                 moebel.bewegeHorizontal(-entfernung);
                 break;
         }
     }
-
+    
+    void moebelDrehen(Richtung richtung, int grad) {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null ) return;
+        switch (richtung) {
+            case RECHTS:
+                moebel.dreheUm(grad);
+                break;
+            case LINKS:
+                moebel.dreheUm(-grad);
+        }
+    }
+    
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * Interne Klasse Zeichenflaeche - die Klasse f�r die GUI-Komponente, *
      * die tats�chlich im Leinwand-Fenster angezeigt wird. Diese Klasse   *
      * definiert ein JPanel mit der zus�tzlichen M�glichkeit, das auf ihm *
      * gezeichnet Image aufzufrischen (erneut zu zeichnen).               *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-     private class Zeichenflaeche extends JPanel {
+    private class Zeichenflaeche extends JPanel {
          public void paint(Graphics g) {
              g.drawImage(leinwandImage, 0, 0, null);
          }
@@ -340,7 +428,7 @@ public class Leinwand implements KeyListener {
      * modelliert werden.                                                         *
      * graphic.fill() durch graphic.draw() ersetzt von Uwe Debacher am 5.12.2003  *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-     private class ShapeMitFarbe {
+    private class ShapeMitFarbe {
          private Shape shape;
          private String farbe;
 
@@ -353,5 +441,9 @@ public class Leinwand implements KeyListener {
              setzeZeichenfarbe(farbe);
              graphic.draw(shape);
          }
+    }
+    
+    private enum Richtung {
+        RECHTS, LINKS, HOCH, RUNTER;
     }
 }
