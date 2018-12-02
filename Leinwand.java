@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @version: 1.7 (5.12.2003)
  */
-public class Leinwand {
+public class Leinwand implements KeyListener {
     // Hinweis: Die Implementierung dieser Klasse (insbesondere die
     // Verwaltung der Farben und Identit�ten der Figuren) ist etwas
     // komplizierter als notwendig. Dies ist absichtlich so, weil damit 
@@ -97,7 +97,7 @@ public class Leinwand {
         {
             new JMenuItem(new AbstractAction("neues Moebel...") {
                 public void actionPerformed(ActionEvent ae) {
-                    new MoebelGUI();
+                    moebelErstellen();
                 }
             })
         },
@@ -121,9 +121,6 @@ public class Leinwand {
         fenster = new JFrame();
         zeichenflaeche = new Zeichenflaeche();
         
-        fenster = new JFrame();
-        zeichenflaeche = new Zeichenflaeche();
-    
         menuBar = new JMenuBar();
         for (int i = 0; i < menus.length; i++) { // loop through menu items and add each one to menu bar
             for (int j = 0; j < menuItems[i].length; j++) { // loop through menu items respectively and add each one to correlating menu
@@ -135,13 +132,45 @@ public class Leinwand {
     
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
+        fenster.addKeyListener(this);
         zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
         hintergrundfarbe = grundfarbe;
         fenster.pack();
         figuren = new ArrayList();
         figurZuShape = new HashMap();
     }
-
+    
+    public void keyPressed(KeyEvent ke) {
+        switch (ke.getKeyCode()) {
+            case KeyEvent.VK_A:
+                if (ke.isShiftDown()) moebelErstellen();
+                break;
+            case KeyEvent.VK_UP:
+                if (ke.isShiftDown()) moebelBewegen("hoch", 1);
+                else moebelBewegen("hoch", 25);
+                break;
+            case KeyEvent.VK_DOWN:
+                if (ke.isShiftDown()) moebelBewegen("runter", 1);
+                else moebelBewegen("runter", 25);
+                break;
+            case KeyEvent.VK_LEFT:
+                if (ke.isShiftDown()) moebelBewegen("links", 1);
+                else moebelBewegen("links", 25);
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (ke.isShiftDown()) moebelBewegen("rechts", 1);
+                else moebelBewegen("rechts", 25);
+                break;
+        }
+    }
+    
+    public void keyReleased(KeyEvent ke) {
+        // not needed (yet maybe?)
+    }
+    
+    public void keyTyped(KeyEvent ke) {
+        // not needed (yet maybe?)
+    }
 
     /**
      * Setze, ob diese Leinwand sichtbar sein soll oder nicht. Wenn die
@@ -268,6 +297,29 @@ public class Leinwand {
             // idk why but dont touch this
         }
         speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    void moebelErstellen() {
+        new MoebelGUI();
+    }
+    
+    void moebelBewegen(String richtung, int entfernung) {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null ) return;
+        switch (richtung.toLowerCase()) {
+            case "hoch":
+                moebel.bewegeVertikal(-entfernung);
+                break;
+            case "runter":
+                moebel.bewegeVertikal(entfernung);
+                break;
+            case "rechts":
+                moebel.bewegeHorizontal(entfernung);
+                break;
+            case "links":
+                moebel.bewegeHorizontal(-entfernung);
+                break;
+        }
     }
 
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

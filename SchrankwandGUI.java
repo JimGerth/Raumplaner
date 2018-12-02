@@ -59,9 +59,7 @@ class SchrankwandGUI extends JFrame implements KeyListener {
     }
     
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed");
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println("bitch wtf");
             erstellen();
         }
     }

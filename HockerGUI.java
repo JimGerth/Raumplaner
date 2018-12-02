@@ -57,19 +57,17 @@ class HockerGUI extends JFrame implements KeyListener {
         );
     }
     
-    public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed");
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println("bitch wtf");
+    public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
             erstellen();
         }
     }
     
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent ke) {
         // not needed (yet maybe?)
     }
     
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent ke) {
         // not needed (yet maybe?)        
     }
     
