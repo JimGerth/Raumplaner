@@ -21,8 +21,8 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         return GUISingleton;
     }
     
-    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
-    static int moebelNummer = -1;
+    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>(); //
+    static int moebelNummer = -1; //
     private int controllerPageNumber = 0;
     private int buttonBreite = 40;
     private int buttonAbstand = 5;
