@@ -60,13 +60,13 @@ class StuhlGUI extends JFrame {
     private void jbErstellenActionPerformed(ActionEvent evt) {
         Moebel stuhl = new Stuhl(Integer.parseInt(Stuhl.wichtigeOptionen[0].textField.getText()),
                                  Integer.parseInt(Stuhl.wichtigeOptionen[1].textField.getText()));
-        if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
-            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
+        if (Leinwand.alleMoebel.size() > 0) {
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();
         }
-        GUI.alleMoebel.add(stuhl);
-        GUI.moebelNummer = GUI.alleMoebel.size() - 1;
-        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
+        Leinwand.alleMoebel.add(stuhl);
+        Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
+        Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         stuhl.zeige();
         this.dispose();
     }

@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /************************************************************************************\
 * Fenster zum kontrollieren des Programms.                                           *
@@ -20,8 +21,8 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         return GUISingleton;
     }
     
-    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
-    static int moebelNummer = -1;
+    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>(); //
+    static int moebelNummer = -1; //
     private int controllerPageNumber = 0;
     private int buttonBreite = 40;
     private int buttonAbstand = 5;
@@ -352,7 +353,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                speicherDelegate.speicher(alleMoebel);
+                jbSpeicher();
                 break;
             case 1:
                 if (moebel == null) {break;};
@@ -376,7 +377,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         switch (controllerPageNumber) {
             case 0:
-                speicherDelegate.lade();
+                jbLade();
                 break;
             case 1:
                 if (moebel == null) {break;};
@@ -407,7 +408,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         }
     }
     
-    private void jbWeiter() {
+    void jbWeiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -423,7 +424,7 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         }
     }
     
-    private void jbZurueck() {
+    void jbZurueck() {
         if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -437,5 +438,27 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
         }
+    }
+    
+    void jbSpeicher() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to save file to");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    void jbLade() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to load file from");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
 }

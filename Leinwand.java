@@ -1,20 +1,9 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
@@ -67,6 +56,59 @@ public class Leinwand {
     private Image leinwandImage;
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
+    private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
+    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
+    static int moebelNummer = -1;
+    private JMenuBar menuBar; 
+    private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen"), new JMenu("Ansicht")}; 
+    private JMenuItem[][] menuItems = {
+        {
+            new JMenuItem(new AbstractAction("Einstellungen") {
+                public void actionPerformed(ActionEvent ae) {
+                    // oeffne einstellungen
+                }
+            }),
+            new JMenuItem(new AbstractAction("Beenden") {
+                public void actionPerformed(ActionEvent ae) {
+                    Leinwand.gibLeinwand().fenster.dispose();
+                }
+            })
+        },
+        {
+            new JMenuItem(new AbstractAction("Speichern") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbSpeicher();
+                }
+            }),
+            new JMenuItem(new AbstractAction("Speichern unter...") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbSpeicher();
+                }
+            }),
+            new JMenuItem(new AbstractAction("Öffnen...") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI().jbLade();
+                }
+            })
+        },
+        {
+            new JMenuItem("Farbe...")
+        },
+        {
+            new JMenuItem(new AbstractAction("neues Moebel...") {
+                public void actionPerformed(ActionEvent ae) {
+                    new MoebelGUI();
+                }
+            })
+        },
+        {
+            new JMenuItem("GUI öffnen") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
+                }
+            }
+        }
+    }; // Abbildung von Figuren zu Shapes // maybe make menu or menu bar class to take load off leinwand (refactor)
 
     /**
      * Erzeuge eine Leinwand.
@@ -78,6 +120,19 @@ public class Leinwand {
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
         zeichenflaeche = new Zeichenflaeche();
+        
+        fenster = new JFrame();
+        zeichenflaeche = new Zeichenflaeche();
+    
+        menuBar = new JMenuBar();
+        for (int i = 0; i < menus.length; i++) { // loop through menu items and add each one to menu bar
+            for (int j = 0; j < menuItems[i].length; j++) { // loop through menu items respectively and add each one to correlating menu
+                menus[i].add(menuItems[i][j]);
+            }
+            menuBar.add(menus[i]);
+        }
+        fenster.setJMenuBar(menuBar);
+    
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
@@ -191,6 +246,28 @@ public class Leinwand {
         Dimension size = zeichenflaeche.getSize();
         graphic.fill(new Rectangle(0, 0, size.width, size.height));
         graphic.setColor(original);
+    }
+    
+    void jbSpeicher() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to save file to");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(menuItems[1][0]) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+    }
+    
+    void jbLade() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("~"));
+        fc.setDialogTitle("choose directory to load file from");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        if (fc.showOpenDialog(menuItems[1][2]) == JFileChooser.APPROVE_OPTION) {
+            // idk why but dont touch this
+        }
+        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
 
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
