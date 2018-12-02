@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-class SchrankGUI extends JFrame {
+class SchrankGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
@@ -42,6 +42,7 @@ class SchrankGUI extends JFrame {
             cp.add(Schrank.wichtigeOptionen[i].label);
             
             Schrank.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            Schrank.wichtigeOptionen[i].textField.addKeyListener(this);
             cp.add(Schrank.wichtigeOptionen[i].textField);
         }
         
@@ -57,7 +58,27 @@ class SchrankGUI extends JFrame {
         );
     }
     
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Key pressed");
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("bitch wtf");
+            erstellen();
+        }
+    }
+    
+    public void keyReleased(KeyEvent e) {
+        // not needed (yet maybe?)
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        // not needed (yet maybe?)        
+    }
+    
     private void jbErstellenActionPerformed(ActionEvent evt) {
+        erstellen();
+    }
+    
+    private void erstellen() {
         Moebel schrank = new Schrank(Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()),
                                      Integer.parseInt(Schrank.wichtigeOptionen[1].textField.getText()));
         if (Leinwand.alleMoebel.size() > 0) {

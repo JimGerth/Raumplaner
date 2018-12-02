@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javafx.scene.input.KeyCode;
 
 
-class HockerGUI extends JFrame {
+class HockerGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
@@ -24,7 +25,6 @@ class HockerGUI extends JFrame {
         int x = (d.width - getSize().width) / 2;
         int y = (d.height - getSize().height) / 2 ;
         setLocation(x, y);
-
         // Fläche für Bedienungs-Elemente (Buttons usw.):
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -42,6 +42,7 @@ class HockerGUI extends JFrame {
             cp.add(Hocker.wichtigeOptionen[i].label);
             
             Hocker.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            Hocker.wichtigeOptionen[i].textField.addKeyListener(this);
             cp.add(Hocker.wichtigeOptionen[i].textField);
         }        
         jbErstellen.setBounds(170, (Hocker.wichtigeOptionen.length * 35) + 10, 100, 25);
@@ -56,7 +57,27 @@ class HockerGUI extends JFrame {
         );
     }
     
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Key pressed");
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("bitch wtf");
+            erstellen();
+        }
+    }
+    
+    public void keyReleased(KeyEvent e) {
+        // not needed (yet maybe?)
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        // not needed (yet maybe?)        
+    }
+    
     private void jbErstellenActionPerformed(ActionEvent evt) {
+        erstellen();
+    }
+    
+    private void erstellen() {
         Moebel hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText())); // erzeugt Hocker mit eingegebenen werten
         if (Leinwand.alleMoebel.size() > 0) {
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;

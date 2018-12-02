@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-class SchrankwandGUI extends JFrame {
+class SchrankwandGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
@@ -42,6 +42,7 @@ class SchrankwandGUI extends JFrame {
             cp.add(Schrankwand.wichtigeOptionen[i].label);
             
             Schrankwand.wichtigeOptionen[i].textField.setBounds(170, (i * 35) + 10, 100, 25);
+            Schrankwand.wichtigeOptionen[i].textField.addKeyListener(this);
             cp.add(Schrankwand.wichtigeOptionen[i].textField);
         }
         
@@ -57,7 +58,27 @@ class SchrankwandGUI extends JFrame {
         );
     }
     
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Key pressed");
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("bitch wtf");
+            erstellen();
+        }
+    }
+    
+    public void keyReleased(KeyEvent e) {
+        // not needed (yet maybe?)
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        // not needed (yet maybe?)        
+    }
+    
     private void jbErstellenActionPerformed(ActionEvent evt) {
+        erstellen();
+    }
+    
+    private void erstellen() {
         // Handle errors if Values entered aren't legal
         Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
                                              Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
