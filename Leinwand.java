@@ -141,7 +141,7 @@ public class Leinwand implements KeyListener {
         figurZuShape = new HashMap();
     }
     
-    public void keyPressed(KeyEvent ke) {
+    public void keyPressed(KeyEvent ke) { // maybe add a file to save these key bindings to (.config) and add ability to change them...
         switch (ke.getKeyCode()) {
             case KeyEvent.VK_A:
                 if (ke.isShiftDown()) moebelErstellen();
