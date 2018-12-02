@@ -60,13 +60,13 @@ class TischGUI extends JFrame {
     private void jbErstellenActionPerformed(ActionEvent evt) {
         Moebel tisch = new Tisch(Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
                                  Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
-        if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
-            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
+        if (Leinwand.alleMoebel.size() > 0) {
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();
         }
-        GUI.alleMoebel.add(tisch);
-        GUI.moebelNummer = GUI.alleMoebel.size() - 1;
-        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
+        Leinwand.alleMoebel.add(tisch);
+        Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
+        Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         tisch.zeige();
         this.dispose();
     }

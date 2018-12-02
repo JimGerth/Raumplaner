@@ -57,8 +57,10 @@ public class Leinwand {
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
+    static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
+    static int moebelNummer = -1;
     private JMenuBar menuBar; 
-    private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen")}; 
+    private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen"), new JMenu("Ansicht")}; 
     private JMenuItem[][] menuItems = {
         {
             new JMenuItem(new AbstractAction("Einstellungen") {
@@ -98,6 +100,13 @@ public class Leinwand {
                     new MoebelGUI();
                 }
             })
+        },
+        {
+            new JMenuItem("GUI öffnen") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
+                }
+            }
         }
     }; // Abbildung von Figuren zu Shapes // maybe make menu or menu bar class to take load off leinwand (refactor)
 
@@ -244,7 +253,7 @@ public class Leinwand {
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose directory to save file to");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showOpenDialog(menuItems[1][0]) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
         speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
@@ -255,7 +264,7 @@ public class Leinwand {
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose directory to load file from");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-        if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showOpenDialog(menuItems[1][2]) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
         speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());

@@ -62,13 +62,13 @@ class SchrankwandGUI extends JFrame {
         Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
                                              Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
                                              Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
-        if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
-            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
+        if (Leinwand.alleMoebel.size() > 0) {
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();
         }
-        GUI.alleMoebel.add(schrankwand);
-        GUI.moebelNummer = GUI.alleMoebel.size() - 1;
-        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
+        Leinwand.alleMoebel.add(schrankwand);
+        Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
+        Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         schrankwand.zeige();
         this.dispose();
     }

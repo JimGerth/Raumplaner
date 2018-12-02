@@ -60,13 +60,13 @@ class SchrankGUI extends JFrame {
     private void jbErstellenActionPerformed(ActionEvent evt) {
         Moebel schrank = new Schrank(Integer.parseInt(Schrank.wichtigeOptionen[0].textField.getText()),
                                      Integer.parseInt(Schrank.wichtigeOptionen[1].textField.getText()));
-        if (GUI.alleMoebel.size() > 0) {
-            GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = false;
-            GUI.alleMoebel.get(GUI.moebelNummer).zeichne();
+        if (Leinwand.alleMoebel.size() > 0) {
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
+            Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();
         }
-        GUI.alleMoebel.add(schrank);
-        GUI.moebelNummer = GUI.alleMoebel.size() - 1;
-        GUI.alleMoebel.get(GUI.moebelNummer).istAusgewaehlt = true;
+        Leinwand.alleMoebel.add(schrank);
+        Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
+        Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         schrank.zeige();
         this.dispose();
     }
