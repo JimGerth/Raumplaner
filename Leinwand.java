@@ -60,56 +60,6 @@ public class Leinwand implements KeyListener {
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
     private String letzterSpeicherPfad;
-    private JMenuBar menuBar; 
-    private JMenu[] menus = {new JMenu("Raumplaner"), new JMenu("Ablage"), new JMenu("Bearbeiten"), new JMenu("Einfuegen"), new JMenu("Ansicht")}; 
-    private JMenuItem[][] menuItems = {
-        {
-            new JMenuItem(new AbstractAction("Einstellungen") {
-                public void actionPerformed(ActionEvent ae) {
-                    // oeffne einstellungen
-                }
-            }),
-            new JMenuItem(new AbstractAction("Beenden") {
-                public void actionPerformed(ActionEvent ae) {
-                    Leinwand.gibLeinwand().fenster.dispose();
-                }
-            })
-        },
-        {
-            new JMenuItem(new AbstractAction("Speichern") {
-                public void actionPerformed(ActionEvent ae) {
-                    speicher();
-                }
-            }),
-            new JMenuItem(new AbstractAction("Speichern unter...") {
-                public void actionPerformed(ActionEvent ae) {
-                    speicher();
-                }
-            }),
-            new JMenuItem(new AbstractAction("Öffnen...") {
-                public void actionPerformed(ActionEvent ae) {
-                    lade();
-                }
-            })
-        },
-        {
-            new JMenuItem("Farbe...")
-        },
-        {
-            new JMenuItem(new AbstractAction("neues Moebel...") {
-                public void actionPerformed(ActionEvent ae) {
-                    moebelErstellen();
-                }
-            })
-        },
-        {
-            new JMenuItem("GUI öffnen") {
-                public void actionPerformed(ActionEvent ae) {
-                    GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
-                }
-            }
-        }
-    }; // Abbildung von Figuren zu Shapes // maybe make menu or menu bar class to take load off leinwand (refactor)
 
     /**
      * Erzeuge eine Leinwand.
@@ -121,16 +71,7 @@ public class Leinwand implements KeyListener {
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
         zeichenflaeche = new Zeichenflaeche();
-        
-        menuBar = new JMenuBar();
-        for (int i = 0; i < menus.length; i++) { // loop through menu items and add each one to menu bar
-            for (int j = 0; j < menuItems[i].length; j++) { // loop through menu items respectively and add each one to correlating menu
-                menus[i].add(menuItems[i][j]);
-            }
-            menuBar.add(menus[i]);
-        }
-        fenster.setJMenuBar(menuBar);
-    
+        fenster.setJMenuBar(setupMenuBar());
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
@@ -188,6 +129,119 @@ public class Leinwand implements KeyListener {
     
     public void keyTyped(KeyEvent ke) {
         // not needed (yet maybe?)
+    }
+    
+    private JMenuBar setupMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        
+        // Menus
+        
+            // MenuItems / SubMenus
+            
+                // MenuItems of potential SubMenus
+            
+            
+        JMenu raumplanerMenu = new JMenu("Raumplaner");
+        
+            JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen") {
+                public void actionPerformed(ActionEvent ae) {
+                    // oeffne einstellungen
+                }
+            });
+            raumplanerMenu.add(einstellungenMenuItem);
+            
+            JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
+                public void actionPerformed(ActionEvent ae) {
+                    Leinwand.gibLeinwand().fenster.dispose();
+                }
+            });
+            raumplanerMenu.add(beendenMenuItem);
+            
+        menuBar.add(raumplanerMenu);
+        
+        
+        JMenu ablageMenu = new JMenu("Ablage");
+        
+            JMenuItem speichernMenuItem = new JMenuItem(new AbstractAction("Speichern") {
+                public void actionPerformed(ActionEvent ae) {
+                    speicher();
+                }
+            });
+            ablageMenu.add(speichernMenuItem);
+            
+            JMenuItem speichernUnterMenuItem = new JMenuItem(new AbstractAction("Speichern unter...") {
+                public void actionPerformed(ActionEvent ae) {
+                    speicher();
+                }
+            });
+            ablageMenu.add(speichernUnterMenuItem);
+            
+            JMenuItem oeffnenMenuItem = new JMenuItem(new AbstractAction("Öffnen...") {
+                public void actionPerformed(ActionEvent ae) {
+                    lade();
+                }
+            });
+            ablageMenu.add(oeffnenMenuItem);
+        
+        menuBar.add(ablageMenu);
+              
+        
+        JMenu bearbeitenMenu = new JMenu("Bearbeiten");
+        
+            JMenu farbeMenu = new JMenu("Farbe...");
+            
+                JMenuItem blauMenuItem = new JMenuItem(new AbstractAction("Blau") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelFarbeAendern("blau");
+                    }
+                });
+                farbeMenu.add(blauMenuItem);
+                
+                JMenuItem rotMenuItem = new JMenuItem(new AbstractAction("Rot") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelFarbeAendern("rot");
+                    }
+                });
+                farbeMenu.add(rotMenuItem);
+                
+                JMenuItem schwarzMenuItem = new JMenuItem(new AbstractAction("Schwarz") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelFarbeAendern("schwarz");
+                    }
+                });
+                farbeMenu.add(schwarzMenuItem);
+            
+            bearbeitenMenu.add(farbeMenu);
+        
+        menuBar.add(bearbeitenMenu);
+        
+        
+        JMenu einfuegenMenu = new JMenu("Einfuegen");
+        
+            JMenuItem neuesMoebelMenuItem = new JMenuItem(new AbstractAction("neues Moebel...") {
+                public void actionPerformed(ActionEvent ae) {
+                    moebelErstellen();
+                }
+            });
+            einfuegenMenu.add(neuesMoebelMenuItem);
+        
+        menuBar.add(einfuegenMenu);
+        
+        
+        JMenu ansichtMenu = new JMenu("Ansicht");
+        
+            JMenuItem GUIOeffnenMenuItem = new JMenuItem(new AbstractAction("GUI öffnen") {
+                public void actionPerformed(ActionEvent ae) {
+                    GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
+                }
+            });
+            ansichtMenu.add(GUIOeffnenMenuItem);
+        
+        menuBar.add(ansichtMenu);
+        
+        
+        return menuBar;
     }
 
     /**
@@ -299,12 +353,12 @@ public class Leinwand implements KeyListener {
     //// previous GUI featrues
     ////
     
-    void speicherUnter() {
+    private void speicherUnter() {
         letzterSpeicherPfad = null;
         speicher();
     }
     
-    void speicher() {
+    private void speicher() {
         if (letzterSpeicherPfad != null) {
             speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);
             return;
@@ -313,18 +367,18 @@ public class Leinwand implements KeyListener {
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-        if (fc.showOpenDialog(menuItems[1][0]) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
         speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
     }
     
-    void lade() {
+    private void lade() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("~"));
         fc.setDialogTitle("choose file to open");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-        if (fc.showOpenDialog(menuItems[1][2]) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
         letzterSpeicherPfad = fc.getSelectedFile().getAbsolutePath();
@@ -343,7 +397,7 @@ public class Leinwand implements KeyListener {
         moebelNummer = alleMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
     }
     
-    void weiter() {
+    private void weiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -359,7 +413,7 @@ public class Leinwand implements KeyListener {
         }
     }
     
-    void zurueck() {
+    private void zurueck() {
         if (moebelNummer - 1 >= 0) {
             alleMoebel.get(moebelNummer).istAusgewaehlt = false;
             alleMoebel.get(moebelNummer).zeichne();
@@ -375,13 +429,13 @@ public class Leinwand implements KeyListener {
         }
     }
     
-    void moebelErstellen() {
+    private void moebelErstellen() {
         new MoebelGUI();
     }
     
-    void moebelBewegen(Richtung richtung, int entfernung) {
+    private void moebelBewegen(Richtung richtung, int entfernung) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
-        if (moebel == null ) return;
+        if (moebel == null) return;
         switch (richtung) {
             case HOCH:
                 moebel.bewegeVertikal(-entfernung);
@@ -398,9 +452,9 @@ public class Leinwand implements KeyListener {
         }
     }
     
-    void moebelDrehen(Richtung richtung, int grad) {
+    private void moebelDrehen(Richtung richtung, int grad) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
-        if (moebel == null ) return;
+        if (moebel == null) return;
         switch (richtung) {
             case RECHTS:
                 moebel.dreheUm(grad);
@@ -408,6 +462,12 @@ public class Leinwand implements KeyListener {
             case LINKS:
                 moebel.dreheUm(-grad);
         }
+    }
+    
+    private void moebelFarbeAendern(String neueFarbe) {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        moebel.aendereFarbe(neueFarbe);
     }
     
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
