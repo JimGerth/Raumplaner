@@ -58,8 +58,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
-        fenster.addMouseListener(this);
-        fenster.addMouseMotionListener(this);
+        zeichenflaeche.addMouseListener(this);
+        zeichenflaeche.addMouseMotionListener(this);
         
         hintergrundfarbe = grundfarbe;
         fenster.pack();
@@ -143,11 +143,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseClicked(MouseEvent me) {
         System.out.println("click! at: " + me.getX() + ", " + me.getY());
         for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
+            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("This click is inside of: " + moebel);
             }
             
-            moebel.istSchwebend = false;
+            // moebel.istSchwebend = false;
         }
         // ohne hitbox ausprobieren... (wie Riek)
     }
@@ -155,12 +155,14 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseMoved(MouseEvent me) {
         System.out.println("Mouse moved");
         for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
+            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("hovering over " + moebel + " at " + me.getX() + ", " + me.getY());
             }
             if (moebel.istSchwebend) {
+                moebel.loesche();
                 moebel.xPosition = me.getX();
                 moebel.yPosition = me.getY();
+                moebel.zeichne();
             }
         }
     }
@@ -181,18 +183,30 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mousePressed(MouseEvent me) {
         System.out.println("Mouse pressed");
         for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
+            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
+                moebel.istSchwebend = true;
             }
         }
     }
     
     public void mouseReleased(MouseEvent me) {
         System.out.println("Mouse released");
+        for (Moebel moebel : alleMoebel) {
+            moebel.istSchwebend = false;
+        }
     }
     
     public void mouseDragged(MouseEvent me) {
         System.out.println("Mouse Dragged");
+        for (Moebel moebel : alleMoebel) {
+            if (moebel.istSchwebend) {
+                moebel.loesche();
+                moebel.xPosition = me.getX();
+                moebel.yPosition = me.getY();
+                moebel.zeichne();
+            }
+        }
     }
     //////////// END MOUSE EVENT HANDLING ////////////
     

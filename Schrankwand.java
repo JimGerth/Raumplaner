@@ -51,10 +51,6 @@ class Schrankwand extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(schrankwand);
     }
-    
-    public Shape gibAktuelleHitbox() {
-        return gibAktuelleFigur();
-    }
 
     String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {

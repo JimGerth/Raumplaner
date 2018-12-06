@@ -32,8 +32,6 @@ abstract public class Moebel {
     
     abstract protected Shape gibAktuelleFigur();
     
-    abstract public Shape gibAktuelleHitbox();
-    
     abstract String gibWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
     
     abstract GUIOption[] getOptionen(); // TEMPORARY WORKAROUND for uninitialized array problem with moebels

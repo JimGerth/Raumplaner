@@ -44,15 +44,6 @@ class Hocker extends Moebel {
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(Hocker);
     }
-    
-    public Shape gibAktuelleHitbox() {
-        Shape Hitbox = new Rectangle(0, 0, durchmesser, durchmesser);
-        AffineTransform t = new AffineTransform();
-        t.translate(xPosition, yPosition);
-        Rectangle2D umriss = Hitbox.getBounds2D();
-        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
-        return  t.createTransformedShape(Hitbox);
-    }
 
     String gibWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
