@@ -140,47 +140,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     /*********** MOUSE EVENT HANDLING ***********/
     
-    public void mouseClicked(MouseEvent me) {
-        System.out.println("click! at: " + me.getX() + ", " + me.getY());
-        for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
-                System.out.println("This click is inside of: " + moebel);
-                break;
-            }
-        }
-    }
-    
-    public void mouseMoved(MouseEvent me) {
-        System.out.println("Mouse moved");
-        for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
-                System.out.println("hovering over " + moebel + " at " + me.getX() + ", " + me.getY());
-                break;
-            }
-            if (moebel.istSchwebend) {
-                moebel.loesche();
-                moebel.xPosition = me.getX();
-                moebel.yPosition = me.getY();
-                moebel.zeichne();
-            }
-        }
-    }
-    
-    public void mouseWheelMoved(MouseEvent me) {
-        System.out.println("Mouse wheel moved");
-        // drehen und wenn shift gedrueckt ist verkleinern / vergroessern...
-    }
-    
-    public void mouseEntered(MouseEvent me) {
-        System.out.println("Mouse entered");
-    }
-    
-    public void mouseExited(MouseEvent me) {
-        System.out.println("Mouse exited");
-    }
-    
     public void mousePressed(MouseEvent me) {
-        System.out.println("Mouse pressed");
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
@@ -190,15 +150,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         }
     }
     
-    public void mouseReleased(MouseEvent me) {
-        System.out.println("Mouse released");
-        for (Moebel moebel : alleMoebel) {
-            moebel.istSchwebend = false;
-        }
-    }
-    
     public void mouseDragged(MouseEvent me) {
-        System.out.println("Mouse Dragged");
         for (Moebel moebel : alleMoebel) {
             if (moebel.istSchwebend) {
                 moebel.loesche();
@@ -207,6 +159,39 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 moebel.zeichne();
             }
         }
+    }
+    
+    public void mouseMoved(MouseEvent me) {
+        for (Moebel moebel : alleMoebel) {
+            if (moebel.istSchwebend) {
+                moebel.loesche();
+                moebel.xPosition = me.getX();
+                moebel.yPosition = me.getY();
+                moebel.zeichne();
+            }
+        }
+    }
+    
+    public void mouseReleased(MouseEvent me) {
+        for (Moebel moebel : alleMoebel) {
+            moebel.istSchwebend = false;
+        }
+    }
+    
+    public void mouseWheelMoved(MouseEvent me) {
+        // drehen und wenn shift gedrueckt ist verkleinern / vergroessern...
+    }
+    
+    public void mouseClicked(MouseEvent me) {
+        // not needed yet
+    }
+    
+    public void mouseEntered(MouseEvent me) {
+        // not needed yet
+    }
+    
+    public void mouseExited(MouseEvent me) {
+        // not needed yet
     }
     //////////// END MOUSE EVENT HANDLING ////////////
     
