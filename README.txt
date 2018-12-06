@@ -183,11 +183,56 @@
    zum Beispiel die Moebel auszuwaehlen oder zu bewegen.
    
    
->>
+>> Thu Dec 6 14:58:56 2018
+
+   Sowohl die Keyboard- als auch die Maussteuerung sind online relativ gut beschrieben. auf docs.oracle.com findet man eigentlich alle
+   wichtigen infos. Das empfangen von Key- und Mouse-Events erfolgt dabei einfach durch das implementieren der Key- bzw. MouseListener-
+   Klasse oder durch ein andocken an einen entsprechenden Adapter. Das andocken funktioniert hier ueber Vererbung, weshalb man sich soweit
+   ich weiss trivial nur an ein Adapter anbinden kann, da Java bloss eine Vererbung pro Klasse zulaesst. Ich koennte weitere Klassen
+   erstellen, um das Problem zu loesen, aber ich denke es ist einfacher mehrere Interfaces zu implementieren.
+   
+   Bisher habe ich einige Keyboard short cuts eingebaut, wie ctr+s um den Raum zu sichern. Dabei versuche ich soweit es geht, die implementierung
+   dieser Funktionalitaet in externe Funktionen zu verschieben, um nicht 100 unuebersichtliche Zeilen Code in der KeyPressed() Funktion
+   zu haben, welche jedes mal aufgerufen wird, wenn eine Taste gedrueckt wird.
+   
+   Bei dem MausEvent kann ich mir einfach die Position der Maus anzeigen lassen und habe mal versucht mit einer Schleife durch alle Moebel
+   zu laufen und mit contains() zu testen, ob der click in einem Moebel im Raum ist. Dabei habe ich bemerkt, dass es Probleme mit 
+   manchen Moebeln gibt. Zum Beispiel reagiert der Stuhl nur dann, wenn man auf seine Lehne clickt, nicht aber auf die Sitzflaeche...
+   In Betracht dessen werde ich noch ein paar Tests durchfuehren muessen und untersuchen muessen, wie ein Shape funktioniert.
+
+
+>> ???
+
+   Ziel: Auswaehlen von Moebeln durch Maus-Click
+   Plan: Maus-Position bei Click einlesen und mit contains() fuer alle moebel untersuchen, ob der Click auf ein Moebel war
+   Problem: Komisches Verhalten: manche Moebel funktionieren, andere lassen sich nur in bestimmten Teilen anklicken, nochmal andere garnicht
+   Lösungsweg: bei jeder Mausbewegung die Koordinaten und die Treffer mit Moebeln anzeigen lassen, um besser nach Hitboxen suchen zu koennen
+   Lösung: Dabei habeich entdeckt, dass die Koordinaten verschoben waren, weil ich die MouseListener nicht der Zeichenflaeche, sondern
+   dem Fester hinzugefuegt habe. Nach aendern dieses Codes funktioniert alles wie geplant.
+   Weiteres entdecktes Problem: wenn Moebel uebereinander liegen, werden alle moebel gedragged und somit kann man sie nicht mehr auseinander ziehen
+   Lösung: sobald ein Moebel entdeckt wird, beende ich die schleife, die noch alle weiteren moebel überprüft hätte....
+   Code: 
+        1  public void mousePressed(MouseEvent me) {
+        2      System.out.println("Mouse pressed");
+        3      for (Moebel moebel : alleMoebel) {
+        4          if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+        5              System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
+        6              moebel.istSchwebend = true;
+neu >>> 7              break;
+        8          }
+        9      }
+        10 }
+        
+        
+>> 
 
 
 TODO:
 
+  -beim laden dürfen neue möbel nicht standart mäßig schwebend sein!!! eventuell durch init overloading??
+  -irgendwie die mausposition im verhältnis zum ursprung des Moebels mit in die Drag and Drop Funktion einberechnen. 
+      momentan wird einfach der Ursprung des Moebels zur maus position gesetzt......
+  -Drag and Drop nur so weit erlauben, dass sich moebel nicht ueberschneiden koennen: https://stackoverflow.com/questions/15690846/java-collision-detection-between-two-shape-objects
   -Kommentieren
   -Maus- und Menu-Steuerung und allgemeine UX Verbesserungen...
   -shortcuts? (z.B. shift A to add a moebel...)
