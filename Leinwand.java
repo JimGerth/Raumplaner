@@ -70,16 +70,24 @@ public class Leinwand implements KeyListener {
      */
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
+        
         zeichenflaeche = new Zeichenflaeche();
+        zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
+        
         fenster.setJMenuBar(setupMenuBar());
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
-        zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
+        
         hintergrundfarbe = grundfarbe;
         fenster.pack();
+        
         figuren = new ArrayList();
         figurZuShape = new HashMap();
+    }
+    
+    private void aendereGroesse(int breite, int hoehe) {
+        zeichenflaeche.setSize(breite, hoehe);
     }
     
     public void keyPressed(KeyEvent ke) { // maybe add a file to save these key bindings to (.config) and add ability to change them...
@@ -146,7 +154,7 @@ public class Leinwand implements KeyListener {
         
             JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen") {
                 public void actionPerformed(ActionEvent ae) {
-                    // oeffne einstellungen
+                    aendereGroesse(250, 250);
                 }
             });
             raumplanerMenu.add(einstellungenMenuItem);
