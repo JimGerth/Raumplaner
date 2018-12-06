@@ -36,7 +36,7 @@ class Schrankwand extends Moebel {
         this(0, 0, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
-    public Shape gibAktuelleFigur() {
+    protected Shape gibAktuelleFigur() {
         GeneralPath schrankwand = new GeneralPath();
         
         for(int i = 0; i < anzahlDerEinheiten; i++) {
@@ -50,6 +50,10 @@ class Schrankwand extends Moebel {
         Rectangle2D umriss = schrankwand.getBounds2D();
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(schrankwand);
+    }
+    
+    public Shape gibAktuelleHitbox() {
+        return gibAktuelleFigur();
     }
 
     String gibWert(String attributName) {

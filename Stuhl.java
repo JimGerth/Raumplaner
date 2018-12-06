@@ -32,7 +32,7 @@ class Stuhl extends Moebel {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
-    public Shape gibAktuelleFigur() {
+    protected Shape gibAktuelleFigur() {
         // einen GeneralPath definieren
         GeneralPath stuhl = new GeneralPath();
         stuhl.moveTo(0 , 0);
@@ -49,6 +49,10 @@ class Stuhl extends Moebel {
         Rectangle2D umriss = stuhl.getBounds2D();
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(stuhl);
+    }
+    
+    public Shape gibAktuelleHitbox() {
+        return gibAktuelleFigur();
     }
 
     String gibWert(String attributName) {

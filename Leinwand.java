@@ -59,6 +59,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
         fenster.addMouseListener(this);
+        fenster.addMouseMotionListener(this);
         
         hintergrundfarbe = grundfarbe;
         fenster.pack();
@@ -71,7 +72,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private void aendereGroesse(int breite, int hoehe) {
         zeichenflaeche.setSize(breite, hoehe);
-        // fenster.pack(); bitch wtf wenn man das fenster resized wird die groesse wieder zurückgesetzt!?!?!? 
+        // fenster.pack(); // bitch wtf wenn man das fenster resized wird die groesse wieder zurückgesetzt!?!?!? 
     }
     
     
@@ -115,6 +116,15 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_O:
                 if (ke.isControlDown()) lade();
                 break;
+            case KeyEvent.VK_X:
+                moebelLoeschen();
+                break;
+            case KeyEvent.VK_DELETE:
+                moebelLoeschen();
+                break;
+            case KeyEvent.VK_BACK_SPACE:
+                moebelLoeschen();
+                break;
         }
     }
     
@@ -133,10 +143,56 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseClicked(MouseEvent me) {
         System.out.println("click! at: " + me.getX() + ", " + me.getY());
         for (Moebel moebel : alleMoebel) {
-            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
                 System.out.println("This click is inside of: " + moebel);
             }
+            
+            moebel.istSchwebend = false;
         }
+        // ohne hitbox ausprobieren... (wie Riek)
+    }
+    
+    public void mouseMoved(MouseEvent me) {
+        System.out.println("Mouse moved");
+        for (Moebel moebel : alleMoebel) {
+            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
+                System.out.println("hovering over " + moebel + " at " + me.getX() + ", " + me.getY());
+            }
+            if (moebel.istSchwebend) {
+                moebel.xPosition = me.getX();
+                moebel.yPosition = me.getY();
+            }
+        }
+    }
+    
+    public void mouseWheelMoved(MouseEvent me) {
+        System.out.println("Mouse wheel moved");
+        // drehen und wenn shift gedrueckt ist verkleinern / vergroessern...
+    }
+    
+    public void mouseEntered(MouseEvent me) {
+        System.out.println("Mouse entered");
+    }
+    
+    public void mouseExited(MouseEvent me) {
+        System.out.println("Mouse exited");
+    }
+    
+    public void mousePressed(MouseEvent me) {
+        System.out.println("Mouse pressed");
+        for (Moebel moebel : alleMoebel) {
+            if (moebel.gibAktuelleHitbox().contains(me.getX(), me.getY())) {
+                System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
+            }
+        }
+    }
+    
+    public void mouseReleased(MouseEvent me) {
+        System.out.println("Mouse released");
+    }
+    
+    public void mouseDragged(MouseEvent me) {
+        System.out.println("Mouse Dragged");
     }
     //////////// END MOUSE EVENT HANDLING ////////////
     
@@ -478,6 +534,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         if (moebel == null) return;
         moebel.aendereFarbe(neueFarbe);
+    }
+    
+    private void moebelLoeschen() {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        entferne(moebel);
+        // still need to remove moebel from alleMoebel!
     }
     
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

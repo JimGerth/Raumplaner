@@ -32,7 +32,7 @@ class Tisch extends Moebel {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
-    public Shape gibAktuelleFigur()
+    protected Shape gibAktuelleFigur()
     {
         // definieren
         Shape tisch = new Ellipse2D.Double(0 , 0, breite, tiefe);
@@ -43,6 +43,10 @@ class Tisch extends Moebel {
         Rectangle2D umriss = tisch.getBounds2D();
         t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(tisch);
+    }
+    
+    public Shape gibAktuelleHitbox() {
+        return gibAktuelleFigur();
     }
 
     String gibWert(String attributName) {

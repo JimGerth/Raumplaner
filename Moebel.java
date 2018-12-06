@@ -4,6 +4,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import javax.swing.event.*;
+import java.awt.event.*;
 
 abstract public class Moebel {
     
@@ -12,6 +14,7 @@ abstract public class Moebel {
     String farbe;
     int orientierung;
     boolean istAusgewaehlt = false;
+    boolean istSchwebend = true;
 
     String art;
     static GUIOption[] optionen = {};
@@ -27,10 +30,10 @@ abstract public class Moebel {
         this.orientierung = orientierung;
     }
     
-    abstract public Shape gibAktuelleFigur();
-    // abstract String toJSON();
-    // abstract int gibInt(String attributName);
-    // abstract String gibString(String attributName);
+    abstract protected Shape gibAktuelleFigur();
+    
+    abstract public Shape gibAktuelleHitbox();
+    
     abstract String gibWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
     
     abstract GUIOption[] getOptionen(); // TEMPORARY WORKAROUND for uninitialized array problem with moebels
