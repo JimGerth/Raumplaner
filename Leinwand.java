@@ -88,6 +88,7 @@ public class Leinwand implements KeyListener {
     
     private void aendereGroesse(int breite, int hoehe) {
         zeichenflaeche.setSize(breite, hoehe);
+        // fenster.pack(); bitch wtf wenn man das fenster resized wird die groesse wieder zurückgesetzt!?!?!? 
     }
     
     public void keyPressed(KeyEvent ke) { // maybe add a file to save these key bindings to (.config) and add ability to change them...
