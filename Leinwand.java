@@ -145,11 +145,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("This click is inside of: " + moebel);
+                break;
             }
-            
-            // moebel.istSchwebend = false;
         }
-        // ohne hitbox ausprobieren... (wie Riek)
     }
     
     public void mouseMoved(MouseEvent me) {
@@ -157,6 +155,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("hovering over " + moebel + " at " + me.getX() + ", " + me.getY());
+                break;
             }
             if (moebel.istSchwebend) {
                 moebel.loesche();
@@ -186,6 +185,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
                 System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
                 moebel.istSchwebend = true;
+                break;
             }
         }
     }
