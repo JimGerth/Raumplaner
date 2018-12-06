@@ -36,7 +36,7 @@ class Schrank extends Moebel {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
     
-    protected Shape gibAktuelleFigur() {
+    public Shape gibAktuelleFigur() {
         // einen GeneralPath definieren
         GeneralPath schrank = new GeneralPath();
         schrank.moveTo(0, 0);

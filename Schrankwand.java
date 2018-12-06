@@ -36,7 +36,7 @@ class Schrankwand extends Moebel {
         this(0, 0, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
-    protected Shape gibAktuelleFigur() {
+    public Shape gibAktuelleFigur() {
         GeneralPath schrankwand = new GeneralPath();
         
         for(int i = 0; i < anzahlDerEinheiten; i++) {

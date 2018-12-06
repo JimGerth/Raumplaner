@@ -32,7 +32,7 @@ class Stuhl extends Moebel {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
-    protected Shape gibAktuelleFigur() {
+    public Shape gibAktuelleFigur() {
         // einen GeneralPath definieren
         GeneralPath stuhl = new GeneralPath();
         stuhl.moveTo(0 , 0);

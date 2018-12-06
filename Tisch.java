@@ -32,7 +32,7 @@ class Tisch extends Moebel {
         this(0, 0, "schwarz", 0, breite, tiefe);
     }
 
-    protected Shape gibAktuelleFigur()
+    public Shape gibAktuelleFigur()
     {
         // definieren
         Shape tisch = new Ellipse2D.Double(0 , 0, breite, tiefe);

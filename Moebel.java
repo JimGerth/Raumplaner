@@ -27,7 +27,7 @@ abstract public class Moebel {
         this.orientierung = orientierung;
     }
     
-    abstract protected Shape gibAktuelleFigur();
+    abstract public Shape gibAktuelleFigur();
     // abstract String toJSON();
     // abstract int gibInt(String attributName);
     // abstract String gibString(String attributName);

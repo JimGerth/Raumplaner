@@ -32,7 +32,7 @@ class Hocker extends Moebel {
         this(0, 0, "schwarz", 0, durchmesser);
     }
     
-    protected Shape gibAktuelleFigur()
+    public Shape gibAktuelleFigur()
     {
         // definieren
         Shape Hocker = new Ellipse2D.Double(0 , 0, durchmesser, durchmesser);

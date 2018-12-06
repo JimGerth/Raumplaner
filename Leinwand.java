@@ -1,44 +1,21 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import java.util.*;
 import java.util.List;
+
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- * Leinwand ist eine Klasse, die einfache Zeichenoperationen auf einer
- * leinwandartigen Zeichenfl�che erm�glicht.
- * Sie ist eine vereinfachte Version der Klasse Canvas (englisch f�r 
- * Leinwand) des JDK und wurde speziell f�r das Projekt "Figuren"
- * geschrieben.
- * 
- *
- * @author: Bruce Quig
- * @author: Michael K�lling (mik)
- * @author: Axel Schmolitzky
- * 
- * @author: �nderungen von
- * @Java-MS Groupies
- * @hier: Uwe Debacher
- *
- * @version: 1.7 (5.12.2003)
- */
-public class Leinwand implements KeyListener {
-    // Hinweis: Die Implementierung dieser Klasse (insbesondere die
-    // Verwaltung der Farben und Identit�ten der Figuren) ist etwas
-    // komplizierter als notwendig. Dies ist absichtlich so, weil damit 
-    // die Schnittstellen und Exemplarvariablen der Figuren-Klassen
-    // f�r den Lernanspruch dieses Projekts einfacher und klarer
-    // sein k�nnen.
 
+public class Leinwand extends MouseInputAdapter implements KeyListener {
+    
+    
+    /*********** SINGLETON SETUP ***********/
+    
     private static Leinwand leinwandSingleton;
-
-    /**
-     * Fabrikmethode, die eine Referenz auf das einzige Exemplar
-     * dieser Klasse zur�ckliefert. Wenn es von einer Klasse nur
-     * genau ein Exemplar gibt, wird dieses als 'Singleton'
-     * bezeichnet.
-     */
+    
     public static Leinwand gibLeinwand() {
         if (leinwandSingleton == null) {
             leinwandSingleton = new Leinwand("Raumplaner - Jim Gerth", 500, 500, Color.white);
@@ -46,28 +23,31 @@ public class Leinwand implements KeyListener {
         leinwandSingleton.setzeSichtbarkeit(true);
         return leinwandSingleton;
     }
+    //////////// END SINGLETON SETUP ////////////
 
-    //  ----- Exemplarvariablen -----
-
+    
+    /*********** VARIABLEN ***********/
+    
     private JFrame fenster;
     private Zeichenflaeche zeichenflaeche;
     private Graphics2D graphic;
+    
     private Color hintergrundfarbe;
     private Image leinwandImage;
+    
     private List figuren;
     private Map figurZuShape; // Abbildung von Figuren zu Shapes
+    
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
+    private String letzterSpeicherPfad;
+    
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
-    private String letzterSpeicherPfad;
+    //////////// END VARIABLEN ////////////
 
-    /**
-     * Erzeuge eine Leinwand.
-     * @param titel  Titel, der im Rahmen der Leinwand angezeigt wird
-     * @param breite  die gew�nschte Breite der Leinwand
-     * @param hoehe  die gew�nschte H�he der Leinwand
-     * @param grundfarbe die Hintergrundfarbe der Leinwand
-     */
+    
+    /*********** KONSTRUKTOR ***********/
+    
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
         
@@ -78,6 +58,7 @@ public class Leinwand implements KeyListener {
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
+        fenster.addMouseListener(this);
         
         hintergrundfarbe = grundfarbe;
         fenster.pack();
@@ -85,11 +66,16 @@ public class Leinwand implements KeyListener {
         figuren = new ArrayList();
         figurZuShape = new HashMap();
     }
+    //////////// END KONSTRUKTOR ////////////
+    
     
     private void aendereGroesse(int breite, int hoehe) {
         zeichenflaeche.setSize(breite, hoehe);
         // fenster.pack(); bitch wtf wenn man das fenster resized wird die groesse wieder zurückgesetzt!?!?!? 
     }
+    
+    
+    /*********** KEYBOARD EVENT HANDLING ***********/
     
     public void keyPressed(KeyEvent ke) { // maybe add a file to save these key bindings to (.config) and add ability to change them...
         switch (ke.getKeyCode()) {
@@ -139,6 +125,21 @@ public class Leinwand implements KeyListener {
     public void keyTyped(KeyEvent ke) {
         // not needed (yet maybe?)
     }
+    //////////// END KEYBOARD EVENT HANDLING ////////////
+    
+    
+    /*********** MOUSE EVENT HANDLING ***********/
+    
+    public void mouseClicked(MouseEvent me) {
+        System.out.println("click! at: " + me.getX() + ", " + me.getY());
+        for (Moebel moebel : alleMoebel) {
+            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+                System.out.println("This click is inside of: " + moebel);
+            }
+        }
+    }
+    //////////// END MOUSE EVENT HANDLING ////////////
+    
     
     private JMenuBar setupMenuBar() {
         JMenuBar menuBar = new JMenuBar();
