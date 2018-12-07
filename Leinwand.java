@@ -61,7 +61,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         zeichenflaeche = new Zeichenflaeche();
         zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
         
-        fenster.setJMenuBar(setupMenuBar());
+        fenster.setJMenuBar(new MenuBar());
         fenster.setContentPane(zeichenflaeche);
         fenster.setTitle(titel);
         fenster.addKeyListener(this);
@@ -221,123 +221,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         // not needed yet
     }
     //////////// END MOUSE EVENT HANDLING ////////////
-    
-    
-    /*********** MENU BAR ***********/
-    
-    private JMenuBar setupMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        
-        // Menus
-        
-            // MenuItems / SubMenus
-            
-                // MenuItems of potential SubMenus
-            
-            
-        JMenu raumplanerMenu = new JMenu("Raumplaner");
-        
-            JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen") {
-                public void actionPerformed(ActionEvent ae) {
-                    aendereGroesse(250, 250);
-                }
-            });
-            raumplanerMenu.add(einstellungenMenuItem);
-            
-            JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
-                public void actionPerformed(ActionEvent ae) {
-                    Leinwand.gibLeinwand().fenster.dispose();
-                }
-            });
-            raumplanerMenu.add(beendenMenuItem);
-            
-        menuBar.add(raumplanerMenu);
-        
-        
-        JMenu ablageMenu = new JMenu("Ablage");
-        
-            JMenuItem speichernMenuItem = new JMenuItem(new AbstractAction("Speichern") {
-                public void actionPerformed(ActionEvent ae) {
-                    speicher();
-                }
-            });
-            ablageMenu.add(speichernMenuItem);
-            
-            JMenuItem speichernUnterMenuItem = new JMenuItem(new AbstractAction("Speichern unter...") {
-                public void actionPerformed(ActionEvent ae) {
-                    speicher();
-                }
-            });
-            ablageMenu.add(speichernUnterMenuItem);
-            
-            JMenuItem oeffnenMenuItem = new JMenuItem(new AbstractAction("Öffnen...") {
-                public void actionPerformed(ActionEvent ae) {
-                    lade();
-                }
-            });
-            ablageMenu.add(oeffnenMenuItem);
-        
-        menuBar.add(ablageMenu);
-              
-        
-        JMenu bearbeitenMenu = new JMenu("Bearbeiten");
-        
-            JMenu farbeMenu = new JMenu("Farbe...");
-            
-                JMenuItem blauMenuItem = new JMenuItem(new AbstractAction("Blau") {
-                    public void actionPerformed(ActionEvent ae) {
-                        moebelFarbeAendern("blau");
-                    }
-                });
-                farbeMenu.add(blauMenuItem);
-                
-                JMenuItem rotMenuItem = new JMenuItem(new AbstractAction("Rot") {
-                    public void actionPerformed(ActionEvent ae) {
-                        moebelFarbeAendern("rot");
-                    }
-                });
-                farbeMenu.add(rotMenuItem);
-                
-                JMenuItem schwarzMenuItem = new JMenuItem(new AbstractAction("Schwarz") {
-                    public void actionPerformed(ActionEvent ae) {
-                        moebelFarbeAendern("schwarz");
-                    }
-                });
-                farbeMenu.add(schwarzMenuItem);
-            
-            bearbeitenMenu.add(farbeMenu);
-        
-        menuBar.add(bearbeitenMenu);
-        
-        
-        JMenu einfuegenMenu = new JMenu("Einfuegen");
-        
-            JMenuItem neuesMoebelMenuItem = new JMenuItem(new AbstractAction("neues Moebel...") {
-                public void actionPerformed(ActionEvent ae) {
-                    moebelErstellen();
-                }
-            });
-            einfuegenMenu.add(neuesMoebelMenuItem);
-        
-        menuBar.add(einfuegenMenu);
-        
-        
-        JMenu ansichtMenu = new JMenu("Ansicht");
-        
-            JMenuItem GUIOeffnenMenuItem = new JMenuItem(new AbstractAction("GUI öffnen") {
-                public void actionPerformed(ActionEvent ae) {
-                    GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
-                }
-            });
-            ansichtMenu.add(GUIOeffnenMenuItem);
-        
-        menuBar.add(ansichtMenu);
-        
-        
-        return menuBar;
-    }
-    //////////// END MENU BAR ////////////
     
     
     /*********** LEINWAND ZEICHNEN / VERWALTUNG ***********/
@@ -575,6 +458,118 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
              setzeZeichenfarbe(farbe);
              graphic.draw(shape);
          }
+    }
+    
+    class MenuBar extends JMenuBar {
+        MenuBar() {
+            super();
+
+        
+            // Menus
+        
+                // MenuItems / SubMenus
+            
+                    // MenuItems of potential SubMenus
+            
+            
+            JMenu raumplanerMenu = new JMenu("Raumplaner");
+        
+                JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen") {
+                    public void actionPerformed(ActionEvent ae) {
+                        aendereGroesse(250, 250);
+                    }
+                });
+                raumplanerMenu.add(einstellungenMenuItem);
+            
+                JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
+                    public void actionPerformed(ActionEvent ae) {
+                        Leinwand.gibLeinwand().fenster.dispose();
+                    }
+                });
+                raumplanerMenu.add(beendenMenuItem);
+            
+            add(raumplanerMenu);
+            
+        
+            JMenu ablageMenu = new JMenu("Ablage");
+        
+                JMenuItem speichernMenuItem = new JMenuItem(new AbstractAction("Speichern") {
+                    public void actionPerformed(ActionEvent ae) {
+                        speicher();
+                    }
+                });
+                ablageMenu.add(speichernMenuItem);
+            
+                JMenuItem speichernUnterMenuItem = new JMenuItem(new AbstractAction("Speichern unter...") {
+                    public void actionPerformed(ActionEvent ae) {
+                        speicher();
+                    }
+                });
+                ablageMenu.add(speichernUnterMenuItem);
+            
+                JMenuItem oeffnenMenuItem = new JMenuItem(new AbstractAction("Öffnen...") {
+                    public void actionPerformed(ActionEvent ae) {
+                        lade();
+                    }
+                });
+                ablageMenu.add(oeffnenMenuItem);
+        
+            add(ablageMenu);
+              
+        
+            JMenu bearbeitenMenu = new JMenu("Bearbeiten");
+        
+                JMenu farbeMenu = new JMenu("Farbe...");
+            
+                    JMenuItem blauMenuItem = new JMenuItem(new AbstractAction("Blau") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("blau");
+                        }
+                    });
+                    farbeMenu.add(blauMenuItem);
+                
+                    JMenuItem rotMenuItem = new JMenuItem(new AbstractAction("Rot") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("rot");
+                        }
+                    });
+                    farbeMenu.add(rotMenuItem);
+                
+                    JMenuItem schwarzMenuItem = new JMenuItem(new AbstractAction("Schwarz") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("schwarz");
+                        }
+                    });
+                    farbeMenu.add(schwarzMenuItem);
+            
+                bearbeitenMenu.add(farbeMenu);
+        
+            add(bearbeitenMenu);
+        
+        
+            JMenu einfuegenMenu = new JMenu("Einfuegen");
+        
+                JMenuItem neuesMoebelMenuItem = new JMenuItem(new AbstractAction("neues Moebel...") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelErstellen();
+                    }
+                });
+                einfuegenMenu.add(neuesMoebelMenuItem);
+        
+            add(einfuegenMenu);
+        
+        
+            JMenu ansichtMenu = new JMenu("Ansicht");
+        
+                JMenuItem GUIOeffnenMenuItem = new JMenuItem(new AbstractAction("GUI öffnen") {
+                    public void actionPerformed(ActionEvent ae) {
+                        GUI.gibGUI(); // change alle moebel etc. in GUI to acces the ones in Leinwand
+                    }
+                });
+                ansichtMenu.add(GUIOeffnenMenuItem);
+        
+            add(ansichtMenu);
+        }
     }
     //////////// END INTERNE HELFER KLASSEN ////////////
 }
