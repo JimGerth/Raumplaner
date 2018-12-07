@@ -18,7 +18,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     public static Leinwand gibLeinwand() {
         if (leinwandSingleton == null) {
-            leinwandSingleton = new Leinwand("Raumplaner - Jim Gerth", 500, 500, Color.white);
+            leinwandSingleton = new Leinwand("Raumplaner - Jim Gerth", 850, 550, Color.white);
         }
         leinwandSingleton.setzeSichtbarkeit(true);
         return leinwandSingleton;

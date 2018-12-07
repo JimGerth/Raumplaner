@@ -212,19 +212,59 @@
    Weiteres entdecktes Problem: wenn Moebel uebereinander liegen, werden alle moebel gedragged und somit kann man sie nicht mehr auseinander ziehen
    Lösung: sobald ein Moebel entdeckt wird, beende ich die schleife, die noch alle weiteren moebel überprüft hätte....
    Code: 
-        1  public void mousePressed(MouseEvent me) {
-        2      System.out.println("Mouse pressed");
-        3      for (Moebel moebel : alleMoebel) {
-        4          if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
-        5              System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
-        6              moebel.istSchwebend = true;
-neu >>> 7              break;
-        8          }
-        9      }
-        10 }
+      1  public void mousePressed(MouseEvent me) {
+      2      System.out.println("Mouse pressed");
+      3      for (Moebel moebel : alleMoebel) {
+      4          if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+      5              System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
+      6              moebel.istSchwebend = true;
+neu > 7              break;
+      8          }
+      9      }
+      10 }
         
         
->> 
+>> Fri Dec 7 15:25:52 2018
+
+   Ziel: beim hinzufuegen von neuen moebeln sollen diese "Schwebem", sodass sie der maus folgen, bis man auf den bildschirm clickt und sie "abgesetzt" werden
+   Plan: neue Variable in Moebel: istSchwebend, die von anfang an true ist. Dann in mouseMoved die ganze zeit (x, y) = (mouseX, mouseY) und in mousePressed istSchwebend = false
+   Problem 1: Die moebel folgen nicht der maus, sondern erscheinen erst, sobald man clickt
+   Loesung 2: bei jeder mausbewegung muss die leinwand neu gezeichnet werden, um die veraenderung in der position anzuzeigen, also noch repaint() hinzufuegen
+   Problem 2: siehe oben
+   Problem 3: Beim oeffnen von datein werden alle moebel normal hinzugefuegt und folgen somit alle der maus...
+   Loesung 3: beim laden in ladeMoebel() einfach im loop moebel.istSchwebend = flase;
+
+
+>> auch freitag ^^ paar commits nachher
+
+   Ziel: Drag and Drop natuerlicher gestalten -> offset
+   zugrundeliegendes Problem: drag and drop unnatuerlich und unintuitiv
+   loesung: neue variablen fuer offset, beim anfang vom drag, also wenn die maus gepresst wird den offset fuer diesen drag festlegen und dann waehrend
+            des drags in mouseDragged offset bei der bewegung mit einberechnen
+   code:
+      1  private int dragXOffset, dragYOffset = 0;
+      
+      1  public void mousePressed(MouseEvent me) {
+      2      for (Moebel moebel : alleMoebel) {
+      3          if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+neu > 4              dragXOffset = me.getX() - moebel.xPosition;
+neu > 5              dragYOffset = me.getY() - moebel.yPosition;
+      6              moebel.istSchwebend = true;
+      7              break;
+      8           }
+      9       }
+      10 }
+
+      1  public void mouseDragged(MouseEvent me) {
+      2      for (Moebel moebel : alleMoebel) {
+      3          if (moebel.istSchwebend) {
+      4              moebel.loesche();
+neu > 5              moebel.xPosition = me.getX() - dragXOffset;
+neu > 6              moebel.yPosition = me.getY() - dragYOffset;
+      7              moebel.zeichne();
+      8          }
+      9      }
+      10 }
 
 
 TODO:
@@ -233,6 +273,7 @@ TODO:
   -irgendwie die mausposition im verhältnis zum ursprung des Moebels mit in die Drag and Drop Funktion einberechnen. 
       momentan wird einfach der Ursprung des Moebels zur maus position gesetzt......
   -Drag and Drop nur so weit erlauben, dass sich moebel nicht ueberschneiden koennen: https://stackoverflow.com/questions/15690846/java-collision-detection-between-two-shape-objects
+  -show help in Raumplaner menu -> bedinung durch tasten maus und GUI
   -Kommentieren
   -Maus- und Menu-Steuerung und allgemeine UX Verbesserungen...
   -shortcuts? (z.B. shift A to add a moebel...)
