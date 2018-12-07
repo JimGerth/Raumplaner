@@ -31,7 +31,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     private JFrame fenster;
     private Zeichenflaeche zeichenflaeche;
     private Graphics2D graphic;
-    
+   
     private Color hintergrundfarbe;
     private Image leinwandImage;
     
@@ -43,9 +43,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
+
+    private int dragXOffset, dragYOffset = 0;
     
     private boolean shiftGedrueckt = false;
-    private int dragXOffset, dragYOffset = 0;
+    private int previousMouseX, previousMouseY, deltaMouseX, deltaMouseY = 0;
+    private int originaleOrientierung;
+    
     //////////// END VARIABLEN ////////////
 
     
@@ -128,16 +132,21 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_BACK_SPACE:
                 moebelLoeschen();
                 break;
+            case KeyEvent.VK_SHIFT:
+                shiftGedrueckt = true;
+                break;
         }
     }
     
     public void keyReleased(KeyEvent ke) {
-        // not needed (yet maybe?)
+        switch (ke.getKeyCode()) {
+            case KeyEvent.VK_SHIFT:
+                shiftGedrueckt = false;
+                break;
+        }
     }
     
-    public void keyTyped(KeyEvent ke) {
-        // not needed (yet maybe?)
-    }
+    public void keyTyped(KeyEvent ke) {} // not needed
     //////////// END KEYBOARD EVENT HANDLING ////////////
     
     
@@ -146,20 +155,34 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mousePressed(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+                // setup for rotateWithMouse
+                originaleOrientierung = moebel.orientierung; 
+                previousMouseX = me.getX();
+                previousMouseY = me.getY();
+                
+                // setup for drag and drop
                 dragXOffset = me.getX() - moebel.xPosition;
                 dragYOffset = me.getY() - moebel.yPosition;
                 moebel.istSchwebend = true;
                 break;
+                
+                // still need to select moebel!
             }
         }
     }
     
     public void mouseDragged(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
-            if (moebel.istSchwebend) {
+            if (moebel.istSchwebend && !shiftGedrueckt) { // drag
                 moebel.loesche();
                 moebel.xPosition = me.getX() - dragXOffset;
                 moebel.yPosition = me.getY() - dragYOffset;
+                moebel.zeichne();
+            } else if (moebel.istSchwebend && shiftGedrueckt) { // rotate
+                moebel.loesche();
+                deltaMouseX = me.getX() - previousMouseX;
+                deltaMouseY = me.getY() - previousMouseY;
+                moebel.orientierung = originaleOrientierung + deltaMouseX + deltaMouseY;
                 moebel.zeichne();
             }
         }
@@ -182,6 +205,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         }
     }
     
+    public void mouseExited(MouseEvent me) {
+        shiftGedrueckt = false; // fixes bug where shiftGedrueckt isnt updated to false when spawning new moebelGUI (shift+a)
+    }
+    
     public void mouseWheelMoved(MouseEvent me) {
         // drehen und wenn shift gedrueckt ist verkleinern / vergroessern...
     }
@@ -191,10 +218,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     }
     
     public void mouseEntered(MouseEvent me) {
-        // not needed yet
-    }
-    
-    public void mouseExited(MouseEvent me) {
         // not needed yet
     }
     //////////// END MOUSE EVENT HANDLING ////////////
