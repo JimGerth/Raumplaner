@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+
 public class MoebelGUI extends JFrame implements ActionListener
 {
     
@@ -56,6 +57,7 @@ public class MoebelGUI extends JFrame implements ActionListener
         // new AllgemeineGUI<ae.getSource().getClass()>();
         if (ae.getSource() == jbHocker) {
             new HockerGUI(); // change to AllgemeineGUI<Hocker>() once "null optionen" is fixed
+            // new AllgemeineGUI<Hocker>();
             this.dispose();
         } else if (ae.getSource() == jbStuhl) {
             new StuhlGUI();

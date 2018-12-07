@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.Rectangle;
 
+
 class Hocker extends Moebel {
 
     int durchmesser;
@@ -19,9 +20,6 @@ class Hocker extends Moebel {
         new GUIOption("Durchmesser")
     };
     
-    // jedes moebel soll ein optionen array haben, fuer die optionen, die bei der inizialisierung wichtig sind.
-    // außerdem muss jedes moebel einen convienience initializer haben, der genau diese optionen als parameter
-    // hat und allen anderen fields einen default wert zuschreibt.
     
     Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
         super(xPosition, yPosition, farbe, orientierung);
@@ -64,7 +62,7 @@ class Hocker extends Moebel {
                 }
             }
         }
-        return ""; //bzw throw error, that attribut doesnt exist
+        return ""; // bzw throw error, that attribut doesnt exist 
     }
     
     GUIOption[] getOptionen() { // nicht mehr noetig wenn null problem geloest ist...

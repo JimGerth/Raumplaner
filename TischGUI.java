@@ -76,8 +76,14 @@ class TischGUI extends JFrame implements KeyListener {
     }
 
     private void erstellen() {
-        Moebel tisch = new Tisch(Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
-                                 Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
+        Moebel tisch;
+        try {
+            tisch = new Tisch(Integer.parseInt(Tisch.wichtigeOptionen[0].textField.getText()),
+                              Integer.parseInt(Tisch.wichtigeOptionen[1].textField.getText()));
+        } catch (Exception e) {
+            System.out.println("Error: Problem beim Erstellen des Moebels mit den gegebenen Werten.");
+            return;
+        }
         if (Leinwand.alleMoebel.size() > 0) {
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();

@@ -2,8 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-
-/* sill a problem with art being static or not...
+/*
 class AllgemeineGUI<T extends Moebel> extends JFrame {
     
     private JButton jbErstellen = new JButton();
@@ -98,5 +97,4 @@ class AllgemeineGUI<T extends Moebel> extends JFrame {
         GUI.moebelNummer = GUI.alleMoebel.size() - 1;
         this.dispose();
     }
-}
-*/
+}*/

@@ -76,7 +76,14 @@ class HockerGUI extends JFrame implements KeyListener {
     }
     
     private void erstellen() {
-        Moebel hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText())); // erzeugt Hocker mit eingegebenen werten
+        Moebel hocker;
+        try {
+            hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText())); // erzeugt Hocker mit eingegebenen werten
+        } catch (Exception error) {
+            System.out.println("Error: Problem beim Erstellen des Moebels mit den gegebenen Werten.");
+            // shwo something in dialog!
+            return;
+        }
         if (Leinwand.alleMoebel.size() > 0) {
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne(); // wenn es bereits ein anderes Moebel gibt wird dies hiermit nicht mehr ausgewaehlt

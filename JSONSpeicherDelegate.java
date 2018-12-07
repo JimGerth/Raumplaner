@@ -19,7 +19,6 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
     private String toJSON(ArrayList<Moebel> alleMoebel) {
         String JSONString = "[\n";
         for (int i = 0; i < alleMoebel.size(); i++) {
-            // JSONString += alleMoebel.get(i).toJSON();
             JSONString += serialize(alleMoebel.get(i));
             if (i < alleMoebel.size() - 1) {
                 JSONString += ",\n";

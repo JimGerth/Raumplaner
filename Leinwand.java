@@ -143,7 +143,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mousePressed(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
-                System.out.println("Pressed on " + moebel + " at " + me.getX() + ", " + me.getY());
                 moebel.istSchwebend = true;
                 break;
             }
@@ -195,6 +194,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     }
     //////////// END MOUSE EVENT HANDLING ////////////
     
+    
+    /*********** MENU BAR ***********/
     
     private JMenuBar setupMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -308,16 +309,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         
         return menuBar;
     }
-
-    /**
-     * Setze, ob diese Leinwand sichtbar sein soll oder nicht. Wenn die
-     * Leinwand sichtbar gemacht wird, wird ihr Fenster in den
-     * Vordergrund geholt. Diese Operation kann auch benutzt werden, um 
-     * ein bereits sichtbares Leinwandfenster in den Vordergrund (vor
-     * andere Fenster) zu holen.
-     * @param sichtbar boolean f�r die gew�nschte Sichtbarkeit: 
-     * true f�r sichtbar, false f�r nicht sichtbar.
-     */
+    //////////// END MENU BAR ////////////
+    
+    
+    /*********** LEINWAND ZEICHNEN / VERWALTUNG ***********/
+    
     public void setzeSichtbarkeit(boolean sichtbar) {
         if (graphic == null) {
             // erstmaliger Aufruf: erzeuge das Bildschirm-Image und f�lle
@@ -332,41 +328,19 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         fenster.setVisible(sichtbar);
     }
 
-    /**
-     * Zeichne f�r das gegebene Figur-Objekt eine Java-Figur (einen Shape)
-     * auf die Leinwand.
-     * @param  figur  das Figur-Objekt, f�r das ein Shape gezeichnet
-     *                 werden soll
-     * @param  farbe  die Farbe der Figur
-     * @param  shape  ein Objekt der Klasse Shape, das tats�chlich
-     *                 gezeichnet wird
-     */
     public void zeichne(Object figur, String farbe, Shape shape) {
         figuren.remove(figur); // entfernen, falls schon eingetragen
         figuren.add(figur); // am Ende hinzuf�gen
         figurZuShape.put(figur, new ShapeMitFarbe(shape, farbe));
         erneutZeichnen();
     }
-    
-    public void loescheMoebel() { // loescht alle figuren aus dem figuren array und zeichnet das leere array dann erneut -> loescht alle figuren
-        figuren = new ArrayList();
-        erneutZeichnen();
-    }
-    
-    /**
-     * Entferne die gegebene Figur von der Leinwand.
-     * @param  figur  die Figur, deren Shape entfernt werden soll
-     */
+
     public void entferne(Object figur) {
-        figuren.remove(figur); // entfernen,falls schon eingetragen
+        figuren.remove(figur); // entfernen, falls schon eingetragen
         figurZuShape.remove(figur);
         erneutZeichnen();
     }
 
-    /**
-     * Setze die Zeichenfarbe der Leinwand.
-     * @param  farbname der Name der neuen Zeichenfarbe.
-     */
     public void setzeZeichenfarbe(String farbname) {
         if (farbname.equals("rot")) { graphic.setColor(Color.red); }
         else if (farbname.equals("schwarz")) { graphic.setColor(Color.black); }
@@ -378,12 +352,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         else { graphic.setColor(Color.black); }
     }
 
-    /**
-     * Warte f�r die angegebenen Millisekunden.
-     * Mit dieser Operation wird eine Verz�gerung definiert, die
-     * f�r animierte Zeichnungen benutzt werden kann.
-     * @param  millisekunden die zu wartenden Millisekunden
-     */
     public void warte(int millisekunden) {
         try {
             Thread.sleep(millisekunden);
@@ -392,9 +360,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         }
     }
 
-    /**
-     * Zeichne erneut alle Figuren auf der Leinwand.
-     */
     private void erneutZeichnen() {
         loeschen();
         for (Iterator i = figuren.iterator(); i.hasNext();) {
@@ -403,9 +368,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         zeichenflaeche.repaint();
     }
 
-    /**
-     * L�sche die gesamte Leinwand.
-     */
     private void loeschen() {
         Color original = graphic.getColor();
         graphic.setColor(hintergrundfarbe);
@@ -413,10 +375,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         graphic.fill(new Rectangle(0, 0, size.width, size.height));
         graphic.setColor(original);
     }
+    //////////// END LEINWAND ZEICHNEN / VERWALTUNG ////////////
     
-    ////
-    //// previous GUI featrues
-    ////
+    
+    /*********** SPEICHERN UND OEFFNEN ***********/
     
     private void speicherUnter() {
         letzterSpeicherPfad = null;
@@ -450,10 +412,16 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
     }
     
-    void ladeMoebel(ArrayList<Moebel> neueMoebel) {
+    public void loescheMoebel() { // loescht alle figuren aus dem figuren array und zeichnet das leere array dann erneut -> loescht alle figuren
+        figuren = new ArrayList();
+        erneutZeichnen();
+    }
+    
+    void ladeMoebel(ArrayList<Moebel> neueMoebel) { // gets called when loading a file, so all moebel have to be set and not floating!
         alleMoebel = new ArrayList();
         for (int i = 0; i < neueMoebel.size(); i++) {
             alleMoebel.add(neueMoebel.get(i));
+            alleMoebel.get(i).istSchwebend = false;
             if (i == neueMoebel.size() - 1) {
                 neueMoebel.get(i).istAusgewaehlt = true;
             }
@@ -461,6 +429,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         }
         moebelNummer = alleMoebel.size() - 1; // selects last Moebel and covers case of nonew Moebel -> moebelNummer = -1 -> add check for moebelNummer >= 0 in every action!
     }
+    //////////// END SPEICHERN UND OEFFNEN ////////////
+    
+    
+    
+    /*********** MOEBEL AUSWAHL ***********/
     
     private void weiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
@@ -493,6 +466,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             alleMoebel.get(moebelNummer).zeichne();
         }
     }
+    //////////// END MOEBEL AUSWAHL ////////////
+    
+    
+    
+    /*********** MOEBEL MANIPULATIONS-FUNKTIONEN ***********/
     
     private void moebelErstellen() {
         new MoebelGUI();
@@ -541,25 +519,21 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         entferne(moebel);
         // still need to remove moebel from alleMoebel!
     }
+    //////////// END MOEBEL MANIPULATIONS-FUNKTIONEN ////////////
     
-    /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * Interne Klasse Zeichenflaeche - die Klasse f�r die GUI-Komponente, *
-     * die tats�chlich im Leinwand-Fenster angezeigt wird. Diese Klasse   *
-     * definiert ein JPanel mit der zus�tzlichen M�glichkeit, das auf ihm *
-     * gezeichnet Image aufzufrischen (erneut zu zeichnen).               *
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+    
+    /*********** INTERNE HELFER KLASSEN ***********/
+    
+    private enum Richtung {
+        RECHTS, LINKS, HOCH, RUNTER;
+    }
+    
     private class Zeichenflaeche extends JPanel {
          public void paint(Graphics g) {
              g.drawImage(leinwandImage, 0, 0, null);
          }
     }
-
-    /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * Interne Klasse ShapeMitFarbe - Da die Klasse Shape des JDK nicht auch      *
-     * eine Farbe mitverwalten kann, muss mit dieser Klasse die Verkn�pfung       *
-     * modelliert werden.                                                         *
-     * graphic.fill() durch graphic.draw() ersetzt von Uwe Debacher am 5.12.2003  *
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+    
     private class ShapeMitFarbe {
          private Shape shape;
          private String farbe;
@@ -574,8 +548,5 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
              graphic.draw(shape);
          }
     }
-    
-    private enum Richtung {
-        RECHTS, LINKS, HOCH, RUNTER;
-    }
+    //////////// END INTERNE HELFER KLASSEN ////////////
 }

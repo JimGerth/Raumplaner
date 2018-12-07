@@ -77,10 +77,15 @@ class SchrankwandGUI extends JFrame implements KeyListener {
     }
     
     private void erstellen() {
-        // Handle errors if Values entered aren't legal
-        Moebel schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
-                                             Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
-                                             Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
+        Moebel schrankwand;
+        try {
+            schrankwand = new Schrankwand(Integer.parseInt(Schrankwand.wichtigeOptionen[0].textField.getText()),
+                                          Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
+                                          Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
+        } catch (Exception e) {
+            System.out.println("Error: Problem beim Erstellen des Moebels mit den gegebenen Werten.");
+            return;
+        }
         if (Leinwand.alleMoebel.size() > 0) {
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = false;
             Leinwand.alleMoebel.get(Leinwand.moebelNummer).zeichne();

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.event.*;
 import java.awt.event.*;
 
+
 abstract public class Moebel {
     
     int xPosition;
