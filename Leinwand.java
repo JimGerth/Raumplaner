@@ -43,6 +43,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
+    
+    private boolean shiftGedrueckt = false;
+    private int dragXOffset, dragYOffset = 0;
     //////////// END VARIABLEN ////////////
 
     
@@ -143,6 +146,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mousePressed(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+                dragXOffset = me.getX() - moebel.xPosition;
+                dragYOffset = me.getY() - moebel.yPosition;
                 moebel.istSchwebend = true;
                 break;
             }
@@ -153,8 +158,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         for (Moebel moebel : alleMoebel) {
             if (moebel.istSchwebend) {
                 moebel.loesche();
-                moebel.xPosition = me.getX();
-                moebel.yPosition = me.getY();
+                moebel.xPosition = me.getX() - dragXOffset;
+                moebel.yPosition = me.getY() - dragYOffset;
                 moebel.zeichne();
             }
         }
