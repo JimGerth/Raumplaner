@@ -174,8 +174,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             }
         }
         //wenn kein moebel erkannt wurde, das gerade ausgewaehlte deselektieren
-        alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-        alleMoebel.get(moebelNummer).zeichne();
+        auswahlAufheben();
     }
     
     public void mouseDragged(MouseEvent me) {
@@ -359,6 +358,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         moebelNummer = neueMoebelNummer;
         alleMoebel.get(moebelNummer).istAusgewaehlt = true;
         alleMoebel.get(moebelNummer).zeichne();
+    }
+    
+    private void auswahlAufheben() {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        moebel.istAusgewaehlt = false;
+        moebel.zeichne();
     }
     
     private void weiter() {
