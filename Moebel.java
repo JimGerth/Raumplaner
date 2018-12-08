@@ -99,7 +99,7 @@ abstract public class Moebel {
             } else {
                 leinwand.zeichne (
                 this,           // leinwand kennt das Objekt
-                "rot",          // Rot als Auswahl-Farbe
+                "lila",          // Rot als Auswahl-Farbe
                 figur);         // definiert seinen grafischen Aspekt
             }
             leinwand.warte(10);

@@ -46,10 +46,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
 
     private int dragXOffset, dragYOffset = 0;
     
-    private boolean shiftGedrueckt = false;
     private int previousMouseX, previousMouseY, deltaMouseX, deltaMouseY = 0;
     private int originaleOrientierung;
     
+    private boolean shiftGedrueckt = false;
+    private boolean altGedrueckt = false;
+    
+    private Moebel zwischenspeicher;
     //////////// END VARIABLEN ////////////
 
     
@@ -123,9 +126,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_O:
                 if (ke.isControlDown()) lade();
                 break;
-            case KeyEvent.VK_X:
-                moebelLoeschen();
-                break;
             case KeyEvent.VK_DELETE:
                 moebelLoeschen();
                 break;
@@ -135,6 +135,28 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_SHIFT:
                 shiftGedrueckt = true;
                 break;
+            case KeyEvent.VK_ALT:
+                altGedrueckt = true;
+                break;
+            case KeyEvent.VK_X:
+                if (ke.isControlDown()) moebelAusschneiden();
+                else if (!ke.isControlDown()) moebelLoeschen();
+                break;
+            case KeyEvent.VK_C:
+                if (ke.isControlDown()) moebelKopieren();
+                break;
+            case KeyEvent.VK_V:
+                if (ke.isControlDown()) moebelEinfuegen(true);
+                break;
+            case KeyEvent.VK_D:
+                if (ke.isControlDown()) moebelDuplizieren(true);
+                break;
+            case KeyEvent.VK_Q:
+                if (ke.isControlDown()) Leinwand.gibLeinwand().fenster.dispose();
+                break;
+            case KeyEvent.VK_W:
+                if (ke.isControlDown()) Leinwand.gibLeinwand().fenster.dispose();
+                break;
         }
     }
     
@@ -142,6 +164,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         switch (ke.getKeyCode()) {
             case KeyEvent.VK_SHIFT:
                 shiftGedrueckt = false;
+                break;
+            case KeyEvent.VK_ALT:
+                altGedrueckt = false;
                 break;
         }
     }
@@ -153,6 +178,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     /*********** MOUSE EVENT HANDLING ***********/
     
     public void mousePressed(MouseEvent me) {
+        auswahlAufheben();
         for (int i = 0; i < alleMoebel.size(); i++) {
             Moebel moebel = alleMoebel.get(i);
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
@@ -169,6 +195,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 dragYOffset = me.getY() - moebel.yPosition;
                 moebel.istSchwebend = true;
                 
+                if (altGedrueckt) moebelDuplizieren(false);
+                
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             }
@@ -180,16 +208,20 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseDragged(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.istSchwebend && !shiftGedrueckt) { // drag
-                moebel.loesche();
                 moebel.xPosition = me.getX() - dragXOffset;
                 moebel.yPosition = me.getY() - dragYOffset;
                 moebel.zeichne();
+                
+                // um nur das oberste moebel auszuwaehlen / draggen / rotieren
+                return;
             } else if (moebel.istSchwebend && shiftGedrueckt) { // rotate
-                moebel.loesche();
                 deltaMouseX = me.getX() - previousMouseX;
                 deltaMouseY = me.getY() - previousMouseY;
                 moebel.orientierung = originaleOrientierung + deltaMouseX + deltaMouseY;
                 moebel.zeichne();
+                
+                // um nur das oberste moebel auszuwaehlen / draggen / rotieren
+                return;
             }
         }
     }
@@ -197,9 +229,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseMoved(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.istSchwebend) {
-                moebel.loesche();
-                moebel.xPosition = me.getX();
-                moebel.yPosition = me.getY();
+                moebel.xPosition = me.getX() - (int) moebel.gibAktuelleFigur().getBounds().getWidth() / 2; // make moebel hover centered under mouse
+                moebel.yPosition = me.getY() - (int) moebel.gibAktuelleFigur().getBounds().getHeight() / 2;
                 moebel.zeichne();
             }
         }
@@ -213,6 +244,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     public void mouseExited(MouseEvent me) {
         shiftGedrueckt = false; // fixes bug where shiftGedrueckt isnt updated to false when spawning new moebelGUI (shift+a)
+        altGedrueckt = false;
     }
     
     public void mouseWheelMoved(MouseEvent me) {
@@ -353,8 +385,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     /*********** MOEBEL AUSWAHL ***********/
     
     private void moebelAuswaehlen(int neueMoebelNummer) {
-        alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-        alleMoebel.get(moebelNummer).zeichne();
+        if (moebelNummer >= 0) {
+            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+            alleMoebel.get(moebelNummer).zeichne();
+        }
         moebelNummer = neueMoebelNummer;
         alleMoebel.get(moebelNummer).istAusgewaehlt = true;
         alleMoebel.get(moebelNummer).zeichne();
@@ -363,20 +397,26 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     private void auswahlAufheben() {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         if (moebel == null) return;
-        moebel.istAusgewaehlt = false;
-        moebel.zeichne();
+        // for (Moebel moebel : alleMoebel) { // TODO: schlechte performance da O(n)! schleife kann entfernt werden, wenn duplizieren mit maus besser geregelt wird...
+            moebel.istAusgewaehlt = false;
+            moebel.zeichne();
+        // }
     }
     
     private void weiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
-            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-            alleMoebel.get(moebelNummer).zeichne();
+            if (moebelNummer >= 0) {
+                alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+                alleMoebel.get(moebelNummer).zeichne();
+            }
             moebelNummer ++;
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
         } else {
-            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-            alleMoebel.get(moebelNummer).zeichne();
+            if (moebelNummer >= 0) {
+                alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+                alleMoebel.get(moebelNummer).zeichne();
+            }
             moebelNummer = 0;
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
@@ -385,14 +425,18 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private void zurueck() {
         if (moebelNummer - 1 >= 0) {
-            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-            alleMoebel.get(moebelNummer).zeichne();
+            if (moebelNummer >= 0) {
+                alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+                alleMoebel.get(moebelNummer).zeichne();
+            }
             moebelNummer --;
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
         } else {
-            alleMoebel.get(moebelNummer).istAusgewaehlt = false;
-            alleMoebel.get(moebelNummer).zeichne();
+            if (moebelNummer >= 0) {
+                alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+                alleMoebel.get(moebelNummer).zeichne();
+            }
             moebelNummer = alleMoebel.size() - 1;
             alleMoebel.get(moebelNummer).istAusgewaehlt = true;
             alleMoebel.get(moebelNummer).zeichne();
@@ -406,6 +450,65 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private void moebelErstellen() {
         new MoebelGUI();
+    }
+    
+    private void moebelAusschneiden() {
+        moebelKopieren();
+        moebelLoeschen();
+    }
+    
+    private void moebelKopieren() {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        switch (moebel.art) {
+            case "Hocker":
+                Hocker alterHocker = (Hocker) moebel;
+                Moebel neuerHocker = new Hocker(alterHocker.xPosition, alterHocker.yPosition, alterHocker.farbe, alterHocker.orientierung, alterHocker.durchmesser);
+                zwischenspeicher = neuerHocker;
+                break;
+            case "Stuhl":
+                Stuhl alterStuhl = (Stuhl) moebel;
+                Moebel neuerStuhl = new Stuhl(alterStuhl.xPosition, alterStuhl.yPosition, alterStuhl.farbe, alterStuhl.orientierung, alterStuhl.breite, alterStuhl.tiefe);
+                zwischenspeicher = neuerStuhl;
+                break;
+            case "Tisch":
+                Tisch alterTisch = (Tisch) moebel;
+                Moebel neuerTisch = new Tisch(alterTisch.xPosition, alterTisch.yPosition, alterTisch.farbe, alterTisch.orientierung, alterTisch.breite, alterTisch.tiefe);
+                zwischenspeicher = neuerTisch;
+                break;
+            case "Schrank":
+                Schrank alterSchrank = (Schrank) moebel;
+                Moebel neuerSchrank = new Schrank(alterSchrank.xPosition, alterSchrank.yPosition, alterSchrank.farbe, alterSchrank.orientierung, alterSchrank.breite, alterSchrank.tiefe);
+                zwischenspeicher = neuerSchrank;
+                break;
+            case "Schrankwand":
+                Schrankwand alteSchrankwand = (Schrankwand) moebel;
+                Moebel neueSchrankwand = new Schrankwand(alteSchrankwand.xPosition, alteSchrankwand.yPosition, alteSchrankwand.farbe, alteSchrankwand.orientierung, alteSchrankwand.anzahlDerEinheiten, alteSchrankwand.breite, alteSchrankwand.tiefe);
+                zwischenspeicher = neueSchrankwand;
+                break;
+        }
+    }
+    
+    private void moebelEinfuegen(boolean ausgewaehlt) {
+        if (ausgewaehlt) auswahlAufheben();
+        alleMoebel.add(zwischenspeicher);
+        moebelNummer = alleMoebel.size() - 1;
+        alleMoebel.get(moebelNummer).istAusgewaehlt = ausgewaehlt;
+        alleMoebel.get(moebelNummer).zeige();
+    }
+    
+    private void moebelDuplizieren(boolean ohneMaus) { // geht auch mitMaus (alt gedrueckt und drag)
+        moebelKopieren();
+        if (ohneMaus) auswahlAufheben();
+        moebelEinfuegen(ohneMaus);
+    }
+    
+    private void moebelLoeschen() {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        entferne(moebel);
+        alleMoebel.remove(moebel);
+        moebelNummer = alleMoebel.size() - 1;
     }
     
     private void moebelBewegen(Richtung richtung, int entfernung) {
@@ -443,13 +546,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         if (moebel == null) return;
         moebel.aendereFarbe(neueFarbe);
-    }
-    
-    private void moebelLoeschen() {
-        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
-        if (moebel == null) return;
-        entferne(moebel);
-        // still need to remove moebel from alleMoebel!
     }
     //////////// END MOEBEL MANIPULATIONS-FUNKTIONEN ////////////
     
@@ -495,12 +591,30 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             
             JMenu raumplanerMenu = new JMenu("Raumplaner");
         
-                JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen") {
+                JMenuItem ueberMenuItem = new JMenuItem(new AbstractAction("Über Raumplaner") {
                     public void actionPerformed(ActionEvent ae) {
-                        aendereGroesse(250, 250);
+                        // Ueber splash screen
+                    }
+                });
+                raumplanerMenu.add(ueberMenuItem);
+        
+                JMenuItem hilfeMenuItem = new JMenuItem(new AbstractAction("Hilfe") {
+                    public void actionPerformed(ActionEvent ae) {
+                        // hilfe spash scren
+                    }
+                });
+                raumplanerMenu.add(hilfeMenuItem);
+                
+                raumplanerMenu.addSeparator();
+        
+                JMenuItem einstellungenMenuItem = new JMenuItem(new AbstractAction("Einstellungen...") {
+                    public void actionPerformed(ActionEvent ae) {
+                        // einstellungen dialog
                     }
                 });
                 raumplanerMenu.add(einstellungenMenuItem);
+                
+                raumplanerMenu.addSeparator();
             
                 JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
                     public void actionPerformed(ActionEvent ae) {
@@ -539,8 +653,52 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
               
         
             JMenu bearbeitenMenu = new JMenu("Bearbeiten");
+            
+                JMenuItem ausschneidenMenuItem = new JMenuItem(new AbstractAction("Ausschneiden") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelAusschneiden();
+                    }
+                });
+                bearbeitenMenu.add(ausschneidenMenuItem);
+            
+                JMenuItem kopierenMenuItem = new JMenuItem(new AbstractAction("Kopieren") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelKopieren();
+                    }
+                });
+                bearbeitenMenu.add(kopierenMenuItem);
+            
+                JMenuItem einfuegenMenuItem = new JMenuItem(new AbstractAction("Einfügen") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelEinfuegen(true);
+                    }
+                });
+                bearbeitenMenu.add(einfuegenMenuItem);
+            
+                JMenuItem duplizierenMenuItem = new JMenuItem(new AbstractAction("Duplizieren") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelDuplizieren(true);
+                    }
+                });
+                bearbeitenMenu.add(duplizierenMenuItem);
+                
+                JMenuItem loeschenMenuItem = new JMenuItem(new AbstractAction("Löschen") {
+                    public void actionPerformed(ActionEvent ae) {
+                        moebelLoeschen();
+                    }
+                });
+                bearbeitenMenu.add(loeschenMenuItem);
+                
+                bearbeitenMenu.addSeparator();
         
                 JMenu farbeMenu = new JMenu("Farbe...");
+            
+                    JMenuItem rotMenuItem = new JMenuItem(new AbstractAction("Rot") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("rot");
+                        }
+                    });
+                    farbeMenu.add(rotMenuItem);
             
                     JMenuItem blauMenuItem = new JMenuItem(new AbstractAction("Blau") {
                         public void actionPerformed(ActionEvent ae) {
@@ -549,13 +707,20 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                     });
                     farbeMenu.add(blauMenuItem);
                 
-                    JMenuItem rotMenuItem = new JMenuItem(new AbstractAction("Rot") {
+                    JMenuItem gruenMenuItem = new JMenuItem(new AbstractAction("Grün") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("rot");
+                            moebelFarbeAendern("gruen");
                         }
                     });
-                    farbeMenu.add(rotMenuItem);
-                
+                    farbeMenu.add(gruenMenuItem);
+                    
+                    JMenuItem gelbMenuItem = new JMenuItem(new AbstractAction("Gelb") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("gelb");
+                        }
+                    });
+                    farbeMenu.add(gelbMenuItem);
+            
                     JMenuItem schwarzMenuItem = new JMenuItem(new AbstractAction("Schwarz") {
                         public void actionPerformed(ActionEvent ae) {
                             moebelFarbeAendern("schwarz");

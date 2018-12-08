@@ -5,8 +5,8 @@ import java.awt.geom.Ellipse2D;
 
 class Tisch extends Moebel {
     
-    private int breite;
-    private int tiefe;
+    int breite;
+    int tiefe;
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),

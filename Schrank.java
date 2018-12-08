@@ -5,8 +5,8 @@ import java.awt.geom.AffineTransform;
 
 class Schrank extends Moebel {
     
-    private int breite;
-    private int tiefe;
+    int breite;
+    int tiefe;
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
