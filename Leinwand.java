@@ -153,8 +153,12 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     /*********** MOUSE EVENT HANDLING ***********/
     
     public void mousePressed(MouseEvent me) {
-        for (Moebel moebel : alleMoebel) {
+        for (int i = 0; i < alleMoebel.size(); i++) {
+            Moebel moebel = alleMoebel.get(i);
             if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+                // auswaehlen
+                moebelAuswaehlen(i);
+                
                 // setup for rotateWithMouse
                 originaleOrientierung = moebel.orientierung; 
                 previousMouseX = me.getX();
@@ -164,11 +168,14 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 dragXOffset = me.getX() - moebel.xPosition;
                 dragYOffset = me.getY() - moebel.yPosition;
                 moebel.istSchwebend = true;
-                break;
                 
-                // still need to select moebel!
+                // um nur das oberste moebel auszuwaehlen / draggen / rotieren
+                return;
             }
         }
+        //wenn kein moebel erkannt wurde, das gerade ausgewaehlte deselektieren
+        alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+        alleMoebel.get(moebelNummer).zeichne();
     }
     
     public void mouseDragged(MouseEvent me) {
@@ -345,6 +352,14 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     
     /*********** MOEBEL AUSWAHL ***********/
+    
+    private void moebelAuswaehlen(int neueMoebelNummer) {
+        alleMoebel.get(moebelNummer).istAusgewaehlt = false;
+        alleMoebel.get(moebelNummer).zeichne();
+        moebelNummer = neueMoebelNummer;
+        alleMoebel.get(moebelNummer).istAusgewaehlt = true;
+        alleMoebel.get(moebelNummer).zeichne();
+    }
     
     private void weiter() {
         if (moebelNummer + 1 <= alleMoebel.size() - 1) {
