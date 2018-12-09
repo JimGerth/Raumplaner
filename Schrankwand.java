@@ -11,6 +11,8 @@ class Schrankwand extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
+        new GUIOption("X-Scale"),
+        new GUIOption("Y-Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Anzahl der Einheiten"),
@@ -24,8 +26,8 @@ class Schrankwand extends Moebel {
         new GUIOption("Tiefe")
     };
     
-    Schrankwand(int xPosition, int yPosition, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
-        super(xPosition, yPosition, farbe, orientierung);
+    Schrankwand(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
+        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
         this.anzahlDerEinheiten = anzahlDerEinheiten;
         this.breite = breite;
         this.tiefe = tiefe;
@@ -33,26 +35,22 @@ class Schrankwand extends Moebel {
     }
        
     Schrankwand(int anzahlDerEinheiten, int breite, int tiefe) {
-        this(0, 0, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
+        this(0, 0, 1, 1, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
-    protected Shape gibAktuelleFigur() {
+    protected Shape getFigur() {
         GeneralPath schrankwand = new GeneralPath();
         
         for(int i = 0; i < anzahlDerEinheiten; i++) {
-            Schrank schrank = new Schrank(0, 0, "schwarz", 0, breite, tiefe);
+            Schrank schrank = new Schrank(breite, tiefe);
             schrank.bewegeHorizontal(i * schrank.getBreite());
-            schrankwand.append(schrank.gibAktuelleFigur(), false);
+            schrankwand.append(schrank.getAktuelleFigur(), false);
         }
         
-        AffineTransform t = new AffineTransform();
-        t.translate(xPosition, yPosition);
-        Rectangle2D umriss = schrankwand.getBounds2D();
-        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
-        return  t.createTransformedShape(schrankwand);
+        return schrankwand;
     }
 
-    String gibWert(String attributName) {
+    String getWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
             if (attributName == optionen[i].name) {
                 switch (i) {
@@ -61,16 +59,20 @@ class Schrankwand extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return farbe;
+                        return Integer.toString(xScale);
                     case 3:
-                        return Integer.toString(orientierung);
+                        return Integer.toString(yScale);
                     case 4:
-                        return Integer.toString(anzahlDerEinheiten);
+                        return farbe;
                     case 5:
-                        return Integer.toString(breite);
+                        return Integer.toString(orientierung);
                     case 6:
-                        return Integer.toString(tiefe);
+                        return Integer.toString(anzahlDerEinheiten);
                     case 7:
+                        return Integer.toString(breite);
+                    case 8:
+                        return Integer.toString(tiefe);
+                    case 9:
                         return art;
                 }
             }
@@ -82,6 +84,8 @@ class Schrankwand extends Moebel {
         GUIOption[] optionen = {
             new GUIOption("X-Position"),
             new GUIOption("Y-Position"),
+            new GUIOption("X-Scale"),
+            new GUIOption("Y-Scale"),
             new GUIOption("Farbe"),
             new GUIOption("Orientierung"),
             new GUIOption("Anzahl der Einheiten"),

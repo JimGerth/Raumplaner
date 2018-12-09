@@ -12,6 +12,8 @@ abstract public class Moebel {
     
     int xPosition;
     int yPosition;
+    int xScale; // maybe change to double...
+    int yScale;
     String farbe;
     int orientierung;
     boolean istAusgewaehlt = false;
@@ -24,16 +26,28 @@ abstract public class Moebel {
     protected boolean istSichtbar = false;
 
 
-    Moebel(int xPosition, int yPosition, String farbe, int orientierung) {
+    Moebel(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.xScale = xScale;
+        this.yScale = yScale;
         this.farbe = farbe;
         this.orientierung = orientierung;
     }
     
-    abstract protected Shape gibAktuelleFigur();
+    abstract protected Shape getFigur();
     
-    abstract String gibWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
+    protected Shape getAktuelleFigur() {
+        Shape figur = getFigur();
+        AffineTransform t = new AffineTransform();
+        t.translate(xPosition, yPosition);
+        Rectangle2D umriss = figur.getBounds2D();
+        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
+        t.scale(xScale, yScale);
+        return  t.createTransformedShape(figur);
+    }
+    
+    abstract String getWert(String attributName); // gibt den wert eines attributs als String fuer die JSON serialization zurueck
     
     abstract GUIOption[] getOptionen(); // TEMPORARY WORKAROUND for uninitialized array problem with moebels
     
@@ -89,7 +103,7 @@ abstract public class Moebel {
 
     protected void zeichne() {
         if (istSichtbar) {
-            Shape figur = gibAktuelleFigur();
+            Shape figur = getAktuelleFigur();
             Leinwand leinwand = Leinwand.gibLeinwand();
             if (!istAusgewaehlt) {
                 leinwand.zeichne (

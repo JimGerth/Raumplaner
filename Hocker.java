@@ -11,6 +11,8 @@ class Hocker extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
+        new GUIOption("X-Scale"),
+        new GUIOption("Y-Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Durchmesser"),
@@ -21,29 +23,22 @@ class Hocker extends Moebel {
     };
     
     
-    Hocker(int xPosition, int yPosition, String farbe, int orientierung, int durchmesser)  {
-        super(xPosition, yPosition, farbe, orientierung);
+    Hocker(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int durchmesser)  {
+        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
         this.durchmesser = durchmesser;
         this.art = "Hocker";
     }
     
     Hocker(int durchmesser) {
-        this(0, 0, "schwarz", 0, durchmesser);
+        this(0, 0, 1, 1, "schwarz", 0, durchmesser);
     }
     
-    protected Shape gibAktuelleFigur()
-    {
-        // definieren
-        Shape Hocker = new Ellipse2D.Double(0, 0, durchmesser, durchmesser);
-        // transformieren
-        AffineTransform t = new AffineTransform();
-        t.translate(xPosition, yPosition);
-        Rectangle2D umriss = Hocker.getBounds2D();
-        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
-        return  t.createTransformedShape(Hocker);
+    protected Shape getFigur() {
+        Shape hocker = new Ellipse2D.Double(0, 0, durchmesser, durchmesser);
+        return  hocker;
     }
 
-    String gibWert(String attributName) {
+    String getWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
             if (attributName == optionen[i].name) {
                 switch (i) {
@@ -52,12 +47,16 @@ class Hocker extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return farbe;
+                        return Integer.toString(xScale);
                     case 3:
-                        return Integer.toString(orientierung);
+                        return Integer.toString(yScale);
                     case 4:
-                        return Integer.toString(durchmesser);
+                        return farbe;
                     case 5:
+                        return Integer.toString(orientierung);
+                    case 6:
+                        return Integer.toString(durchmesser);
+                    case 7:
                         return art;
                 }
             }
@@ -69,6 +68,8 @@ class Hocker extends Moebel {
         GUIOption[] optionen = {
             new GUIOption("X-Position"),
             new GUIOption("Y-Position"),
+            new GUIOption("X-Scale"),
+            new GUIOption("Y-Scale"),
             new GUIOption("Farbe"),
             new GUIOption("Orientierung"),
             new GUIOption("Durchmesser"),

@@ -10,6 +10,8 @@ class Schrank extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
+        new GUIOption("X-Scale"),
+        new GUIOption("Y-Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Breite"),
@@ -25,18 +27,18 @@ class Schrank extends Moebel {
         return breite;
     }
 
-    Schrank(int xPosition, int yPosition, String farbe, int orientierung, int breite, int tiefe) {
-        super(xPosition, yPosition, farbe, orientierung);
+    Schrank(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int breite, int tiefe) {
+        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
         this.art = "Schrank";
     }
     
     Schrank(int breite, int tiefe) {
-        this(0, 0, "schwarz", 0, breite, tiefe);
+        this(0, 0, 1, 1, "schwarz", 0, breite, tiefe);
     }
     
-    protected Shape gibAktuelleFigur() {
+    protected Shape getFigur() {
         // einen GeneralPath definieren
         GeneralPath schrank = new GeneralPath();
         schrank.moveTo(0, 0);
@@ -49,15 +51,10 @@ class Schrank extends Moebel {
         schrank.lineTo(breite, tiefe);
         schrank.moveTo(0, tiefe);
         schrank.lineTo(breite, 0);
-        // transformieren:
-        AffineTransform t = new AffineTransform();
-        t.translate(xPosition, yPosition);
-        Rectangle2D umriss = schrank.getBounds2D();
-        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
-        return  t.createTransformedShape(schrank);
+        return schrank;
     }
 
-    String gibWert(String attributName) {
+    String getWert(String attributName) {
         for (int i = 0; i < optionen.length; i++) {
             if (attributName == optionen[i].name) {
                 switch (i) {
@@ -66,14 +63,18 @@ class Schrank extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return farbe;
+                        return Integer.toString(xScale);
                     case 3:
-                        return Integer.toString(orientierung);
+                        return Integer.toString(yScale);
                     case 4:
-                        return Integer.toString(breite);
+                        return farbe;
                     case 5:
-                        return Integer.toString(tiefe);
+                        return Integer.toString(orientierung);
                     case 6:
+                        return Integer.toString(breite);
+                    case 7:
+                        return Integer.toString(tiefe);
+                    case 8:
                         return art;
                 }
             }
@@ -85,6 +86,8 @@ class Schrank extends Moebel {
         GUIOption[] optionen = {
             new GUIOption("X-Position"),
             new GUIOption("Y-Position"),
+            new GUIOption("X-Scale"),
+            new GUIOption("Y-Scale"),
             new GUIOption("Farbe"),
             new GUIOption("Orientierung"),
             new GUIOption("Breite"),

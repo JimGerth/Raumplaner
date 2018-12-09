@@ -49,8 +49,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     private int previousMouseX, previousMouseY, deltaMouseX, deltaMouseY = 0;
     private int originaleOrientierung;
     
+    private int previousXScale, previousYScale;
+    
     private boolean shiftGedrueckt = false;
     private boolean altGedrueckt = false;
+    private boolean controlGedrueckt = false;
     
     private Moebel zwischenspeicher;
     //////////// END VARIABLEN ////////////
@@ -138,6 +141,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_ALT:
                 altGedrueckt = true;
                 break;
+            case KeyEvent.VK_CONTROL:
+                controlGedrueckt = true;
+                break;
             case KeyEvent.VK_X:
                 if (ke.isControlDown()) moebelAusschneiden();
                 else if (!ke.isControlDown()) moebelLoeschen();
@@ -168,6 +174,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_ALT:
                 altGedrueckt = false;
                 break;
+            case KeyEvent.VK_CONTROL:
+                controlGedrueckt = false;
+                break;
         }
     }
     
@@ -181,7 +190,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         auswahlAufheben();
         for (int i = 0; i < alleMoebel.size(); i++) {
             Moebel moebel = alleMoebel.get(i);
-            if (moebel.gibAktuelleFigur().contains(me.getX(), me.getY())) {
+            if (moebel.getAktuelleFigur().contains(me.getX(), me.getY())) {
                 // auswaehlen
                 moebelAuswaehlen(i);
                 
@@ -195,6 +204,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 dragYOffset = me.getY() - moebel.yPosition;
                 moebel.istSchwebend = true;
                 
+                // setup for scaling
+                previousXScale = moebel.xScale;
+                previousYScale = moebel.yScale;
+                
                 if (altGedrueckt) moebelDuplizieren(false);
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
@@ -207,17 +220,24 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     public void mouseDragged(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
-            if (moebel.istSchwebend && !shiftGedrueckt) { // drag
+            if (moebel.istSchwebend && !shiftGedrueckt && !controlGedrueckt) { // drag
                 moebel.xPosition = me.getX() - dragXOffset;
                 moebel.yPosition = me.getY() - dragYOffset;
                 moebel.zeichne();
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
-            } else if (moebel.istSchwebend && shiftGedrueckt) { // rotate
+            } else if (moebel.istSchwebend && shiftGedrueckt && !controlGedrueckt) { // rotate
                 deltaMouseX = me.getX() - previousMouseX;
                 deltaMouseY = me.getY() - previousMouseY;
                 moebel.orientierung = originaleOrientierung + deltaMouseX + deltaMouseY;
+                moebel.zeichne();
+                
+                // um nur das oberste moebel auszuwaehlen / draggen / rotieren
+                return;
+            } else if (moebel.istSchwebend && !shiftGedrueckt && controlGedrueckt) { // scale
+                moebel.xScale = previousXScale + ( me.getX() - previousMouseX ) / 50;
+                moebel.yScale = previousYScale + ( me.getY() - previousMouseY ) / 50;
                 moebel.zeichne();
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
@@ -229,8 +249,8 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseMoved(MouseEvent me) {
         for (Moebel moebel : alleMoebel) {
             if (moebel.istSchwebend) {
-                moebel.xPosition = me.getX() - (int) moebel.gibAktuelleFigur().getBounds().getWidth() / 2; // make moebel hover centered under mouse
-                moebel.yPosition = me.getY() - (int) moebel.gibAktuelleFigur().getBounds().getHeight() / 2;
+                moebel.xPosition = me.getX() - (int) moebel.getAktuelleFigur().getBounds().getWidth() / 2; // make moebel hover centered under mouse
+                moebel.yPosition = me.getY() - (int) moebel.getAktuelleFigur().getBounds().getHeight() / 2;
                 moebel.zeichne();
             }
         }
@@ -245,6 +265,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     public void mouseExited(MouseEvent me) {
         shiftGedrueckt = false; // fixes bug where shiftGedrueckt isnt updated to false when spawning new moebelGUI (shift+a)
         altGedrueckt = false;
+        controlGedrueckt = false;
     }
     
     public void mouseWheelMoved(MouseEvent me) {
@@ -463,33 +484,34 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         switch (moebel.art) {
             case "Hocker":
                 Hocker alterHocker = (Hocker) moebel;
-                Moebel neuerHocker = new Hocker(alterHocker.xPosition, alterHocker.yPosition, alterHocker.farbe, alterHocker.orientierung, alterHocker.durchmesser);
+                Moebel neuerHocker = new Hocker(alterHocker.xPosition, alterHocker.yPosition, alterHocker.xScale, alterHocker.yScale, alterHocker.farbe, alterHocker.orientierung, alterHocker.durchmesser);
                 zwischenspeicher = neuerHocker;
                 break;
             case "Stuhl":
                 Stuhl alterStuhl = (Stuhl) moebel;
-                Moebel neuerStuhl = new Stuhl(alterStuhl.xPosition, alterStuhl.yPosition, alterStuhl.farbe, alterStuhl.orientierung, alterStuhl.breite, alterStuhl.tiefe);
+                Moebel neuerStuhl = new Stuhl(alterStuhl.xPosition, alterStuhl.yPosition, alterStuhl.xScale, alterStuhl.yScale, alterStuhl.farbe, alterStuhl.orientierung, alterStuhl.breite, alterStuhl.tiefe);
                 zwischenspeicher = neuerStuhl;
                 break;
             case "Tisch":
                 Tisch alterTisch = (Tisch) moebel;
-                Moebel neuerTisch = new Tisch(alterTisch.xPosition, alterTisch.yPosition, alterTisch.farbe, alterTisch.orientierung, alterTisch.breite, alterTisch.tiefe);
+                Moebel neuerTisch = new Tisch(alterTisch.xPosition, alterTisch.yPosition, alterTisch.xScale, alterTisch.yScale, alterTisch.farbe, alterTisch.orientierung, alterTisch.breite, alterTisch.tiefe);
                 zwischenspeicher = neuerTisch;
                 break;
             case "Schrank":
                 Schrank alterSchrank = (Schrank) moebel;
-                Moebel neuerSchrank = new Schrank(alterSchrank.xPosition, alterSchrank.yPosition, alterSchrank.farbe, alterSchrank.orientierung, alterSchrank.breite, alterSchrank.tiefe);
+                Moebel neuerSchrank = new Schrank(alterSchrank.xPosition, alterSchrank.yPosition, alterSchrank.xScale, alterSchrank.yScale, alterSchrank.farbe, alterSchrank.orientierung, alterSchrank.breite, alterSchrank.tiefe);
                 zwischenspeicher = neuerSchrank;
                 break;
             case "Schrankwand":
                 Schrankwand alteSchrankwand = (Schrankwand) moebel;
-                Moebel neueSchrankwand = new Schrankwand(alteSchrankwand.xPosition, alteSchrankwand.yPosition, alteSchrankwand.farbe, alteSchrankwand.orientierung, alteSchrankwand.anzahlDerEinheiten, alteSchrankwand.breite, alteSchrankwand.tiefe);
+                Moebel neueSchrankwand = new Schrankwand(alteSchrankwand.xPosition, alteSchrankwand.yPosition, alteSchrankwand.xScale, alteSchrankwand.yScale, alteSchrankwand.farbe, alteSchrankwand.orientierung, alteSchrankwand.anzahlDerEinheiten, alteSchrankwand.breite, alteSchrankwand.tiefe);
                 zwischenspeicher = neueSchrankwand;
                 break;
         }
     }
     
     private void moebelEinfuegen(boolean ausgewaehlt) {
+        if (zwischenspeicher == null) return;
         if (ausgewaehlt) auswahlAufheben();
         alleMoebel.add(zwischenspeicher);
         moebelNummer = alleMoebel.size() - 1;
