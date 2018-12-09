@@ -11,8 +11,7 @@ class Hocker extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
-        new GUIOption("X-Scale"),
-        new GUIOption("Y-Scale"),
+        new GUIOption("Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Durchmesser"),
@@ -23,14 +22,14 @@ class Hocker extends Moebel {
     };
     
     
-    Hocker(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int durchmesser)  {
-        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
+    Hocker(int xPosition, int yPosition, double scale, String farbe, int orientierung, int durchmesser)  {
+        super(xPosition, yPosition, scale, farbe, orientierung);
         this.durchmesser = durchmesser;
         this.art = "Hocker";
     }
     
     Hocker(int durchmesser) {
-        this(0, 0, 1, 1, "schwarz", 0, durchmesser);
+        this(0, 0, 1, "schwarz", 0, durchmesser);
     }
     
     protected Shape getFigur() {
@@ -47,16 +46,14 @@ class Hocker extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return Integer.toString(xScale);
+                        return Double.toString(scale);
                     case 3:
-                        return Integer.toString(yScale);
-                    case 4:
                         return farbe;
-                    case 5:
+                    case 4:
                         return Integer.toString(orientierung);
-                    case 6:
+                    case 5:
                         return Integer.toString(durchmesser);
-                    case 7:
+                    case 6:
                         return art;
                 }
             }
@@ -65,16 +62,15 @@ class Hocker extends Moebel {
     }
     
     GUIOption[] getOptionen() { // nicht mehr noetig wenn null problem geloest ist...
-        GUIOption[] optionen = {
-            new GUIOption("X-Position"),
-            new GUIOption("Y-Position"),
-            new GUIOption("X-Scale"),
-            new GUIOption("Y-Scale"),
-            new GUIOption("Farbe"),
-            new GUIOption("Orientierung"),
-            new GUIOption("Durchmesser"),
-            new GUIOption("Art")
-        };
+        // GUIOption[] optionen = {
+        //     new GUIOption("X-Position"),
+        //     new GUIOption("Y-Position"),
+        //     new GUIOption("Scale"),
+        //     new GUIOption("Farbe"),
+        //     new GUIOption("Orientierung"),
+        //     new GUIOption("Durchmesser"),
+        //     new GUIOption("Art")
+        // };
         return optionen;
     }
 }

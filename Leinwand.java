@@ -49,7 +49,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     private int previousMouseX, previousMouseY, deltaMouseX, deltaMouseY = 0;
     private int originaleOrientierung;
     
-    private int previousXScale, previousYScale;
+    private double previousScale;
     
     private boolean shiftGedrueckt = false;
     private boolean altGedrueckt = false;
@@ -205,8 +205,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 moebel.istSchwebend = true;
                 
                 // setup for scaling
-                previousXScale = moebel.xScale;
-                previousYScale = moebel.yScale;
+                previousScale = moebel.scale;
                 
                 if (altGedrueckt) moebelDuplizieren(false);
                 
@@ -236,8 +235,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && !shiftGedrueckt && controlGedrueckt) { // scale
-                moebel.xScale = previousXScale + ( me.getX() - previousMouseX ) / 50;
-                moebel.yScale = previousYScale + ( me.getY() - previousMouseY ) / 50;
+                moebel.scale = previousScale + ( me.getX() - previousMouseX ) / 25;
                 moebel.zeichne();
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
@@ -484,27 +482,27 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         switch (moebel.art) {
             case "Hocker":
                 Hocker alterHocker = (Hocker) moebel;
-                Moebel neuerHocker = new Hocker(alterHocker.xPosition, alterHocker.yPosition, alterHocker.xScale, alterHocker.yScale, alterHocker.farbe, alterHocker.orientierung, alterHocker.durchmesser);
+                Moebel neuerHocker = new Hocker(alterHocker.xPosition, alterHocker.yPosition, alterHocker.scale, alterHocker.farbe, alterHocker.orientierung, alterHocker.durchmesser);
                 zwischenspeicher = neuerHocker;
                 break;
             case "Stuhl":
                 Stuhl alterStuhl = (Stuhl) moebel;
-                Moebel neuerStuhl = new Stuhl(alterStuhl.xPosition, alterStuhl.yPosition, alterStuhl.xScale, alterStuhl.yScale, alterStuhl.farbe, alterStuhl.orientierung, alterStuhl.breite, alterStuhl.tiefe);
+                Moebel neuerStuhl = new Stuhl(alterStuhl.xPosition, alterStuhl.yPosition, alterStuhl.scale, alterStuhl.farbe, alterStuhl.orientierung, alterStuhl.breite, alterStuhl.tiefe);
                 zwischenspeicher = neuerStuhl;
                 break;
             case "Tisch":
                 Tisch alterTisch = (Tisch) moebel;
-                Moebel neuerTisch = new Tisch(alterTisch.xPosition, alterTisch.yPosition, alterTisch.xScale, alterTisch.yScale, alterTisch.farbe, alterTisch.orientierung, alterTisch.breite, alterTisch.tiefe);
+                Moebel neuerTisch = new Tisch(alterTisch.xPosition, alterTisch.yPosition, alterTisch.scale, alterTisch.farbe, alterTisch.orientierung, alterTisch.breite, alterTisch.tiefe);
                 zwischenspeicher = neuerTisch;
                 break;
             case "Schrank":
                 Schrank alterSchrank = (Schrank) moebel;
-                Moebel neuerSchrank = new Schrank(alterSchrank.xPosition, alterSchrank.yPosition, alterSchrank.xScale, alterSchrank.yScale, alterSchrank.farbe, alterSchrank.orientierung, alterSchrank.breite, alterSchrank.tiefe);
+                Moebel neuerSchrank = new Schrank(alterSchrank.xPosition, alterSchrank.yPosition, alterSchrank.scale, alterSchrank.farbe, alterSchrank.orientierung, alterSchrank.breite, alterSchrank.tiefe);
                 zwischenspeicher = neuerSchrank;
                 break;
             case "Schrankwand":
                 Schrankwand alteSchrankwand = (Schrankwand) moebel;
-                Moebel neueSchrankwand = new Schrankwand(alteSchrankwand.xPosition, alteSchrankwand.yPosition, alteSchrankwand.xScale, alteSchrankwand.yScale, alteSchrankwand.farbe, alteSchrankwand.orientierung, alteSchrankwand.anzahlDerEinheiten, alteSchrankwand.breite, alteSchrankwand.tiefe);
+                Moebel neueSchrankwand = new Schrankwand(alteSchrankwand.xPosition, alteSchrankwand.yPosition, alteSchrankwand.scale, alteSchrankwand.farbe, alteSchrankwand.orientierung, alteSchrankwand.anzahlDerEinheiten, alteSchrankwand.breite, alteSchrankwand.tiefe);
                 zwischenspeicher = neueSchrankwand;
                 break;
         }
@@ -796,12 +794,44 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         
             JMenu einfuegenMenu = new JMenu("Einfuegen");
         
-                JMenuItem neuesMoebelMenuItem = new JMenuItem(new AbstractAction("neues Moebel...") {
-                    public void actionPerformed(ActionEvent ae) {
-                        moebelErstellen();
-                    }
-                });
-                einfuegenMenu.add(neuesMoebelMenuItem);
+                JMenu neuesMoebelMenu = new JMenu("neues Moebel");
+                
+                    JMenuItem hockerMenuItem = new JMenuItem(new AbstractAction("Hocker") {
+                        public void actionPerformed(ActionEvent ae) {
+                            new HockerGUI();
+                        }
+                    });
+                    neuesMoebelMenu.add(hockerMenuItem);
+                    
+                    JMenuItem stuhlMenuItem = new JMenuItem(new AbstractAction("Stuhl") {
+                        public void actionPerformed(ActionEvent ae) {
+                            new StuhlGUI();
+                        }
+                    });
+                    neuesMoebelMenu.add(stuhlMenuItem);
+                    
+                    JMenuItem tischMenuItem = new JMenuItem(new AbstractAction("Tisch") {
+                        public void actionPerformed(ActionEvent ae) {
+                            new TischGUI();
+                        }
+                    });
+                    neuesMoebelMenu.add(tischMenuItem);
+                    
+                    JMenuItem schrankMenuItem = new JMenuItem(new AbstractAction("Schrank") {
+                        public void actionPerformed(ActionEvent ae) {
+                            new SchrankGUI();
+                        }
+                    });
+                    neuesMoebelMenu.add(schrankMenuItem);
+                    
+                    JMenuItem schrankwandMenuItem = new JMenuItem(new AbstractAction("Schrankwand") {
+                        public void actionPerformed(ActionEvent ae) {
+                            new SchrankwandGUI();
+                        }
+                    });
+                    neuesMoebelMenu.add(schrankwandMenuItem);
+                
+                einfuegenMenu.add(neuesMoebelMenu);
         
             add(einfuegenMenu);
         

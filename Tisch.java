@@ -10,8 +10,7 @@ class Tisch extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
-        new GUIOption("X-Scale"),
-        new GUIOption("Y-Scale"),
+        new GUIOption("Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Breite"),
@@ -23,15 +22,15 @@ class Tisch extends Moebel {
         new GUIOption("Tiefe")
     };
 
-    Tisch(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int breite, int tiefe)  {
-        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
+    Tisch(int xPosition, int yPosition, double scale, String farbe, int orientierung, int breite, int tiefe)  {
+        super(xPosition, yPosition, scale, farbe, orientierung);
         this.breite = breite;
         this.tiefe  = tiefe;
         this.art = "Tisch";
     }
     
     Tisch(int breite, int tiefe) {
-        this(0, 0, 1, 1, "schwarz", 0, breite, tiefe);
+        this(0, 0, 1, "schwarz", 0, breite, tiefe);
     }
 
     protected Shape getFigur() {
@@ -48,18 +47,16 @@ class Tisch extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return Integer.toString(xScale);
+                        return Double.toString(scale);
                     case 3:
-                        return Integer.toString(yScale);
-                    case 4:
                         return farbe;
-                    case 5:
+                    case 4:
                         return Integer.toString(orientierung);
-                    case 6:
+                    case 5:
                         return Integer.toString(breite);
-                    case 7:
+                    case 6:
                         return Integer.toString(tiefe);
-                    case 8:
+                    case 7:
                         return art;
                 }
             }
@@ -71,8 +68,7 @@ class Tisch extends Moebel {
         GUIOption[] optionen = {
             new GUIOption("X-Position"),
             new GUIOption("Y-Position"),
-            new GUIOption("X-Scale"),
-            new GUIOption("Y-Scale"),
+            new GUIOption("Scale"),
             new GUIOption("Farbe"),
             new GUIOption("Orientierung"),
             new GUIOption("Breite"),

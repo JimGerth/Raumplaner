@@ -11,8 +11,7 @@ class Schrankwand extends Moebel {
     static GUIOption[] optionen = {
         new GUIOption("X-Position"),
         new GUIOption("Y-Position"),
-        new GUIOption("X-Scale"),
-        new GUIOption("Y-Scale"),
+        new GUIOption("Scale"),
         new GUIOption("Farbe"),
         new GUIOption("Orientierung"),
         new GUIOption("Anzahl der Einheiten"),
@@ -26,8 +25,8 @@ class Schrankwand extends Moebel {
         new GUIOption("Tiefe")
     };
     
-    Schrankwand(int xPosition, int yPosition, int xScale, int yScale, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
-        super(xPosition, yPosition, xScale, yScale, farbe, orientierung);
+    Schrankwand(int xPosition, int yPosition, double scale, String farbe, int orientierung, int anzahlDerEinheiten, int breite, int tiefe) {
+        super(xPosition, yPosition, scale, farbe, orientierung);
         this.anzahlDerEinheiten = anzahlDerEinheiten;
         this.breite = breite;
         this.tiefe = tiefe;
@@ -35,7 +34,7 @@ class Schrankwand extends Moebel {
     }
        
     Schrankwand(int anzahlDerEinheiten, int breite, int tiefe) {
-        this(0, 0, 1, 1, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
+        this(0, 0, 1, "schwarz", 0, anzahlDerEinheiten, breite, tiefe);
     }
     
     protected Shape getFigur() {
@@ -43,7 +42,7 @@ class Schrankwand extends Moebel {
         
         for(int i = 0; i < anzahlDerEinheiten; i++) {
             Schrank schrank = new Schrank(breite, tiefe);
-            schrank.bewegeHorizontal(i * schrank.getBreite());
+            schrank.bewegeHorizontal(i * schrank.breite);
             schrankwand.append(schrank.getAktuelleFigur(), false);
         }
         
@@ -59,20 +58,18 @@ class Schrankwand extends Moebel {
                     case 1:
                         return Integer.toString(yPosition);
                     case 2:
-                        return Integer.toString(xScale);
+                        return Double.toString(scale);
                     case 3:
-                        return Integer.toString(yScale);
-                    case 4:
                         return farbe;
-                    case 5:
+                    case 4:
                         return Integer.toString(orientierung);
-                    case 6:
+                    case 5:
                         return Integer.toString(anzahlDerEinheiten);
-                    case 7:
+                    case 6:
                         return Integer.toString(breite);
-                    case 8:
+                    case 7:
                         return Integer.toString(tiefe);
-                    case 9:
+                    case 8:
                         return art;
                 }
             }
@@ -84,8 +81,7 @@ class Schrankwand extends Moebel {
         GUIOption[] optionen = {
             new GUIOption("X-Position"),
             new GUIOption("Y-Position"),
-            new GUIOption("X-Scale"),
-            new GUIOption("Y-Scale"),
+            new GUIOption("Scale"),
             new GUIOption("Farbe"),
             new GUIOption("Orientierung"),
             new GUIOption("Anzahl der Einheiten"),
