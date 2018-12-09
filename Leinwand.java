@@ -751,6 +751,45 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                     farbeMenu.add(schwarzMenuItem);
             
                 bearbeitenMenu.add(farbeMenu);
+                
+                JMenu groesseMenu = new JMenu("Größe...");
+            
+                    JMenuItem viertelMenuItem = new JMenuItem(new AbstractAction("x0.25") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("rot");
+                        }
+                    });
+                    groesseMenu.add(viertelMenuItem);
+            
+                    JMenuItem halbMenuItem = new JMenuItem(new AbstractAction("x0.5") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("blau");
+                        }
+                    });
+                    groesseMenu.add(halbMenuItem);
+                
+                    JMenuItem einMenuItem = new JMenuItem(new AbstractAction("x1") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("gruen");
+                        }
+                    });
+                    groesseMenu.add(einMenuItem);
+                    
+                    JMenuItem doppelMenuItem = new JMenuItem(new AbstractAction("x2") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("gelb");
+                        }
+                    });
+                    groesseMenu.add(doppelMenuItem);
+            
+                    JMenuItem viermalMenuItem = new JMenuItem(new AbstractAction("x4") {
+                        public void actionPerformed(ActionEvent ae) {
+                            moebelFarbeAendern("schwarz");
+                        }
+                    });
+                    groesseMenu.add(viermalMenuItem);
+            
+                bearbeitenMenu.add(groesseMenu);
         
             add(bearbeitenMenu);
         
