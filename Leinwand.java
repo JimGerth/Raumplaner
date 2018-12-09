@@ -167,6 +167,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_W:
                 if (ke.isControlDown()) System.exit(0);
                 break;
+            case KeyEvent.VK_ENTER:
+                for (Moebel moebel : alleMoebel) {
+                    moebel.istSchwebend = false;
+                }
+                break;
         }
     }
     
@@ -239,7 +244,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && !shiftGedrueckt && controlGedrueckt) { // scale
-                moebel.scale = previousScale + ( me.getX() - previousMouseX ) / 25;
+                moebel.scale = previousScale + ( (double)me.getX() - (double)previousMouseX ) / 25;
+                moebel.zeichne();
+                
+                // um nur das oberste moebel auszuwaehlen / draggen / rotieren
+                return;
+            } else if (moebel.istSchwebend && shiftGedrueckt && controlGedrueckt) { // finer scale
+                moebel.scale = previousScale + ( (double)me.getX() - (double)previousMouseX ) / 75;
                 moebel.zeichne();
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren

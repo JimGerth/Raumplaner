@@ -18,7 +18,7 @@ abstract public class Moebel {
     boolean istAusgewaehlt = false;
     boolean istSchwebend = true;
 
-    static String art;
+    String art;
     static GUIOption[] optionen = {};
     static GUIOption[] wichtigeOptionen = {};
 
