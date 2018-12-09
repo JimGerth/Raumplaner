@@ -133,6 +133,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case KeyEvent.VK_O:
                 if (ke.isControlDown()) lade();
                 break;
+            case KeyEvent.VK_F:
+                if (ke.isControlDown()) lade();
+                break;
             case KeyEvent.VK_DELETE:
                 moebelLoeschen();
                 break;
