@@ -11,11 +11,6 @@ class SchrankGUI extends JFrame implements KeyListener {
     {
         super("Raumplaner");
 
-        // Fenster schließen -> Programmende
-        addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) { System.exit(0); }
-            });
-
         // Fenstergröße
         int frameWidth = 280;
         int frameHeight = (Schrank.wichtigeOptionen.length * 35) + 70;

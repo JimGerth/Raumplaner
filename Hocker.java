@@ -62,15 +62,15 @@ class Hocker extends Moebel {
     }
     
     GUIOption[] getOptionen() { // nicht mehr noetig wenn null problem geloest ist...
-        // GUIOption[] optionen = {
-        //     new GUIOption("X-Position"),
-        //     new GUIOption("Y-Position"),
-        //     new GUIOption("Scale"),
-        //     new GUIOption("Farbe"),
-        //     new GUIOption("Orientierung"),
-        //     new GUIOption("Durchmesser"),
-        //     new GUIOption("Art")
-        // };
+        GUIOption[] optionen = {
+            new GUIOption("X-Position"),
+            new GUIOption("Y-Position"),
+            new GUIOption("Scale"),
+            new GUIOption("Farbe"),
+            new GUIOption("Orientierung"),
+            new GUIOption("Durchmesser"),
+            new GUIOption("Art")
+        };
         return optionen;
     }
 }

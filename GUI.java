@@ -52,11 +52,6 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
     {
         super("Raumplaner");
 
-        // Fenster schließen -> Programmende
-        addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) { System.exit(0); }
-        });
-
         // Fenstergröße
         int frameWidth = buttonAbstand + 3 * (buttonBreite + buttonAbstand);
         int frameHeight = buttonAbstand + 3 * (buttonBreite + buttonAbstand) + 20;
@@ -69,9 +64,9 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         // Fläche für Bedienungs-Elemente (Buttons usw.):
         Container cp = getContentPane();
         cp.setLayout(null);
-        // Anfang Komponenten
+        
+        // Komponenten einfuegen und weiteres setup
         komponentenEinfuegen(cp);
-        // Ende Komponenten
         setResizable(false);
         setVisible(true);
         setTitle("");

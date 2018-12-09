@@ -18,7 +18,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     public static Leinwand gibLeinwand() {
         if (leinwandSingleton == null) {
-            leinwandSingleton = new Leinwand("Raumplaner - Jim Gerth", 850, 550, Color.white);
+            leinwandSingleton = new Leinwand("Raumplaner", 900, 600, Color.white);
         }
         leinwandSingleton.setzeSichtbarkeit(true);
         return leinwandSingleton;
@@ -63,6 +63,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private Leinwand(String titel, int breite, int hoehe, Color grundfarbe) {
         fenster = new JFrame();
+
+        fenster.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent evt) { System.exit(0); }
+        });
         
         zeichenflaeche = new Zeichenflaeche();
         zeichenflaeche.setPreferredSize(new Dimension(breite, hoehe));
@@ -158,10 +162,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 if (ke.isControlDown()) moebelDuplizieren(true);
                 break;
             case KeyEvent.VK_Q:
-                if (ke.isControlDown()) Leinwand.gibLeinwand().fenster.dispose();
+                if (ke.isControlDown()) System.exit(0);
                 break;
             case KeyEvent.VK_W:
-                if (ke.isControlDown()) Leinwand.gibLeinwand().fenster.dispose();
+                if (ke.isControlDown()) System.exit(0);
                 break;
         }
     }
@@ -613,7 +617,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         
                 JMenuItem ueberMenuItem = new JMenuItem(new AbstractAction("Über Raumplaner") {
                     public void actionPerformed(ActionEvent ae) {
-                        // Ueber splash screen
+                        new UeberSplashScreen();
                     }
                 });
                 raumplanerMenu.add(ueberMenuItem);
@@ -638,7 +642,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             
                 JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
                     public void actionPerformed(ActionEvent ae) {
-                        Leinwand.gibLeinwand().fenster.dispose();
+                        System.exit(0);
                     }
                 });
                 raumplanerMenu.add(beendenMenuItem);
@@ -798,7 +802,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 
                     JMenuItem hockerMenuItem = new JMenuItem(new AbstractAction("Hocker") {
                         public void actionPerformed(ActionEvent ae) {
-                            new HockerGUI();
+                            new StuhlGUI();
                         }
                     });
                     neuesMoebelMenu.add(hockerMenuItem);
