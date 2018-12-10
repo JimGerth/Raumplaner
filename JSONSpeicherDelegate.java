@@ -13,7 +13,7 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             bw.write(toJSON(alleMoebel));
             bw.close();
         } catch (Exception e) {
-            new FehlerSplashScreen();
+            new FehlerSplashScreen("Speicher-Fehler");
         }
     }
     
@@ -41,16 +41,11 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         return output;
     }
     
-    public void lade(String location) {
+    public void lade(String location) throws Exception {
         String JSONString = "";
-        try {
-            JSONString = new String(Files.readAllBytes(Paths.get(location)));
-            JSONArray alleMoebel = new JSONArray(JSONString);
-            Leinwand.gibLeinwand().loescheMoebel();
-            Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
-        } catch (Exception e) {
-            new FehlerSplashScreen();
-        } // handle JAVASONs errors -> no valid JSON...
+        JSONString = new String(Files.readAllBytes(Paths.get(location)));
+        JSONArray alleMoebel = new JSONArray(JSONString);
+        Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
     }
     
     private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) { // TODO: maybe new failable moebel initializor from JSONObject..?

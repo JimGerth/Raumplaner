@@ -454,6 +454,10 @@ class GUI extends JFrame { // maybe spawn a new GUI when right click on leinwand
         if (fc.showOpenDialog(jbLinksRunter) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
-        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+        try {
+            speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+        } catch (Exception e) {
+            //
+        }
     }
 }

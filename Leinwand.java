@@ -386,7 +386,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
-        speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+        if (fc.getSelectedFile() != null) {
+            speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+        }
     }
     
     private void lade() {
@@ -397,8 +399,15 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
-        letzterSpeicherPfad = fc.getSelectedFile().getAbsolutePath();
-        speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+        if (fc.getSelectedFile() != null) {
+            try {
+                speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
+            } catch (Exception e) {
+                new FehlerSplashScreen("Lade-Fehler");
+                return;
+            }
+            letzterSpeicherPfad = fc.getSelectedFile().getAbsolutePath();
+        }
     }
     
     public void loescheMoebel() { // loescht alle figuren aus dem figuren array und zeichnet das leere array dann erneut -> loescht alle figuren
@@ -407,6 +416,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     }
     
     void ladeMoebel(ArrayList<Moebel> neueMoebel) { // gets called when loading a file, so all moebel have to be set and not floating!
+        loescheMoebel();
         alleMoebel = new ArrayList();
         for (int i = 0; i < neueMoebel.size(); i++) {
             alleMoebel.add(neueMoebel.get(i));
