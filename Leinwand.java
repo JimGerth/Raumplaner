@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 
 public class Leinwand extends MouseInputAdapter implements KeyListener {
@@ -379,10 +380,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);
             return;
         } // else open file chooser:
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new java.io.File("~"));
+        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        fc.setAcceptAllFileFilterUsed(false);
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
@@ -392,10 +393,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     }
     
     private void lade() {
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new java.io.File("~"));
+        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         fc.setDialogTitle("choose file to open");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        fc.setAcceptAllFileFilterUsed(false);
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
