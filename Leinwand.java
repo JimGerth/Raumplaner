@@ -381,6 +381,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             return;
         } // else open file chooser:
         JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        // fc.setDialogType(JFileChooser.SAVE_DIALOG); -> neue datei anlegen funktioniert aber noch nicht...
         fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
         fc.setAcceptAllFileFilterUsed(false);
