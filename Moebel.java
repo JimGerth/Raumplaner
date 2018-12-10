@@ -38,10 +38,10 @@ abstract public class Moebel {
     protected Shape getAktuelleFigur() {
         Shape figur = getFigur();
         AffineTransform t = new AffineTransform();
-        t.translate(xPosition, yPosition);
         Rectangle2D umriss = figur.getBounds2D();
-        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
+        t.translate(xPosition, yPosition);
         t.scale(scale, scale);
+        t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);
         return  t.createTransformedShape(figur);
     }
     
