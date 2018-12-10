@@ -57,14 +57,8 @@ class StuhlGUI extends JFrame implements KeyListener {
             erstellen();
         }
     }
-    
-    public void keyReleased(KeyEvent e) {
-        // not needed (yet maybe?)
-    }
-    
-    public void keyTyped(KeyEvent e) {
-        // not needed (yet maybe?)        
-    }
+    public void keyReleased(KeyEvent e) {} // not needed
+    public void keyTyped(KeyEvent e) {} // not needed
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         erstellen();

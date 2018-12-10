@@ -3,6 +3,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import JAVASON.*;
 
+
 class JSONSpeicherDelegate implements SpeicherProtokoll {
     
     public void speicher(ArrayList<Moebel> alleMoebel, String location) {
@@ -11,8 +12,8 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(toJSON(alleMoebel));
             bw.close();
-        } catch (IOException e) {
-            System.out.println("error while trying to write file");
+        } catch (Exception e) {
+            new FehlerSplashScreen();
         }
     }
     
@@ -44,12 +45,12 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
         String JSONString = "";
         try {
             JSONString = new String(Files.readAllBytes(Paths.get(location)));
-        } catch (IOException e) {
-            System.out.println("error while trying to read file");
+            JSONArray alleMoebel = new JSONArray(JSONString);
+            Leinwand.gibLeinwand().loescheMoebel();
+            Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
+        } catch (Exception e) {
+            new FehlerSplashScreen();
         } // handle JAVASONs errors -> no valid JSON...
-        JSONArray alleMoebel = new JSONArray(JSONString);
-        Leinwand.gibLeinwand().loescheMoebel();
-        Leinwand.gibLeinwand().ladeMoebel(JSONArrayToMoebelArray(alleMoebel));
     }
     
     private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) { // TODO: maybe new failable moebel initializor from JSONObject..?

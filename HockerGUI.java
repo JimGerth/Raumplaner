@@ -57,17 +57,11 @@ class HockerGUI extends JFrame implements KeyListener {
             erstellen();
         }
     }
+    public void keyReleased(KeyEvent ke) {} // not needed
+    public void keyTyped(KeyEvent ke) {} // not needed
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         erstellen();
-    }
-    
-    public void keyReleased(KeyEvent ke) {
-        // not needed (yet maybe?)
-    }
-    
-    public void keyTyped(KeyEvent ke) {
-        // not needed (yet maybe?)        
     }
     
     private void erstellen() {

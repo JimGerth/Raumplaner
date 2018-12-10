@@ -175,6 +175,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                     moebel.istSchwebend = false;
                 }
                 break;
+            case KeyEvent.VK_H:
+                if (ke.isControlDown()) new HilfeSplashScreen();
+                break;
         }
     }
     
@@ -638,7 +641,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         
                 JMenuItem hilfeMenuItem = new JMenuItem(new AbstractAction("Hilfe") {
                     public void actionPerformed(ActionEvent ae) {
-                        // hilfe spash scren
+                        new HilfeSplashScreen();
                     }
                 });
                 raumplanerMenu.add(hilfeMenuItem);

@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 
-class UeberSplashScreen extends JFrame {
-    UeberSplashScreen()
-    {
+class UeberSplashScreen extends JFrame implements KeyListener {
+    
+    UeberSplashScreen() {
         super("Über Raumplaner");
         
         // Fenstergröße
@@ -25,6 +26,7 @@ class UeberSplashScreen extends JFrame {
         setResizable(false);
         setVisible(true);
         setTitle("");
+        addKeyListener(this);
     }
 
     private void komponentenEinfuegen(Container cp) {
@@ -38,4 +40,12 @@ class UeberSplashScreen extends JFrame {
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
         cp.add(untertitel);
     }
+    
+    public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.dispose();
+        }
+    }
+    public void keyReleased(KeyEvent ke) {} // not needed
+    public void keyTyped(KeyEvent ke) {} // not needed
 }
