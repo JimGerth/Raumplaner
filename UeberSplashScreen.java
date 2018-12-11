@@ -42,9 +42,7 @@ class UeberSplashScreen extends JFrame implements KeyListener {
     }
     
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            this.dispose();
-        }
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
     }
     public void keyReleased(KeyEvent ke) {} // not needed
     public void keyTyped(KeyEvent ke) {} // not needed

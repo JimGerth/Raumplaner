@@ -28,6 +28,9 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
             case LADE_FEHLER:
                 ladeFehlerKomponentenEinfuegen(cp);
                 break;
+            case SPEICHER_FEHLER:
+                speicherFehlerKomponentenEinfuegen(cp);
+                break;
             case ERSTELLEN_FEHLER:
                 moebelErstellenFehlerKomponentenEinfuegen(cp);
                 break;
@@ -57,6 +60,20 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         untertitel2.setBounds(25, 70, 450, 25);
         untertitel2.setFont(new Font("Arial", Font.PLAIN, 13));
         cp.add(untertitel2);
+        
+        setSize(475, 115);
+    }
+    
+    private void speicherFehlerKomponentenEinfuegen(Container cp) {
+        JLabel titel = new JLabel("Fehler");
+        titel.setBounds(25, 15, 200, 40);
+        titel.setFont(new Font("Arial", Font.BOLD, 32));
+        cp.add(titel);
+        
+        JLabel untertitel = new JLabel("Problem beim Speichern der Datei.");
+        untertitel.setBounds(25, 55, 250, 25);
+        untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
+        cp.add(untertitel);
         
         setSize(475, 135);
     }
@@ -95,7 +112,7 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
     
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) this.dispose();
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
     }
     public void keyReleased(KeyEvent ke) {} // not needed
     public void keyTyped(KeyEvent ke) {} // not needed

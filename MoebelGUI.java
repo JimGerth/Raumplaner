@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 
-public class MoebelGUI extends JFrame implements ActionListener
-{
+public class MoebelGUI extends JFrame implements ActionListener, KeyListener {
     
     private JButton jbHocker = new JButton();
     private JButton jbStuhl = new JButton();
@@ -15,16 +14,11 @@ public class MoebelGUI extends JFrame implements ActionListener
     private JButton[] alleMoebelKnoepfe = {jbHocker, jbStuhl, jbTisch, jbSchrank, jbSchrankwand};
     private String[] alleMoebelNamen = {"Hocker" , "Stuhl", "Tisch", "Schrank", "Schrankwand"};
     
-    public MoebelGUI()
-    {
+    
+    public MoebelGUI() {
         super("Raumplaner");
 
-        // Fenster schließen -> Programmende
-        addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) { System.exit(0); }
-            });
-
-        // Fenstergröße
+        // Fenstergröße / position
         int frameWidth = 145;
         int frameHeight = (alleMoebelKnoepfe.length * 35) + 30;
         setSize(frameWidth, frameHeight);
@@ -32,16 +26,15 @@ public class MoebelGUI extends JFrame implements ActionListener
         int x = (d.width - getSize().width) / 2;
         int y = (d.height - getSize().height) / 2 ;
         setLocation(x, y);
-        setTitle("Möbel");
-
-        // Fläche für Bedienungs-Elemente (Buttons usw.):
+        
+        // komponenten einfuegen und allgemeines setup
         Container cp = getContentPane();
         cp.setLayout(null);
-        // Anfang Komponenten
         komponentenEinfuegen(cp);
-        // Ende Komponenten
         setResizable(false);
         setVisible(true);
+        addKeyListener(this);
+        setTitle("Möbel");
     }
     
     private void komponentenEinfuegen(Container cp) {
@@ -73,4 +66,10 @@ public class MoebelGUI extends JFrame implements ActionListener
             this.dispose();
         }
     }
+    
+    public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
+    }
+    public void keyReleased(KeyEvent ke) {} // not needed
+    public void keyTyped(KeyEvent ke) {} // not needed
 }
