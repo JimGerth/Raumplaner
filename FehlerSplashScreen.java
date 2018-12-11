@@ -34,6 +34,9 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
             case ERSTELLEN_FEHLER:
                 moebelErstellenFehlerKomponentenEinfuegen(cp);
                 break;
+            case NICHT_GESPEICHERT_FEHLER:
+                nichtGespeichertFehlerKomponentenEinfuegen(cp);
+                break;
             case UNBEKANNTER_FEHLER:
             default:
                 defaultKomponentenEinfuegen(cp);
@@ -57,7 +60,7 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         cp.add(untertitel);
         
         JLabel untertitel2 = new JLabel("Stelle sicher, dass du eine .txt datei mit passendem Format auswählst.");
-        untertitel2.setBounds(25, 70, 450, 25);
+        untertitel2.setBounds(25, 75, 450, 25);
         untertitel2.setFont(new Font("Arial", Font.PLAIN, 13));
         cp.add(untertitel2);
         
@@ -90,11 +93,33 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         cp.add(untertitel);
         
         JLabel untertitel2 = new JLabel("Stelle sicher, dass du angemessene Werte eingegeben hast.");
-        untertitel2.setBounds(25, 70, 450, 25);
+        untertitel2.setBounds(25, 75, 450, 25);
         untertitel2.setFont(new Font("Arial", Font.PLAIN, 13));
         cp.add(untertitel2);
         
         setSize(475, 135);
+    }
+    
+    private void nichtGespeichertFehlerKomponentenEinfuegen(Container cp) {
+        JLabel titel = new JLabel("Fehler");
+        titel.setBounds(25, 15, 200, 40);
+        titel.setFont(new Font("Arial", Font.BOLD, 32));
+        cp.add(titel);
+        
+        JLabel untertitel = new JLabel("Der Raum ist noch nicht gespeichert!");
+        untertitel.setBounds(25, 55, 250, 25);
+        untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
+        cp.add(untertitel);
+        
+        JButton loeschen = new JButton("Löschen"); // call Leinwand.istGespeichert = true && Leinwand.schleissen()
+        loeschen.setBounds(260, 85, 100, 25);
+        cp.add(loeschen);
+        
+        JButton speichern = new JButton("Speichern"); // call Leinwand.speicher()
+        speichern.setBounds(360, 85, 100, 25);
+        cp.add(speichern);
+        
+        setSize(475, 150);
     }
     
     private void defaultKomponentenEinfuegen(Container cp) {
@@ -117,5 +142,5 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     public void keyReleased(KeyEvent ke) {} // not needed
     public void keyTyped(KeyEvent ke) {} // not needed
     
-    enum FehlerArt { LADE_FEHLER, SPEICHER_FEHLER, ERSTELLEN_FEHLER, UNBEKANNTER_FEHLER }
+    enum FehlerArt { LADE_FEHLER, SPEICHER_FEHLER, ERSTELLEN_FEHLER, NICHT_GESPEICHERT_FEHLER, UNBEKANNTER_FEHLER }
 }

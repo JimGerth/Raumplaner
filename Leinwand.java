@@ -41,6 +41,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     private String letzterSpeicherPfad;
+    private boolean istGespeichert = true;
     
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
@@ -66,7 +67,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         fenster = new JFrame();
 
         fenster.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) { System.exit(0); }
+                public void windowClosing(WindowEvent evt) { schliessen(); }
         });
         
         zeichenflaeche = new Zeichenflaeche();
@@ -167,10 +168,10 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 else moebelLoeschen();
                 break;
             case KeyEvent.VK_Q:
-                if (ke.isControlDown()) System.exit(0);
+                if (ke.isControlDown()) schliessen();
                 break;
             case KeyEvent.VK_W:
-                if (ke.isControlDown()) System.exit(0);
+                if (ke.isControlDown()) schliessen();
                 break;
             case KeyEvent.VK_ENTER:
                 for (Moebel moebel : alleMoebel) {
@@ -364,6 +365,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         graphic.fill(new Rectangle(0, 0, size.width, size.height));
         graphic.setColor(original);
     }
+    
+    private void schliessen() {
+        if (istGespeichert) System.exit(0);
+        new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.NICHT_GESPEICHERT_FEHLER);
+    }
     //////////// END LEINWAND ZEICHNEN / VERWALTUNG ////////////
     
     
@@ -377,22 +383,25 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     private void speicher() {
         if (letzterSpeicherPfad != null) {
             speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);
+            istGespeichert = true;
             return;
         } // else open file chooser:
         JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         // fc.setDialogType(JFileChooser.SAVE_DIALOG); -> neue datei anlegen funktioniert aber noch nicht...
         fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-            fc.setAcceptAllFileFilterUsed(false);
+        fc.setAcceptAllFileFilterUsed(false);
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
         if (fc.getSelectedFile() != null) {
             speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());
+            istGespeichert = true;
         }
     }
     
     private void lade() {
+        if (!istGespeichert) { new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.NICHT_GESPEICHERT_FEHLER); return; }
         JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         fc.setDialogTitle("choose file to open");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
@@ -677,7 +686,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             
                 JMenuItem beendenMenuItem = new JMenuItem(new AbstractAction("Beenden") {
                     public void actionPerformed(ActionEvent ae) {
-                        System.exit(0);
+                        schliessen();
                     }
                 });
                 raumplanerMenu.add(beendenMenuItem);
