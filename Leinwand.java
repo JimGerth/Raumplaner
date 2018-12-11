@@ -164,6 +164,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 break;
             case KeyEvent.VK_D:
                 if (ke.isControlDown()) moebelDuplizieren(true);
+                else moebelLoeschen();
                 break;
             case KeyEvent.VK_Q:
                 if (ke.isControlDown()) System.exit(0);
@@ -251,14 +252,12 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && !shiftGedrueckt && controlGedrueckt) { // scale
-                moebel.scale = previousScale + ( (double)me.getX() - (double)previousMouseX ) / 25;
-                moebel.zeichne();
+                moebelSkalieren(previousScale + ( (double)me.getX() - (double)previousMouseX ) / 25);
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && shiftGedrueckt && controlGedrueckt) { // finer scale
-                moebel.scale = previousScale + ( (double)me.getX() - (double)previousMouseX ) / 75;
-                moebel.zeichne();
+                moebelSkalieren(previousScale + ( (double)me.getX() - (double)previousMouseX ) / 75);
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
@@ -384,7 +383,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         // fc.setDialogType(JFileChooser.SAVE_DIALOG); -> neue datei anlegen funktioniert aber noch nicht...
         fc.setDialogTitle("choose file to save");
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
-        fc.setAcceptAllFileFilterUsed(false);
+            fc.setAcceptAllFileFilterUsed(false);
         if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) {
             // idk why but dont touch this
         }
@@ -405,7 +404,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             try {
                 speicherDelegate.lade(fc.getSelectedFile().getAbsolutePath());
             } catch (Exception e) {
-                new FehlerSplashScreen("Lade-Fehler");
+                new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.LADE_FEHLER);
                 return;
             }
             letzterSpeicherPfad = fc.getSelectedFile().getAbsolutePath();
@@ -600,6 +599,13 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         if (moebel == null) return;
         moebel.aendereFarbe(neueFarbe);
     }
+    
+    private void moebelSkalieren(double scale) {
+        Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
+        if (moebel == null) return;
+        moebel.scale = scale;
+        moebel.zeichne();
+    }
     //////////// END MOEBEL MANIPULATIONS-FUNKTIONEN ////////////
     
     
@@ -787,35 +793,35 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             
                     JMenuItem viertelMenuItem = new JMenuItem(new AbstractAction("x0.25") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("rot");
+                            moebelSkalieren(0.25);
                         }
                     });
                     groesseMenu.add(viertelMenuItem);
             
                     JMenuItem halbMenuItem = new JMenuItem(new AbstractAction("x0.5") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("blau");
+                            moebelSkalieren(0.5);
                         }
                     });
                     groesseMenu.add(halbMenuItem);
                 
                     JMenuItem einMenuItem = new JMenuItem(new AbstractAction("x1") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("gruen");
+                            moebelSkalieren(1);
                         }
                     });
                     groesseMenu.add(einMenuItem);
                     
                     JMenuItem doppelMenuItem = new JMenuItem(new AbstractAction("x2") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("gelb");
+                            moebelSkalieren(2);
                         }
                     });
                     groesseMenu.add(doppelMenuItem);
             
                     JMenuItem viermalMenuItem = new JMenuItem(new AbstractAction("x4") {
                         public void actionPerformed(ActionEvent ae) {
-                            moebelFarbeAendern("schwarz");
+                            moebelSkalieren(4);
                         }
                     });
                     groesseMenu.add(viermalMenuItem);

@@ -70,31 +70,26 @@ abstract public class Moebel {
     }
 
     void dreheAuf(int neuerWinkel) {
-        loesche();
         orientierung = neuerWinkel;
         zeichne();
     }
     
     void dreheUm(int winkel) {
-        loesche();
         orientierung += winkel;
         zeichne();
     }
 
     void bewegeHorizontal(int entfernung) {
-        loesche();
         xPosition += entfernung;
         zeichne();
     }
 
     void bewegeVertikal(int entfernung) {
-        loesche();
         yPosition += entfernung;
         zeichne();
     }
     
     void aendereFarbe(String neueFarbe) {
-        loesche();
         farbe = neueFarbe;
         zeichne();
     }

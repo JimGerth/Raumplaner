@@ -7,8 +7,8 @@ class SchrankwandGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
-    SchrankwandGUI()
-    {
+    
+    SchrankwandGUI() {
         super("Raumplaner");
 
         // Fenstergröße
@@ -53,13 +53,12 @@ class SchrankwandGUI extends JFrame implements KeyListener {
         );
     }
     
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            erstellen();
-        }
+    public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) erstellen(); 
+        else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
     }
-    public void keyReleased(KeyEvent e) {} // not needed
-    public void keyTyped(KeyEvent e) {} // not needed
+    public void keyReleased(KeyEvent ke) {} // not needed
+    public void keyTyped(KeyEvent ke) {} // not needed
     
     private void jbErstellenActionPerformed(ActionEvent evt) {
         erstellen();
@@ -72,7 +71,7 @@ class SchrankwandGUI extends JFrame implements KeyListener {
                                           Integer.parseInt(Schrankwand.wichtigeOptionen[1].textField.getText()),
                                           Integer.parseInt(Schrankwand.wichtigeOptionen[2].textField.getText()));
         } catch (Exception e) {
-            System.out.println("Error: Problem beim Erstellen des Moebels mit den gegebenen Werten.");
+            new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.ERSTELLEN_FEHLER);
             return;
         }
         if (Leinwand.alleMoebel.size() > 0) {

@@ -8,6 +8,7 @@ class HockerGUI extends JFrame implements KeyListener {
     
     private JButton jbErstellen = new JButton();
     
+    
     HockerGUI()
     {
         super("Raumplaner");
@@ -53,9 +54,8 @@ class HockerGUI extends JFrame implements KeyListener {
     }
     
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-            erstellen();
-        }
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) erstellen(); 
+        else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
     }
     public void keyReleased(KeyEvent ke) {} // not needed
     public void keyTyped(KeyEvent ke) {} // not needed
@@ -69,8 +69,7 @@ class HockerGUI extends JFrame implements KeyListener {
         try {
             hocker = new Hocker(Integer.parseInt(Hocker.wichtigeOptionen[0].textField.getText())); // erzeugt Hocker mit eingegebenen werten
         } catch (Exception error) {
-            System.out.println("Error: Problem beim Erstellen des Moebels mit den gegebenen Werten.");
-            // shwo something in dialog!
+            new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.ERSTELLEN_FEHLER);
             return;
         }
         if (Leinwand.alleMoebel.size() > 0) {

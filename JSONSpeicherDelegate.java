@@ -13,7 +13,7 @@ class JSONSpeicherDelegate implements SpeicherProtokoll {
             bw.write(toJSON(alleMoebel));
             bw.close();
         } catch (Exception e) {
-            new FehlerSplashScreen("Speicher-Fehler");
+            new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.SPEICHER_FEHLER);
         }
     }
     
