@@ -82,6 +82,7 @@ class SchrankwandGUI extends JFrame implements KeyListener {
         Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
         Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         schrankwand.zeige();
+        Leinwand.gibLeinwand().istGespeichert = false;
         this.dispose();
     }
 }

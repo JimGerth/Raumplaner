@@ -80,6 +80,7 @@ class TischGUI extends JFrame implements KeyListener {
         Leinwand.moebelNummer = Leinwand.alleMoebel.size() - 1;
         Leinwand.alleMoebel.get(Leinwand.moebelNummer).istAusgewaehlt = true;
         tisch.zeige();
+        Leinwand.gibLeinwand().istGespeichert = false;
         this.dispose();
     }
 }

@@ -41,7 +41,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
     
     private SpeicherProtokoll speicherDelegate = new JSONSpeicherDelegate();
     private String letzterSpeicherPfad;
-    private boolean istGespeichert = true;
+    boolean istGespeichert = true;
     
     static ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();
     static int moebelNummer = -1;
@@ -242,6 +242,9 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 moebel.yPosition = me.getY() - dragYOffset;
                 moebel.zeichne();
                 
+                // damit ungespeicherte veraenderungen nicht verworfen werden
+                istGespeichert = false;
+                
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && shiftGedrueckt && !controlGedrueckt) { // rotate
@@ -250,15 +253,24 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 moebel.orientierung = originaleOrientierung + deltaMouseX + deltaMouseY;
                 moebel.zeichne();
                 
+                // damit ungespeicherte veraenderungen nicht verworfen werden
+                istGespeichert = false;
+                
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && !shiftGedrueckt && controlGedrueckt) { // scale
                 moebelSkalieren(previousScale + ( (double)me.getX() - (double)previousMouseX ) / 25);
                 
+                // damit ungespeicherte veraenderungen nicht verworfen werden
+                istGespeichert = false;
+                
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
             } else if (moebel.istSchwebend && shiftGedrueckt && controlGedrueckt) { // finer scale
                 moebelSkalieren(previousScale + ( (double)me.getX() - (double)previousMouseX ) / 75);
+                
+                // damit ungespeicherte veraenderungen nicht verworfen werden
+                istGespeichert = false;
                 
                 // um nur das oberste moebel auszuwaehlen / draggen / rotieren
                 return;
@@ -370,6 +382,11 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         if (istGespeichert) System.exit(0);
         new FehlerSplashScreen(FehlerSplashScreen.FehlerArt.NICHT_GESPEICHERT_FEHLER);
     }
+    
+    public void schliessen(boolean force) { // schliessen ohne zu sichern (force quit)
+        istGespeichert = force;
+        schliessen();
+    }
     //////////// END LEINWAND ZEICHNEN / VERWALTUNG ////////////
     
     
@@ -380,7 +397,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         speicher();
     }
     
-    private void speicher() {
+    void speicher() {
         if (letzterSpeicherPfad != null) {
             speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);
             istGespeichert = true;
@@ -556,12 +573,14 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         moebelNummer = alleMoebel.size() - 1;
         alleMoebel.get(moebelNummer).istAusgewaehlt = ausgewaehlt;
         alleMoebel.get(moebelNummer).zeige();
+        istGespeichert = false;
     }
     
     private void moebelDuplizieren(boolean ohneMaus) { // geht auch mitMaus (alt gedrueckt und drag)
         moebelKopieren();
         if (ohneMaus) auswahlAufheben();
         moebelEinfuegen(ohneMaus);
+        istGespeichert = false;
     }
     
     private void moebelLoeschen() {
@@ -570,6 +589,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         entferne(moebel);
         alleMoebel.remove(moebel);
         moebelNummer = alleMoebel.size() - 1;
+        istGespeichert = false;
     }
     
     private void moebelBewegen(Richtung richtung, int entfernung) {
@@ -589,6 +609,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 moebel.bewegeHorizontal(-entfernung);
                 break;
         }
+        istGespeichert = false;
     }
     
     private void moebelDrehen(Richtung richtung, int grad) {
@@ -601,12 +622,14 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
             case LINKS:
                 moebel.dreheUm(-grad);
         }
+        istGespeichert = false;
     }
     
     private void moebelFarbeAendern(String neueFarbe) {
         Moebel moebel = (moebelNummer >= 0) ? alleMoebel.get(moebelNummer) : null;
         if (moebel == null) return;
         moebel.aendereFarbe(neueFarbe);
+        istGespeichert = false;
     }
     
     private void moebelSkalieren(double scale) {
@@ -614,6 +637,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         if (moebel == null) return;
         moebel.scale = scale;
         moebel.zeichne();
+        istGespeichert = false;
     }
     //////////// END MOEBEL MANIPULATIONS-FUNKTIONEN ////////////
     

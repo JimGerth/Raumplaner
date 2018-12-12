@@ -111,14 +111,31 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
         cp.add(untertitel);
         
-        JButton loeschen = new JButton("Löschen"); // call Leinwand.istGespeichert = true && Leinwand.schleissen()
+        JButton loeschen = new JButton("Löschen"); // schliessen ohne zu speichern
         loeschen.setBounds(260, 85, 100, 25);
+        loeschen.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    Leinwand.gibLeinwand().schliessen(true);
+                }
+            }
+        );
         cp.add(loeschen);
         
-        JButton speichern = new JButton("Speichern"); // call Leinwand.speicher()
+        JButton speichern = new JButton("Speichern"); // erst speichern, dann schliessen
         speichern.setBounds(360, 85, 100, 25);
+        speichern.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    Leinwand.gibLeinwand().speicher();
+                    Leinwand.gibLeinwand().schliessen(true);
+                }
+            }
+        );
         cp.add(speichern);
         
+        loeschen.addKeyListener(this);
+        speichern.addKeyListener(this);
         setSize(475, 150);
     }
     
