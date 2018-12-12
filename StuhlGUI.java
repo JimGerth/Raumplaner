@@ -16,8 +16,8 @@ class StuhlGUI extends JFrame implements KeyListener {
         int frameHeight = (Stuhl.wichtigeOptionen.length * 35) + 70;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (d.width - getSize().width) / 2;
-        int y = (d.height - getSize().height) / 2 ;
+        int x = MouseInfo.getPointerInfo().getLocation().x;
+        int y = MouseInfo.getPointerInfo().getLocation().y;
         setLocation(x, y);
         // Fläche für Bedienungs-Elemente (Buttons usw.):
         Container cp = getContentPane();

@@ -23,8 +23,8 @@ public class MoebelGUI extends JFrame implements ActionListener, KeyListener {
         int frameHeight = (alleMoebelKnoepfe.length * 35) + 30;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (d.width - getSize().width) / 2;
-        int y = (d.height - getSize().height) / 2 ;
+        int x = MouseInfo.getPointerInfo().getLocation().x;
+        int y = MouseInfo.getPointerInfo().getLocation().y;
         setLocation(x, y);
         
         // komponenten einfuegen und allgemeines setup
@@ -33,7 +33,6 @@ public class MoebelGUI extends JFrame implements ActionListener, KeyListener {
         komponentenEinfuegen(cp);
         setResizable(false);
         setVisible(true);
-        addKeyListener(this);
         setTitle("Möbel");
     }
     
@@ -43,6 +42,7 @@ public class MoebelGUI extends JFrame implements ActionListener, KeyListener {
             alleMoebelKnoepfe[i].setText(alleMoebelNamen[i]);
             cp.add(alleMoebelKnoepfe[i]);
             alleMoebelKnoepfe[i].addActionListener(this);
+            alleMoebelKnoepfe[i].addKeyListener(this);
         }
     }
     

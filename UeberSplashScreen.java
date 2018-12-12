@@ -13,8 +13,8 @@ class UeberSplashScreen extends JFrame implements KeyListener {
         int frameHeight = 110;
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (d.width - getSize().width) / 5;
-        int y = (d.height - getSize().height) / 5;
+        int x = MouseInfo.getPointerInfo().getLocation().x + 25;
+        int y = MouseInfo.getPointerInfo().getLocation().y + 25;
         setLocation(x, y);
         
         // Fläche für Bedienungs-Elemente (Buttons usw.):

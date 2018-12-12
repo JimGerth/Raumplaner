@@ -870,7 +870,7 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
                 
                     JMenuItem hockerMenuItem = new JMenuItem(new AbstractAction("Hocker") {
                         public void actionPerformed(ActionEvent ae) {
-                            new StuhlGUI();
+                            new HockerGUI();
                         }
                     });
                     neuesMoebelMenu.add(hockerMenuItem);

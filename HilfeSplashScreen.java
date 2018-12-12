@@ -10,8 +10,8 @@ class HilfeSplashScreen extends JFrame implements KeyListener {
         
         // Fensterposition
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (d.width - getSize().width) / 5;
-        int y = (d.height - getSize().height) / 5;
+        int x = MouseInfo.getPointerInfo().getLocation().x;
+        int y = MouseInfo.getPointerInfo().getLocation().y;
         setLocation(x, y);
         
         // Fläche für Bedienungs-Elemente (Buttons usw.):
