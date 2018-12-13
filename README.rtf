@@ -689,12 +689,21 @@
      \cf3 6\cf0    t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);\
      \cf3 7\cf0    return  t.createTransformedShape(figur);\
   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf2 \cb4 >> \CocoaLigature0 Tue Dec 11 21:37:36 2018\
+
+\f0\i0\fs24 \
+   Um Fehler des Benutzers abzufangen habe ich ein neues Fenster erstellt, welches bei mir FehlerSplashScreen hei\'dft. Dieses kann in try/catcht Bl\'f6cken\
+   erzeugt werden, um dem Benutzer wichtige Informationen zu \'fcbermitteln. Bisher habe ich verschiedene Fenster f\'fcr Fehler beim Speichern, beim Laden,\
+   beim M\'f6bel-Erstellen und ein allgemeines Fenster f\'fcr unbekannte Fehler.\
 \
-TODO:\
+   Als letztes wollte ich noch das Problem l\'f6sen, dass ungespeicherte Ver\'e4nderungen einfach verloren gehen k\'f6nnen, da man ohne Hinweis einfach das\
+   Programm schlie\'dfen kann oder einen anderen Raum laden kann, ohne den gerade bearbeiteten speichern zu m\'fcssen.\
+   Um zu speichern, ob der aktuelle Raum gespeichert ist, habe ich eine neue Variable istGespeichert eingef\'fchrt, die in der Leinwand-Klasse\
+   angibt, ob es noch ungespeicherte Ver\'e4nderungen gibt. An unterschiedlichen Stellen, wie dem Bewegen oder Erstellen eines M\'f6bels wird diese Variable\
+   zu false gesetzt und erst in speicher() wieder auf true gesetzt, wenn der Speichervorgang abgeschlossen ist.\
+   Jeweils vor dem Schlie\'dfen und \'d4ffnen eines Raumes \'fcberpr\'fcfe ich so, ob alles gespeichert worden ist. Wenn nicht, wird ein weiterer FehlerSplashScreen\
+   erzeugt, der dies dem Nutzer mitteilt und einen L\'f6schen und einen Speichern Knopf enth\'e4lt, \'fcber die der Benutzer sein weiteres Vorgehen bestimmen kann.\cf0 \cb1 \CocoaLigature1 \
 \
-  -neue m\'f6bel?\
-  -fix alt drag!\
-  -Drag and Drop nur so weit erlauben, dass sich m\'f6bel nicht \'fcberschneiden k\'f6nnen: https://stackoverflow.com/questions/15690846/java-collision-detection-between-two-shape-objects\
-  -Kommentieren!\
-	-\'e4nderug der Gr\'f6sse der Zeichenfl\'e4che? (auch in der Datei speichern..?)\
 }
