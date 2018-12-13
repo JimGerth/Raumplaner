@@ -299,18 +299,6 @@ public class Leinwand extends MouseInputAdapter implements KeyListener {
         altGedrueckt = false;
         controlGedrueckt = false;
     }
-    
-    public void mouseWheelMoved(MouseEvent me) {
-        // drehen und wenn shift gedrueckt ist verkleinern / vergroessern...
-    }
-    
-    public void mouseClicked(MouseEvent me) {
-        // not needed yet
-    }
-    
-    public void mouseEntered(MouseEvent me) {
-        // not needed yet
-    }
     //////////// END MOUSE EVENT HANDLING ////////////
     
     

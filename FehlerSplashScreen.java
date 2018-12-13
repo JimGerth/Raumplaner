@@ -6,12 +6,15 @@ import JAVASON.*;
 
 class FehlerSplashScreen extends JFrame implements KeyListener {
     
+    private FehlerArt fehlerArt;
+    
     FehlerSplashScreen() {
         this(FehlerArt.UNBEKANNTER_FEHLER);
     }
     
     FehlerSplashScreen(FehlerArt fehlerArt) {
         super("Fehler");
+        this.fehlerArt = fehlerArt;
         
         // Lage auf dem Bildschirm
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -24,6 +27,10 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         cp.setLayout(null);
         
         // Komponenten einfuegen und sonstiges setup
+        JLabel titel = new JLabel("Achtung!"); // immer gleicher titel
+        titel.setBounds(25, 15, 200, 40);
+        titel.setFont(new Font("Arial", Font.BOLD, 32));
+        cp.add(titel);
         switch (fehlerArt) {
             case LADE_FEHLER:
                 ladeFehlerKomponentenEinfuegen(cp);
@@ -49,11 +56,6 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
 
     private void ladeFehlerKomponentenEinfuegen(Container cp) {
-        JLabel titel = new JLabel("Fehler");
-        titel.setBounds(25, 15, 200, 40);
-        titel.setFont(new Font("Arial", Font.BOLD, 32));
-        cp.add(titel);
-        
         JLabel untertitel = new JLabel("Problem beim Einlesen der Datei.");
         untertitel.setBounds(25, 55, 250, 25);
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -68,11 +70,6 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
     
     private void speicherFehlerKomponentenEinfuegen(Container cp) {
-        JLabel titel = new JLabel("Fehler");
-        titel.setBounds(25, 15, 200, 40);
-        titel.setFont(new Font("Arial", Font.BOLD, 32));
-        cp.add(titel);
-        
         JLabel untertitel = new JLabel("Problem beim Speichern der Datei.");
         untertitel.setBounds(25, 55, 250, 25);
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -82,11 +79,6 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
     
     private void moebelErstellenFehlerKomponentenEinfuegen(Container cp) {
-        JLabel titel = new JLabel("Fehler");
-        titel.setBounds(25, 15, 200, 40);
-        titel.setFont(new Font("Arial", Font.BOLD, 32));
-        cp.add(titel);
-        
         JLabel untertitel = new JLabel("Problem beim Erstellen des Möbels.");
         untertitel.setBounds(25, 55, 250, 25);
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -101,11 +93,6 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
     
     private void nichtGespeichertFehlerKomponentenEinfuegen(Container cp) {
-        JLabel titel = new JLabel("Fehler");
-        titel.setBounds(25, 15, 200, 40);
-        titel.setFont(new Font("Arial", Font.BOLD, 32));
-        cp.add(titel);
-        
         JLabel untertitel = new JLabel("Der Raum ist noch nicht gespeichert!");
         untertitel.setBounds(25, 55, 250, 25);
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -115,9 +102,7 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         loeschen.setBounds(260, 85, 100, 25);
         loeschen.addActionListener(
             new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    Leinwand.gibLeinwand().schliessen(true);
-                }
+                public void actionPerformed(ActionEvent evt) { loescheUndSchliesse(); }
             }
         );
         cp.add(loeschen);
@@ -126,10 +111,7 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         speichern.setBounds(360, 85, 100, 25);
         speichern.addActionListener(
             new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    Leinwand.gibLeinwand().speicher();
-                    Leinwand.gibLeinwand().schliessen(true);
-                }
+                public void actionPerformed(ActionEvent evt) { speicherUndSchliesse(); }
             }
         );
         cp.add(speichern);
@@ -140,11 +122,6 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
     }
     
     private void defaultKomponentenEinfuegen(Container cp) {
-        JLabel titel = new JLabel("Fehler");
-        titel.setBounds(25, 15, 200, 40);
-        titel.setFont(new Font("Arial", Font.BOLD, 32));
-        cp.add(titel);
-        
         JLabel untertitel = new JLabel("Ein unbekannter Fehler ist aufgetreten.");
         untertitel.setBounds(25, 55, 250, 25);
         untertitel.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -153,8 +130,13 @@ class FehlerSplashScreen extends JFrame implements KeyListener {
         setSize(475, 115);
     }
     
+    private void loescheUndSchliesse() { Leinwand.gibLeinwand().schliessen(true); }
+    private void speicherUndSchliesse() { Leinwand.gibLeinwand().speicher(); Leinwand.gibLeinwand().schliessen(true); }
+    
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER || ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
+        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) dispose();
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER && fehlerArt == FehlerArt.NICHT_GESPEICHERT_FEHLER) speicherUndSchliesse();
+        else if (ke.getKeyCode() == KeyEvent.VK_ENTER) dispose();
     }
     public void keyReleased(KeyEvent ke) {} // not needed
     public void keyTyped(KeyEvent ke) {} // not needed
