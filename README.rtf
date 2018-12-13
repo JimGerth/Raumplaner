@@ -1,0 +1,700 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf100
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red11\green90\blue124;\red0\green0\blue0;
+\red43\green71\blue20;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c42931\c55996;\csgray\c0\c0;
+\cssrgb\c21795\c34243\c10019;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh17040\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0    +\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97+\
+   | Logbuch zu dem Projekt 'Raumplaner' 
+\f1\i von Jim Gerth
+\f0\i0  |\
+   +\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97+
+\fs24 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Tue Nov 6 22:35:49 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0    \
+   Da ich bereits das M\'f6bel-Auswahl Feature implementiert habe und es zu funktionieren scheint, will ich zun\'e4cht versuchen,\
+   die M\'f6bel in einer Datei zu speichern bzw. dann auch wieder zu laden. Das Grundger\'fcst daf\'fcr gestalte ich so:\
+      \
+     -Ich definiere ein Protokoll zum speichern von M\'f6beln, welches aber noch nicht das Speichern an sich implementiert,\
+      sondern abstrakt die Funktionen beschreibt, welche eine Klasse haben muss, um dem "Speicher-Protokoll" zu entsprechen.\
+      \
+     -Da zwei M\'f6glichkeiten des Speicherns angegeben waren, k\'f6nnte ich nun analog dazu zwei Klassen definieren, welche\
+      das Speichern direkt implementieren und somit auch beide dem "Speicher-Protokoll" entsprechen.\
+      \
+     -\'dcberall, wo nun im Raumplener etwas gespeichert werden muss, kann ich ein Objekt, welches dem "Speicher-Protokoll"\
+      entspricht, dazu delegieren, etwas in einer Datei zu speichern. Das gibt Freiheit, da an dem Punkt dann egal ist,\
+      wie genau es die M\'f6bel Speichert.\
+      \
+   Mit den neuen Klassen "SpeicherProtokoll" und \'84SpeicherDelegate" habe ich also erstmal dieses Grundger\'fcst geschaffen;\
+   das tats\'e4chliche Speichern muss ich aber noch implementieren.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Wed Nov 7 14:57:42 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Ich habe mich dazu entschieden, das Speichern zun\'e4chst mit der ersten Variante zu implementieren, also die Daten als\
+   Textdatei zu speichern. Dabei verwende ich JSON zum speichern der M\'f6bel, da ich daf\'fcr eine externe Library von\
+   
+\f1\i \ul https://github.com/stleary/JSON-java
+\f0\i0 \ulnone  verwenden kann, was den Speicherprozess etwas vereinfacht.\
+   Au\'dferdem ist JSON robuster und sicherer, als Moebel Informationen einfach irgendiwe in eine Textdatei zu schreiben,\
+   da es eine genau definierte Syntax hat.\
+   Bisher konvertiere ich das alleMoebel Array "h\'e4ndisch" zu JSON, also erstelle einen langen String aus den M\'f6beln und\
+   deren Eigenschaften, wie Position oder Farbe, mit vielen zus\'e4tzlichen \{'s und \}'s...\
+   Allerdings kann ich das eventuell auch einfacher mit dem JSONStringer aus der bereits angesprochenen Bibliothek machen.\
+   Die Dokumentation zu der Bibliothek ist auch auf bei der angegebenen URL zu finden, welche ich nat\'fcrlich auch zur\
+   Hilfe ziehe.\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Thu Nov 8 21:19:45 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Die JSON Serialization mache ich weiterhin h\'e4ndisch. Ich versuche das aber so \'fcbersichtlich zu machen, wie m\'f6glich.\
+   Bisher findet alles in der JSONSpeicherDelegate Klasse statt, wo ich durch das alleMoebel Array iteriere und je nach\
+   Art des M\'f6bels (\'fcberpr\'fcft mit instanceof) eine weitere Funktion zum serializen dieses einzelnen M\'f6bels aufrufe.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i \cf2    Code Beispiel f\'fcr Hocker:
+\f0\i0 \
+  \
+    \cf3  1\cf2    private String toJSON(ArrayList<Moebel> alleMoebel) \{\
+    \cf3  2\cf2        String JSONString = "[\\n";\
+    \cf3  3  \cf2      for (int i = 0; i < alleMoebel.size(); i++) \{\
+    \cf3  4  \cf2          if (alleMoebel.get(i) instanceof Hocker) \{\
+    \cf3  5  \cf2              JSONString += serializeHocker((Hocker) alleMoebel.get(i));\
+    \cf3  6  \cf2          \} else if \{ /* weitere Moebel Arten \'fcberpr\'fcfen\'85*/ \}\
+    \cf3  7  \cf2          if (i < alleMoebel.size() - 1) \{\
+    \cf3  8  \cf2              JSONString += ",\\n";\
+    \cf3  9  \cf2          \}\
+    \cf3 10  \cf2      \}\
+    \cf3 11  \cf2      JSONString += "\\n]";\
+    \cf3 12  \cf2      return JSONString;\
+    \cf3 13  \cf2  \}\
+    \cf3 14 \cf2 \
+    \cf3 15  \cf2  private String serializeHocker(Hocker hocker) \{\
+    \cf3 16\cf2        return ""\
+    \cf3 17\cf2            + "\{\\n"\
+    \cf3 18\cf2            + serializeMoebel(hocker)\
+    \cf3 19\cf2            + "\\"Durchmesser\\": \\"" + hocker.durchmesser + "\\"\\n"\
+    \cf3 20\cf2            + "\}";\
+    \cf3 21\cf2    \}\
+    \cf3 22 \cf2 \
+    \cf3 23  \cf2  private String serializeMoebel(Moebel moebel) \{ // f\'fcr Eigenschaften, die alle M\'f6bel haben\
+    \cf3 24  \cf2      return ""\
+    \cf3 25  \cf2          + "\\"art\\": \\"" + moebel.art + "\\",\\n"\
+    \cf3 26  \cf2          + "\\"xPosition\\": \\"" + moebel.xPosition + "\\",\\n"\
+    \cf3 27  \cf2          + "\\"yPosition\\": \\"" + moebel.yPosition + "\\",\\n"\
+    \cf3 28  \cf2          + "\\"farbe\\": \\"" + moebel.farbe + "\\",\\n";\
+    \cf3 29  \cf2  \}\cf0 \
+\
+   Ich versuche ausserdem diese weitere Funktion generic zu gestalten, sodass es automatisch jede Art von M\'f6bel zu JSON\
+   konvertieren kann, und so nicht nur das Type-checking, sondern auch viele, an bestimmte M\'f6bel angepasste, Funktionen\
+   einsparen w\'fcrde. Allerdings weiss ich noch nicht, wie ich \'fcber alle Atribute eines M\'f6bels iterieren kann, im Notfall\
+   muss ich ein weiteres Array "attribute" in der M\'f6bel Klasse anlegen...\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Mon Nov 12 22:41:59 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Parallel zum Speichern der M\'f6bel versuche ich auch den ganzen Quellcode f\'fcr den Raumplaner etwas \'fcbersichtlicher zu\
+   gestalten. Dazu geh\'f6rt zum Beispiel die Reduzierung von Klassen durch generische Klassen. Momentan habe ich f\'fcr jede\
+   M\'f6belart eine einzelne weitere Klasse, die ein Fenster zum erstellen eines entsprechenden M\'f6bels darstellt. Durch ein\
+   statisches "optionen"-Array in der jeweiligen M\'f6belklasse weiss die zugeh\'f6rige GUI-Klasse, welche Werte (wie z.B. H\'f6he \
+   oder Breite) wichtig zum Erstellen sind und welche nicht (z.B. die Position, welche am Anfang einfach immer (0|0) ist).\
+   Dadurch, dass ich schon in der "M\'f6bel"-Klasse bestimme, dass jede Subklasse eben so ein Optionen-Array haben muss (und\
+   au\'dferdem eine "art"-Variable), kann ich eine allgemeine GUI-Klasse erstellen, die f\'fcr alle Klassen 'T' g\'fcltig ist, die \
+   eine Subklasse der "M\'f6bel"-Klasse sind:\
+   \
+     \cf3 1\cf0   \cf2  class AllgemeineGUI<T extends M\'f6bel> extends JFrame \{...\}\
+\cf0      \
+   Momentan kann ich allerdings noch keinen dieser allgemeinen GUIs erstellen, da das Programm dabei abst\'fcrzt... Ich weiss\
+   noch nicht genau warum das passiert, aber das werde ich mir nochmal genau angucken m\'fcssen.\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Tue Nov 13 15:22:04 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Bisher konnte ich herausfinden, dass der Absturz an einer Null-Pointer-Exception liegt. Aus einem mir unbekannten Grund\
+   sind die Werte f\'fcr das "optionen"-Array und die "art" des M\'f6bels f\'fcr die generische Klasse nicht zug\'e4nglich.\
+   Dem bin ich nachgegangen und habe mit System.out.println() versucht das \'84optionen\'93-Array und die \'84art\'93 der Moebel-Klasse\
+   bei der Erstellung einer AllgemeineGUI auszugeben. Dabei habe ich herausgefunden, dass diese statischen Variablen beim\
+   Zeitpunkt des Erstellens noch \'fcberhaupt nicht konstruiert wurden. Ich wei\'df nicht warum nicht und habe einige m\'f6gliche\
+   L\'f6sungsans\'e4tze ausprobiert, jedoch hatte ich keinen Erfolg. Dieses Problem muss ich sp\'e4ter noch weiter untersuchen.\
+   \
+   Au\'dferdem habe ich vorerst die M\'f6bel Klavier und Badewanne gel\'f6scht, da diese nur halb fertig waren und somit blo\'df f\'fcr\
+   Verwirrung sorgten. Da ich Git benutze, kann ich notfalls wieder auf die beiden M\'f6bel zur\'fcckgreifen, alledings k\'f6nnen\
+   nat\'fcrlich auch jeder Zeit andere neue M\'f6bel hinzugef\'fcgt werden, was ich allerdings eher gegen Ende der Entwicklung machen\
+   werde, da zu viele Klassen - wie gesagt - momentan eher nur st\'f6ren.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Tue Nov 13 16:29:44 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Das Speichern habe ich jetzt so gel\'f6\'dft, dass jedes M\'f6bel eine Methode toJSON() haben muss, welche ein String aller, f\'fcr\
+   das Erstellen dieses M\'f6bels wichtige, Attribute im JSON Format wiedergiebt. Eine Schrankwand sieht z.B. so aus:\
+   \
+    \cf3  1\cf0    \{\
+    \cf3  2\cf0        "Art": "Schrankwand",\
+    \cf3  3\cf0        "X-Position": 30,\
+    \cf3  4\cf0        "Y-Position": 15,\
+    \cf3  5\cf0        "Farbe": "schwarz",\
+    \cf3  6\cf0        "Orientierung": 3,\
+    \cf3  7\cf0        "Anzahl der Einheiten": 5,\
+    \cf3  8\cf0        "Breite": 50,\
+    \cf3  9\cf0        "Tiefe": 45\
+    \cf3 10\cf0    \}\
+\
+   Dabei funktioniert diese toJSON() Methode quasi identisch zu der bereits dargestellten \cf2 serializeMoebel() Methode, weshalb\
+   ich diese nicht nochmal genau zeigen werde.\cf0 \
+     	\
+   Zudem wird dieses String von M\'f6beln dann direkt in eine .txt Datei geschrieben, wobei ich auf\
+   
+\f1\i \ul http://www.javaschubla.de/2007/jav\'e4rst0260.html
+\f0\i0 \ulnone  erfahren habe, wie genau das funktioniert.\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Tue Nov 13 21:55:12 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Zus\'e4tslich zum Speichern, implementiert JSONSpeicherDelegate jetzt auch die lade() Methode aus dem Speicherprotokoll.\
+   Hierbei lade ich zun\'e4chst die JSON Daten aus einer Datei in ein String, wobei ich auf\
+   
+\f1\i \ul https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
+\f0\i0 \ulnone  erfahren habe, wie genau dies funktioniert. Dann nutze\
+   ich die bereits erw\'e4hnte Bibliothek 
+\f1\i (welche in meinem Projekt JAVASON heisst, was von mir kommt, um mir den Namen besser zu\
+   merken...)
+\f0\i0 , um den einfachen String von JSON Daten, welcher ja zun\'e4chst f\'fcr das Programm nichts bedeutet, zu parsen, also\
+   irgendwie zu ordnen um Sinn aus der Zeichenkette zu machen. Dies mache ich mit der JSONArray Klasse aus dieser Bibliothek,\
+   wobei ich n\'f6tige Informationen der Dokumentation entnommen habe. Momentan printe ich einfach alle M\'f6bel in JSON Form, in\
+   Zukunft muss ich nat\'fcrlich noch alle bestehenden M\'f6bel l\'f6schen und die neuen M\'f6bel in die Leinwand laden, um die\
+   lade() Methode zu vervollst\'e4ndigen.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Wed Nov 14 21:20:41 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Um die lade() Methode zu verfollst\'e4ndigen, habe ich nun die ladeM\'f6bel() Methode zur Leinwand Klasse hinzugef\'fcgt. Darin\
+   werden zun\'e4chst alle bisherigen Figuren aus der Zeichenfl\'e4che gel\'f6scht, indem ich der "figuren"-Variable einfach ein neues\
+   leeres Array zuweise. Dannach iteriere ich einfach \'fcber das, der Funktion \'fcbergebene, Array von M\'f6beln und f\'fcge jedes\
+   M\'f6bel bzw. seine Shape zu der "figuren"- und der "figurZuShape"-Variable hinzu und rufe dannach die erneutZeichnen() Methode\
+   auf.\
+   \
+   Ausserdem fange ich gerade mit der Arbeit an einer Men\'fcleiste an, wobei ich auf https://www.java-tutorial.org/jmenu.html\
+   und https://docs.oracle.com/javase/tutorial/uiswing/components/menu.html viele Wichtige Infos dar\'fcber finden konnte.\
+   Vorerst muss ich mir aber noch \'fcberlegen, welche Funktionen ich eigentlich genau in das Men\'fc einbauen will, bevor ich\
+   daran weiter arbeite...\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Wed Nov 14 22:36:59 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   \'c4hnlich, wie wir auch bereits im Unterricht besprochen haben, habe ich meine Auswahl Funktion auch noch etwas verbessert.\
+   Ich habe zuvor noch mit letzteFarbe gearbeitet, aber habe nun auch zu einem boolean istAusgew\'e4hlt getauscht, da dieses\
+   Vorgehen doch etwas \'fcbersichtlicher und einfacher zu verstehen ist:\
+\
+    \cf3  1 \cf0   boolean istAusgewaehlt = false;\
+\
+    \cf3  1 \cf0   protected void zeichne() \{\
+    \cf3  2 \cf0       if (istSichtbar) \{\
+    \cf3  3 \cf0           Shape figur = getAktuelleFigur();\
+    \cf3  4 \cf0           Leinwand leinwand = Leinwand.gibLeinwand();\
+    \cf3  5 \cf0           if (!istAusgewaehlt) \{\
+    \cf3  6 \cf0               leinwand.zeichne (\
+    \cf3  7 \cf0               this,           // leinwand kennt das Objekt\
+    \cf3  8 \cf0               farbe,          // definiert seine Zeichenfarbe\
+    \cf3  9 \cf0               figur);         // definiert seinen grafischen Aspekt\
+    \cf3 10 \cf0           \} else \{\
+    \cf3 11 \cf0               leinwand.zeichne (\
+    \cf3 12 \cf0               this,           // leinwand kennt das Objekt\
+    \cf3 13 \cf0               "lila",         // Lila als Auswahl-Farbe\
+    \cf3 14 \cf0               figur);         // definiert seinen grafischen Aspekt\
+    \cf3 15 \cf0           \}\
+    \cf3 16 \cf0           leinwand.warte(10);\
+    \cf3 17 \cf0       \}\
+    \cf3 18 \cf0   \}\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Fri Nov 16 18:33:40 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Die Speicherfunktion ist nun gr\'f6\'dftenteils fertig. \
+   Ich nutze jetzt das \'84optionen\'93-Array auch zum Speichern und Laden von Moebeln. \
+   Ausserdem habe ich die JSON Serialisation von der toJSON() Methode in der M\'f6bel Klasse zur serialize<T extends M\'f6bel>()\
+   Methode in der JSONSpeicherDelegate verlegt, da diese verantwortlich f\'fcr das Speichern und somit auch f\'fcr die Serialisation\
+   der M\'f6bels sein sollte, was es deutlich einfacher macht, neue M\'f6bel hinzuzuf\'fcgen, da sich der Autor einer M\'f6belklasse\
+   nicht auch noch um ein Teil des Speicherprozesses dieses M\'f6bels k\'fcmmern m\'fcssen sollte. Erm\'f6glicht wird dies auch durch\
+   die getWert(String attributName) Methode, welche einen Wert eines Attributs, welches auch als Option vorliegt, als String\
+   wiedergibt. \
+   
+\f1\i Hier am Beispiel des Hockers:\
+\
+     
+\f0\i0 \cf3 1
+\f1\i \cf0    static GUIOption[] optionen = \{\
+     
+\f0\i0 \cf3 2
+\f1\i \cf0        new GUIOption("X-Position"),\
+     
+\f0\i0 \cf3 3
+\f1\i \cf0        new GUIOption("Y-Position"),\
+     
+\f0\i0 \cf3 4
+\f1\i \cf0        new GUIOption("Scale"),\
+     
+\f0\i0 \cf3 5
+\f1\i \cf0        new GUIOption("Farbe"),\
+     
+\f0\i0 \cf3 6
+\f1\i \cf0        new GUIOption("Orientierung"),\
+     
+\f0\i0 \cf3 7
+\f1\i \cf0        new GUIOption("Durchmesser"),\
+     
+\f0\i0 \cf3 8
+\f1\i \cf0        new GUIOption("Art")\
+     
+\f0\i0 \cf3 9
+\f1\i \cf0    \};
+\f0\i0 \
+\
+    \cf3  1\cf0    String getWert(String attributName) \{\
+    \cf3  2\cf0        for (int i = 0; i < optionen.length; i++) \{\
+    \cf3  3\cf0            if (attributName == optionen[i].name) \{\
+    \cf3  4\cf0                switch (i) \{\
+    \cf3  5\cf0                    case 0:\
+    \cf3  6\cf0                        return Integer.toString(xPosition);\
+    \cf3  7\cf0                    case 1:\
+    \cf3  8\cf0                        return Integer.toString(yPosition);\
+    \cf3  9\cf0                    case 2:\
+    \cf3 10\cf0                        return Double.toString(scale);\
+    \cf3 11\cf0                    case 3:\
+    \cf3 12\cf0                        return farbe;\
+    \cf3 13\cf0                    case 4:\
+    \cf3 14\cf0                        return Integer.toString(orientierung);\
+    \cf3 15\cf0                    case 5:\
+    \cf3 16\cf0                        return Integer.toString(durchmesser);\
+    \cf3 17\cf0                    case 6:\
+    \cf3 18\cf0                        return art;\
+    \cf3 19\cf0                \}\
+    \cf3 20\cf0            \}\
+    \cf3 21\cf0        \}\
+    \cf3 22\cf0        return "";\
+    \cf3 23\cf0    \}\
+\
+   So kann ich auf Grundlage der art-Variable im JSONSpeicherDelegate einfach durch alle Optionen iterieren und mit den\
+   zugeh\'f6rigen Werten ein neues M\'f6bel erstellen (wieder nur am Beispiel des Hockers):\
+\
+    \cf3  1\cf0    private ArrayList<Moebel> JSONArrayToMoebelArray(JSONArray alleJSONMoebel) \{\
+    \cf3  2\cf0        ArrayList<Moebel> alleMoebel = new ArrayList<Moebel>();\
+    \cf3  3\cf0        for (int i = 0; i < alleJSONMoebel.length(); i++) \{ // durch alle JSONMoebel loopen\
+    \cf3  4\cf0            switch (alleJSONMoebel.getJSONObject(i).getString("Art")) \{ // entscheiden, welche moebel art es ist\
+    \cf3  5\cf0                case "Hocker":\
+    \cf3  6\cf0                    alleMoebel.add(new Hocker( // neues moebel dieser art erstellen\
+    \cf3  7\cf0                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[0].name), // xPosition\
+    \cf3  8\cf0                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[1].name), // yPosition\
+    \cf3  9\cf0                        alleJSONMoebel.getJSONObject(i).getDouble(Hocker.optionen[2].name), // scale\
+    \cf3 10\cf0                        alleJSONMoebel.getJSONObject(i).getString(Hocker.optionen[3].name), // farbe\
+    \cf3 11\cf0                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[4].name), // usw.\
+    \cf3 12\cf0                        alleJSONMoebel.getJSONObject(i).getInt(Hocker.optionen[5].name)\
+    \cf3 13\cf0                    ));\
+    \cf3 14\cf0                    break;\
+    \cf3 15\cf0            \}\
+    \cf3 16\cf0        \}\
+    \cf3 17\cf0        return alleMoebel;\
+    \cf3 18\cf0    \}\
+\
+   Das hei\'dft alle Schritte beim Speichern und Laden benutzen das "optionen"-Array in der entsprechenden M\'f6bel-Klasse, um\
+   auf Werte zuzugreifen, diese als JSON zu speichen und dann auch wieder zu parsen.\
+   Somit ist der gesamte Speicherprozess sehr flexibel, da einzig die Optionen im M\'f6bel angepasst werden m\'fcssen, wenn man \
+   weitere hinzuf\'fcgen oder entfernen will. Allerdings gibt es dabei immernoch ein Problem, welches ich bisher nicht l\'f6sen\
+   konnte. Wenn ich z.B. zum speichern auf die Optionen zugreifen will, welche statisch in der M\'f6bel-Klasse sind, sind diese\
+   aus einem mir noch unerfindlichem Grund noch nicht initialisiert und somit null. Das gleiche Problem besteht auch bei der\
+   "art"-Variable, weshalb der gesamte Prozess nur mit umst\'e4ndlichen Hilfsfunktionen und unn\'f6tigem extra Code funktioniert.\
+   Das gleiche Problem habe ich auch bereits in Verbindung mit der AllgemeinenGUI erw\'e4hnt und umgehe dieses bisher mit der\
+   getOptionen() Funktion, welche blo\'df ein lokales optionen-Array definiert und dieses zur\'fcck gibt:\
+\
+    \cf3  1\cf0    GUIOption[] getOptionen() \{ // nicht mehr noetig wenn null problem geloest ist...\
+    \cf3  2\cf0        GUIOption[] optionen = \{\
+    \cf3  3\cf0            new GUIOption("X-Position"),\
+    \cf3  4\cf0            new GUIOption("Y-Position"),\
+    \cf3  5\cf0            new GUIOption("Scale"),\
+    \cf3  6\cf0            new GUIOption("Farbe"),\
+    \cf3  7\cf0            new GUIOption("Orientierung"),\
+    \cf3  8\cf0            new GUIOption("Durchmesser"),\
+    \cf3  9\cf0            new GUIOption("Art")\
+    \cf3 10\cf0        \};\
+    \cf3 11\cf0        return optionen;\
+    \cf3 12\cf0    \}\
+\
+   Ich werde mich schlau machen m\'fcssen, warum die Variablen noch nicht inizialisiert worden sind und wie man dies beheben k\'f6nnte.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Sat Nov 17 19:34:37 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Die M\'f6bel k\'f6nnen nun auch aus einer Datei geladen werden. Dies passiert in der lade() Funktion in des JSONSpeicherDelegates.\
+   Zuerst wird der Inhalt einer Datei als String gespeichert und dann von der JSONArray Klasse der JAVASON Bibliothek geparsed.\
+   Die JSON Objekte werden in JSONArrayToMoebelArray() zu M\'f6bel Objekten konvertiert und dann einzeln zu alleMuebel in GUI\
+   hinzugef\'fcgt und mit zeige() sichtbar gemacht. Davor werden auch noch alle vorher bestehenden M\'f6bel in der Leinwand mit\
+   loescheMoebel() gel\'f6scht. Anf\'e4nglich habe ich versucht die M\'f6bel direkt zu dem figuren-Array in der Leinwand hinzuzuf\'fcgen\
+   und dadurch sichtbar zu machen. Das Problem damit war, dass es dadurch zwei unterschiedliche Instanzen jedes M\'f6bels einmal\
+   in der Leinwand Klasse und einmal in der GUI Klasse gab, wodurch ich nach dem Laden nicht mehr mit den M\'f6beln interagieren\
+   konnte (z.B. bewegen oder Farbe \'e4ndern), da diese Dinge von der GUI Klasse kontrolliert wurden und somit nur auf die Instanzen\
+   in dieser Klasse zugegriffen haben. Das Problem habe ich allerdings gel\'f6\'dft. Nun will ich eventuell noch ein Dateiauswahlfenster\
+   einbauen, da bisher immer die gleiche Datei geladen und geschrieben wird.\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Sat Nov 17 20:34:15 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Im Unterricht haben wir bereits ein Fehler in meinem Programm gefunden, welches auf Windows die Kontrollkn\'f6pfe nicht richtig anzeig\
+   und man deswegen die Beschriftungen nicht lesen kann, was nat\'fcrlich sehr schlecht ist, wenn man den Raumplaner bedienen m\'f6chte.\
+   Deshalb habe ich das statische Hinzuf\'fcgen der Kn\'f6pfe dynamischer gestaltet. Die Koordinaten der Kn\'f6pfe sind jetzt nicht mehr\
+   einprogrammiert, sondern werden dynamisch mithilfe von einer Breite und einem Abstand, in einem zweidimensionalen For loop berechnet.\
+\
+   Vorher:\
+\
+    \cf3  1\cf0    jbRechts.setBounds(80, 45, buttonBreite, buttonBreite);\
+    \cf3  2\cf0    jbRechts.setText(">");\
+    \cf3  3\cf0    cp.add(jbRechts);\
+    \cf3  4\cf0    jbRechts.addActionListener(\
+    \cf3  5\cf0        new ActionListener() \{\
+    \cf3  6\cf0            public void actionPerformed(ActionEvent evt) \{\
+    \cf3  7\cf0                jbRechtsActionPerformed(evt);\
+    \cf3  8\cf0            \}\
+    \cf3  9\cf0        \}\
+    \cf3 10\cf0    );\
+    \cf3 11\cf0    \
+    \cf3 12\cf0    jbLinks.setBounds(10, 45, buttonBreite, buttonBreite);\
+    \cf3 13\cf0    jbLinks.setText("<");\
+    \cf3 14\cf0    cp.add(jbLinks);\
+    \cf3 15\cf0    jbLinks.addActionListener(\
+    \cf3 16\cf0        new ActionListener() \{\
+    \cf3 17\cf0            public void actionPerformed(ActionEvent evt) \{\
+    \cf3 18\cf0                jbLinksActionPerformed(evt);\
+    \cf3 19\cf0            \}\
+    \cf3 20\cf0        \}\
+    \cf3 21\cf0    );\
+    \cf3 22\cf0 \
+    \cf3 23\cf0    usw.\
+\
+   Nachher:\
+\
+     \cf3 1\cf0    int buttonBreite = 40;\
+     \cf3 2\cf0    int buttonAbstand = 5;\
+    \cf3  3\cf0    int buttonNummer = 0;\
+    \cf3  4\cf0    for (int y = 0; y < 3; y++) \{\
+    \cf3  5\cf0         for (int x = 0; x < 3; x++) \{\
+    \cf3  6\cf0             controllerPageButtons[buttonNummer].setBounds(buttonAbstand + x * (buttonBreite + buttonAbstand),\
+    \cf3  7\cf0                                                           buttonAbstand + y * (buttonBreite + buttonAbstand),\
+    \cf3  8\cf0                                                           buttonBreite,\
+    \cf3  9\cf0                                                           buttonBreite);\
+    \cf3 10\cf0             cp.add(controllerPageButtons[buttonNummer]);\
+    \cf3 11\cf0             buttonNummer++;\
+    \cf3 12\cf0         \}\
+    \cf3 13\cf0    \}\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Thu Nov 22 22:42:05 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Die MenuBar ist eigentlich sehr einfach zu implementieren. Es gibt eine Bar in der mehrere Menus leben, die selber jeweils weitere \
+   Meus oder verschiedene MenuItems beinhalten k\'f6nnen. Beim pressen dieser MenuItems kann man eine Funktion aufrufen. Da bisher alle\
+   Funktionen, die den Raumplaner kontrollieren, in meiner GUI Klasse waren, muss ich diese nun zur Leinwand bewegen, wenn die\
+   Funktionen in der GUI Klasse privat bleiben sollen. Da die GUI aber sowieso durch Maus und Tastatursteuerung ersetzt werden\
+   soll, passt das ganz gut. Die MenuBar ist im Grunde genommen fertig und kann jederzeit einfach um neue Optionen und Funktionen\
+   erweitert werden, das Ger\'fcst steht.\
+\
+   Das Erstellen dieser MenuBar habe ich zun\'e4chst in einer Methoder der Leinwand gemacht 
+\f1\i ( private MenuBar setupMenuBar() \{\} )
+\f0\i0 . Zur\
+   \'dcbersicht des ganzen habe ich dies aber dann in eine seperate Klasse verschoben. Da nur die Leinwand auf diese MenuBar Zugriff\
+   haben sollte, ist diese neue Klasse MenuBar eine interne Helferklasse dieser. So wir die MenuBar nun im Konstruktor von\
+\
+     \cf3 1\cf0    class MenuBar extends JMenuBar \{\
+     \cf3 2\cf0        MenuBar() \{\'85\}\
+     \cf3 3\cf0    \}\
+\
+   erstellt.\
+   \
+   Als n\'e4chstes werde ich mich an der Maussteuerung versuchen, aber zun\'e4chst habe ich noch einige KeyListener hinzugef\'fcgt, um\
+   zum Beispiel die M\'f6bel auszuw\'e4hlen oder zu bewegen.\
+   \
+   \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Thu Dec 6 14:58:56 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   Sowohl die Keyboard- als auch die Maussteuerung sind online relativ gut beschrieben. auf 
+\f1\i \ul docs.oracle.com
+\f0\i0 \ulnone  findet man eigentlich alle\
+   wichtigen Infos. Das empfangen von Key- und Mouse-Events erfolgt dabei einfach durch das implementieren der Key- bzw. MouseListener-\
+   Interfaces oder durch ein andocken an einen entsprechenden Adapter. Das andocken funktioniert hier \'fcber Vererbung, weshalb man sich soweit\
+   ich weiss trivial nur an ein Adapter anbinden kann, da Java blo\'df eine Vererbung pro Klasse zul\'e4sst. Ich k\'f6nnte weitere Klassen\
+   erstellen, um das Problem zu l\'f6sen, aber ich denke es ist einfacher mehrere Interfaces zu implementieren, auch wenn dann wohl m\'f6glich\
+   einige Funktionen, wie KeyReleased(), komplett ungenutzt bleiben.\
+   \
+   Bisher habe ich einige Keyboard short cuts eingebaut, wie ctr+s um den Raum zu sichern. Dabei versuche ich soweit es geht, die Implementierung\
+   dieser Funktionalit\'e4t in externe Funktionen zu verschieben, um nicht 100 un\'fcbersichtliche Zeilen Code in der KeyPressed() Funktion\
+   zu haben, welche jedes mal aufgerufen wird, wenn eine Taste gedr\'fcckt wird. Zum Beispiel ist\
+\
+    \cf3  1\cf0    switch (ke.getKeyCode()) \{\
+    \cf3  2\cf0        case KeyEvent.VK_S:\
+     \cf3 3\cf0            if (ke.isControlDown()) speicher();\
+    \cf3  4\cf0            break;\
+    \cf3  \'85\cf0 \
+    \cf3 11\cf0    private void speicher() \{\
+    \cf3 12\cf0        if (letzterSpeicherPfad != null) \{\
+    \cf3 13\cf0            speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);\
+    \cf3 14\cf0            return;\
+    \cf3 15\cf0        \} // else open file chooser:\
+    \cf3 16\cf0        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());\
+    \cf3 17\cf0        fc.setDialogTitle("choose file to save");\
+    \cf3 18\cf0        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));\
+    \cf3 19\cf0        fc.setAcceptAllFileFilterUsed(false);\
+    \cf3 20\cf0        if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) \{\}\
+    \cf3 21\cf0        if (fc.getSelectedFile() != null) \{\
+    \cf3 22\cf0            speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());\
+    \cf3 23\cf0        \}\
+    \cf3 24\cf0    \}\
+\
+   deutlich \'fcbersichtlicher als\
+\
+    \cf3  1\cf0    switch (ke.getKeyCode()) \{\
+    \cf3  2\cf0        case KeyEvent.VK_S:\
+    \cf3  3\cf0            else if (ke.isControlDown()) \{\
+    \cf3  4\cf0        if (letzterSpeicherPfad != null) \{\
+    \cf3  5\cf0            speicherDelegate.speicher(alleMoebel, letzterSpeicherPfad);\
+    \cf3  6\cf0            return;\
+    \cf3  7\cf0        \} // else open file chooser:\
+    \cf3  8\cf0        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());\
+    \cf3  9\cf0        fc.setDialogTitle("choose file to save");\
+    \cf3 10\cf0        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));\
+    \cf3 11\cf0        fc.setAcceptAllFileFilterUsed(false);\
+    \cf3 12\cf0        if (fc.showOpenDialog(fenster) == JFileChooser.APPROVE_OPTION) \{\}\
+    \cf3 13\cf0        if (fc.getSelectedFile() != null) \{\
+    \cf3 14\cf0            speicherDelegate.speicher(alleMoebel, fc.getSelectedFile().getAbsolutePath());\
+    \cf3 15\cf0        \}\
+    \cf3 16\cf0        break;\
+    \cf3 17\cf0    \}\
+\
+   \
+   Bei dem MausEvent kann ich mir einfach die Position der Maus anzeigen lassen und habe mal versucht mit einer Schleife durch alle M\'f6bel\
+   zu laufen und mit contains() zu testen, ob der Klick in einem M\'f6bel im Raum ist. Dabei habe ich bemerkt, dass es Probleme mit \
+   manchen M\'f6beln gibt. Zum Beispiel reagiert der Stuhl nur dann, wenn man auf seine Lehne Klickt, nicht aber auf die Sitzfl\'e4che...\
+   In Betracht dessen werde ich noch ein paar Tests durchf\'fchren m\'fcssen und untersuchen m\'fcssen, wie ein Shape funktioniert.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >>\cf2 \cb4  \CocoaLigature0 Thu Dec 6 22:35:27 2018\cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   
+\f1\i Ziel:
+\f0\i0  Ausw\'e4hlen von M\'f6beln durch Maus-Klick\
+   
+\f1\i Plan:
+\f0\i0  Maus-Position bei Klick einlesen und mit contains() f\'fcr alle m\'f6bel untersuchen, ob der Klick auf ein M\'f6bel war\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i \cf0    Problem:
+\f0\i0  Komisches Verhalten: manche M\'f6bel funktionieren, andere lassen sich nur in bestimmten Teilen anklicken, nochmal andere garnicht\
+ 
+\f1\i   L\'f6sungsweg:
+\f0\i0  bei jeder Mausbewegung die Koordinaten und die Treffer mit M\'f6beln anzeigen lassen, um besser nach Hitboxen suchen zu k\'f6nnen\
+   
+\f1\i L\'f6sung:
+\f0\i0  Dabei habe ich entdeckt, dass die Koordinaten verschoben waren; die Zeichenfl\'e4che fing bei x=0 und y=25 an. Dies stimmt\
+           nat\'fcrlich nicht und liegt daran, dass ich den MouseListener dem gesamten Fenster und nicht nur der Zeichenfl\'f6che hinzugef\'fcgt habe.\
+           nach \'e4ndern von fenster.addmouseListener(this) in zeichenflaeche.addMouseListener(this) war das Problem behoben.\
+   
+\f1\i Weiteres Problem:
+\f0\i0  Wenn M\'f6bel \'fcbereinander liegen, werden alle M\'f6bel gleichzeitig bewegt und somit kann man sie nicht mehr auseinander ziehen.\
+   L\'f6sung: Sobald ein M\'f6bel entdeckt wird, beende ich die Schleife, die noch alle weiteren M\'f6bel \'fcberpr\'fcft h\'e4tte, um nur das \'82oberste\'91 M\'f6bel\
+           zu bewegen/drehen/skalieren.\
+   Code: \
+    \cf3  1\cf0    public void mousePressed(MouseEvent me) \{\
+    \cf3  2\cf0        System.out.println("Mouse pressed");\
+    \cf3  3\cf0        for (M\'f6bel m\'f6bel : alleM\'f6bel) \{\
+    \cf3  4\cf0            if (m\'f6bel.gibAktuelleFigur().contains(me.getX(), me.getY())) \{\
+    \cf3  5\cf0                System.out.println("Pressed on " + m\'f6bel + " at " + me.getX() + ", " + me.getY());\
+    \cf3  6\cf0                m\'f6bel.istSchwebend = true;\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf5 neu> \cf3 7\cf0                break;\
+    \cf3  8\cf0            \}\
+    \cf3  9\cf0        \}\
+    \cf3 10\cf0    \}\
+        \
+        \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> Fri Dec 7 15:25:52 2018\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   
+\f1\i Ziel:
+\f0\i0  Beim Hinzuf\'fcgen von neuen M\'f6beln sollen diese \'84schweben\'93, sodass sie der Maus folgen, bis man auf den Bildschirm klickt und sie somit \'84absetzt\'93.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i \cf0    Plan:
+\f0\i0  neue Variable in Moebel: istSchwebend, die von Anfang an true ist. Dann in mouseMoved die ganze zeit (moebel.x, moebel.y) = (mouseX, mouseY) \
+         und in mousePressed istSchwebend = false\
+
+\f1\i    Problem 1:
+\f0\i0  Die M\'f6bel folgen nicht der Maus, sondern erscheinen erst, sobald man klickt.\
+
+\f1\i    L\'f6sung 1:
+\f0\i0  Bei jeder Mausbewegung muss das M\'f6bel neu gezeichnet werden, um die Ver\'e4nderung in der Position anzuzeigen, also einfach noch \
+             moebel.zeichne() hinzuf\'fcgen.\
+
+\f1\i    Problem 2:
+\f0\i0  Beim \'d6ffnen von Datein werden alle M\'f6bel normal hinzugef\'fcgt und sind somit alle automatisch schwebend und folgen der Maus, obwohl sie\
+              eigentlich schon eine feste Position haben sollten.\
+
+\f1\i    L\'f6sung 2:
+\f0\i0  Beim Laden in ladeM\'f6bel() einfach im for loop moebel.istSchwebend = flase; hinzuf\'fcgen, um die neuen M\'f6bel direkt \'84abzusetzen\'93.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> \cf2 \cb4 \CocoaLigature0 Fri Dec 7 21:14:13 2018\cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0 \
+   
+\f1\i Ziel:
+\f0\i0  Drag and Drop nat\'fcrlicher gestalten, da bisher das bewegte M\'f6bel am Anfang des Ziehens zur Mausspitze springt.\
+   
+\f1\i zugrundeliegendes Problem:
+\f0\i0  Drag and Drop bisher unnat\'fcrlich und unintuitiv\
+   
+\f1\i L\'f6sung:
+\f0\i0  neue Variablen f\'fcr offset am Anfang des drags, also wenn die maus gepresst wird, f\'fcr jeden neuen drag festlegen und dann w\'e4hrend\
+           des drags in mouseDragged den offset bei der Bewegung mit einberechnen\
+   
+\f1\i Code:
+\f0\i0 \
+    \cf3  1\cf0   private int dragXOffset, dragYOffset = 0;\
+    \cf3  \'85\cf0 \
+    \cf3 11\cf0    public void mousePressed(MouseEvent me) \{\
+    \cf3 12\cf0        for (M\'f6bel m\'f6bel : alleM\'f6bel) \{\
+    \cf3 13\cf0            if (m\'f6bel.gibAktuelleFigur().contains(me.getX(), me.getY())) \{\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf5 neu>\cf3 14\cf0                dragXOffset = me.getX() - m\'f6bel.xPosition;\
+\cf5 neu>\cf3 15\cf0                dragYOffset = me.getY() - m\'f6bel.yPosition;\
+    \cf3 16\cf0                m\'f6bel.istSchwebend = true;\
+    \cf3 17\cf0                break;\
+    \cf3 18\cf0            \}\
+    \cf3 19\cf0        \}\
+    \cf3 20\cf0    \}\
+    \cf3  \'85\cf0 \
+    \cf3 31\cf0    public void mouseDragged(MouseEvent me) \{\
+    \cf3 32\cf0        for (M\'f6bel m\'f6bel : alleM\'f6bel) \{\
+    \cf3 33\cf0            if (m\'f6bel.istSchwebend) \{\
+    \cf3 34\cf0                m\'f6bel.l\'f6sche();\
+\cf5 neu>\cf3 35\cf0                m\'f6bel.xPosition = me.getX() - dragXOffset;\
+\cf5 neu>\cf3 36\cf0                m\'f6bel.yPosition = me.getY() - dragYOffset;\
+    \cf3 37\cf0                m\'f6bel.zeichne();\
+    \cf3 38\cf0            \}\
+    \cf3 39\cf0        \}\
+    \cf3 40\cf0    \}\
+      \
+      \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs28 \cf0 >> \cf2 \cb4 \CocoaLigature0 Mon Dec 10 12:51:56 2018\
+\cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i0\fs24 \cf0    
+\f1\i Problem:
+\f0\i0  Nach dem Skalieren rotiert das M\'f6bel um den originalen Mittelpunkt, nicht den neuen. Dies f\'fchrt zu unnat\'fcrlichen Drehbewegungen.\
+   
+\f1\i L\'f6sung:
+\f0\i0  Zuerst skalieren, dann rotieren; nicht anders herum!\
+      \
+   Vorher:\
+      \
+     \cf3 1\cf0    Shape figur = getFigur();\
+     \cf3 2\cf0    AffineTransform t = new AffineTransform();\
+     \cf3 3\cf0    Rectangle2D umriss = figur.getBounds2D();\
+     \cf3 4\cf0    t.translate(xPosition, yPosition);\
+     \cf3 5\cf0    t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);\
+     \cf3 6\cf0    t.scale(scale, scale);\
+     \cf3 7\cf0    return  t.createTransformedShape(figur);\
+     \cf3  \cf0 \
+   Na\cf2 c\cf0 hher:\
+   \
+     \cf3 1\cf0    Shape figur = getFigur();\
+     \cf3 2\cf0    AffineTransform t = new AffineTransform();\
+     \cf3 3\cf0    Rectangle2D umriss = figur.getBounds2D();\
+     \cf3 4\cf0    t.translate(xPosition, yPosition);\
+     \cf3 5\cf0    t.scale(scale, scale);\
+     \cf3 6\cf0    t.rotate(Math.toRadians(orientierung),umriss.getX()+umriss.getWidth()/2,umriss.getY()+umriss.getHeight()/2);\
+     \cf3 7\cf0    return  t.createTransformedShape(figur);\
+  \
+\
+TODO:\
+\
+  -neue m\'f6bel?\
+  -fix alt drag!\
+  -Drag and Drop nur so weit erlauben, dass sich m\'f6bel nicht \'fcberschneiden k\'f6nnen: https://stackoverflow.com/questions/15690846/java-collision-detection-between-two-shape-objects\
+  -Kommentieren!\
+	-\'e4nderug der Gr\'f6sse der Zeichenfl\'e4che? (auch in der Datei speichern..?)\
+}
